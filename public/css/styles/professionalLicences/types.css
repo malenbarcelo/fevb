@@ -1,0 +1,108 @@
+.insc-type{
+    display: flex;
+    flex-direction:column;
+    align-items: stretch;
+    width: 670px;
+    max-width: 90%;    
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.insc-type-title{
+    padding: 7px 0px;
+    background-color: var(--color1);
+    border: var(--color1) solid 2px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+}
+
+.insc-type-check input[type="checkbox"] {
+  pointer-events: none;
+}
+
+.insc-type-description{
+    display: flex;
+}
+
+.insc-type-description:hover{
+    font-weight: bold;
+    color: var(--color1);
+}
+
+.selected-info{
+    background-color: var(--color2);
+    font-weight: bold;
+    color: var(--color1);
+}
+
+#info_2{
+    border-bottom: var(--color1) solid 1px;
+    border-left: var(--color1) solid 2px;
+    border-right: var(--color1) solid 2px;    
+}
+
+#info_1{
+    border-left: var(--color1) solid 2px;
+    border-right: var(--color1) solid 2px;
+    border-bottom: var(--color1) solid 2px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px; 
+}
+
+#info_3{
+    border-left: var(--color1) solid 2px;
+    border-right: var(--color1) solid 2px;
+    border-bottom: var(--color1) solid 2px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px; 
+}
+
+.insc-type-check{
+    width: 7%;
+    display: flex;
+    justify-content: center;
+    border-right: var(--color1) solid 1.5px;
+}
+
+.checkbox{
+    cursor: pointer;
+}
+
+.insc-type-info{
+    width: 93%;
+    padding: 12px 7px;
+}
+
+@media (max-width:730px){
+    #inscSubtitle{
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+    .insc-select-type{
+        height: 180px;
+        margin-top: 12px;
+    }
+    .insc-type-1{
+        height: 15%;
+        font-size: 13px;
+    }
+    .insc-type-2{
+        height: 85%;
+    }
+    .insc-type-description{
+        font-size: 13px;
+        row-gap: 6px;
+    }
+    .insc-type-error{
+        font-size: 12px;
+    }
+    .insc-type-title{
+        font-size: 14px;
+    }
+}

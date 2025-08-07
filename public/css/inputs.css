@@ -1,0 +1,112 @@
+/* div inputs*/
+.inputs-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 15px;
+}
+
+.inputs-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* div input */
+.div-input{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* inputs */
+.input-std{
+    text-align: center;
+    border:rgb(74, 74, 74) solid 1px;
+    border-radius: 5px;
+}
+
+.input-error{
+    text-align: center;
+    color: var(--errorColor);
+    font-size: 12px;
+}
+
+.input-unabled{
+    border:rgb(144, 142, 142) solid 1px;
+    color:rgb(144, 142, 142)
+}
+
+.invalid-input{
+    border: var(--errorColor) solid 2px;
+}
+
+/* labels */
+.label-std{
+    position: absolute;
+    left: 10px;
+    top: -8px;
+    padding: 0px 5px;
+    background-color: white;
+    font-size: 13px;
+}
+
+.label-unabled{
+    color:rgb(96, 95, 95)
+}
+
+.invalid-label{
+    color: var(--errorColor);
+    font-weight: bold;
+}
+
+/* div checkboxs */
+.checks-row{
+    display: flex;
+    column-gap: 15px;
+}
+
+/* checkboxs */
+.check-std{
+    display: flex;
+    column-gap: 1px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* checkboxs labels */
+.check-label-std{
+    font-size: 13px;
+}
+
+/* div buttons */
+.buttons-row{
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+}
+
+.buttons-column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* buttons */
+.btn-std{
+    background-color: var(--color1);
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-std:hover{
+    background-color:var(--color4);
+}
+
+
+

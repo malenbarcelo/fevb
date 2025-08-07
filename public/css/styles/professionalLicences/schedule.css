@@ -1,0 +1,13 @@
+
+
+@media (max-width:730px){
+    .schedule-data{
+        font-size: 13px;
+    }
+    #scheduleError{
+        margin-top: -5px;
+    }
+    #personalDataError{
+        margin-top: -5px;
+    }
+}

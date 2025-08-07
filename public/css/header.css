@@ -1,0 +1,127 @@
+/* top header */
+.top-header-element{
+    height: 100%;
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+
+.top-header-right{
+    justify-content: end;
+}
+
+.company-logo{
+    height: 65px;
+    margin-left: 5px;
+}
+
+.user-logged{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: center;
+    margin-right: 20px;
+    color: white;
+}
+
+.user-logged-icon{
+    font-size: 25px;
+    color: white;
+}
+
+.user-logged-name{
+    font-size: 14px;
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+}
+
+.logout-icon{
+    color: white
+}
+
+.bottom-header-border{
+    border-top: rgb(200, 197, 197) solid 1px;
+}
+
+.bottom-header-item{
+    height: 100%;
+    padding: 0px 10px;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    /*color: rgb(77, 76, 76);*/
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+}
+
+.bottom-header-item:hover {
+    font-weight: bold;
+}
+
+.bottom-header-item:hover .bottom-header-subitems {
+    display: flex;
+}
+
+.bhi-selected{
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(97, 95, 95, 0.7)
+}
+
+.bottom-header-subitems{
+    position: absolute;
+    top: 100%;
+    right: calc(50% - 100px);
+    width: 200px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    background-color: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    font-weight: lighter;
+    z-index: 1;
+}
+
+.bottom-header-subitems a{
+    width: 100%;
+}
+
+.bottom-header-subitem{
+    padding: 7px 0px;
+    text-align: center;
+}
+
+.bottom-header-subitem:hover{
+    background-color: var(--color3);
+    font-weight: bold;
+}
+
+.bottom-header-show-subitems{
+    font-size: 13px;
+}
+
+.bottom-header-right-element{
+    height: 100%;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    justify-content: center ;
+    position: absolute;
+    right: 2%;
+    font-size: 13px;
+}
+
+.bottom-header-right-element:hover{
+    font-weight: bold;
+}
+
+@media (max-width:730px){
+    .company-logo{
+        height: 50px;
+    }
+
+
+
+}

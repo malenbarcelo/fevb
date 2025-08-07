@@ -1,0 +1,167 @@
+/* colors */
+:root{
+    --color1:#294552;
+    --color2:#A6C5D3;
+    --color3:#e4eef2;
+    --color4:#6B7D87;
+    --color5:#132a34;
+    --errorColor:rgb(221, 7, 7);
+    --errorColorLight:rgb(202, 127, 127);
+    --okColor: green;
+    --okColorLight:rgb(173, 204, 173);
+    --alertColor: rgb(104, 104, 104);
+    --alertColorLight:rgba(255, 255, 0, 0.785);
+}
+
+/* body */
+body{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    
+    font-size: 14px;
+}
+
+/* inputs */
+input, select, textarea{
+    outline:none
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}/*Hide arrows from input type number*/
+
+input[type="checkbox"]:checked {
+    accent-color: black
+}
+
+input[type="radio"]:checked {
+accent-color: black
+}
+
+a{
+    text-decoration: none;
+    color:black
+}
+
+/* icons */
+.pointer{
+    cursor:pointer
+}
+
+/* line-height */
+.lh-1-7{
+    line-height: 1.7
+}
+
+/* fonts*/
+.fs-13{
+    font-size: 13px;
+}
+
+.fs-14{
+    font-size: 14px;
+}
+
+.fs-16{
+    font-size: 16px;
+}
+
+.fs-17{
+    font-size: 17px;
+}
+
+.fw-b{
+    font-weight: bold;
+}
+
+/* div flex */
+.flex-r{
+    display: flex;
+}
+
+.flex-c{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.jc-c{
+    justify-content: center;
+}
+
+.cg-5{
+    column-gap: 10px;
+}
+
+/* links */
+.link{
+    color: blue;
+    text-decoration: underline;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+/* unfilters */
+.unfilter{
+    position: relative;
+    cursor: pointer;
+}
+
+.unfilter-info{
+    font-size: 12px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    display: none;
+    width: 100px;
+}
+
+.unfilter:hover .unfilter-info{
+    display: block;
+}
+
+/* display */
+.not-visible{
+    display: none;
+}
+
+/* text align */
+.ta-c{
+    text-align: center;
+}
+
+.ta-l{
+    text-align: left;
+}
+
+/* color */
+.color1{
+    color: var(--color1);
+}
+
+/* error */
+.general-error{
+    color: var(--errorColor);
+    font-weight: bold;
+    display: flex;
+    column-gap: 5px;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    display: none;
+}
+
+/* colors */
+.color-red{
+    color: red;
+}
+
+@media (max-width:730px){
+    .general-error{
+        font-size: 12px;
+    }
+}

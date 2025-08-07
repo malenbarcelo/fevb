@@ -1,0 +1,132 @@
+/* tables */
+table{
+    margin: auto;
+    border-collapse: collapse;
+    width: max-content; /* permite que la tabla se expanda más allá del contenedor si es necesario */
+    table-layout: auto; /* evita truncamientos extraños */
+}
+thead{
+    position: sticky;
+    top:0;
+}/*to leave titles fixed*/
+
+/* div table */
+.div-table{
+    overflow-y: auto;
+    overflow-x: auto;
+    margin: auto;
+    width: fit-content;
+    max-width: 95%;
+}
+
+/* tables height */
+.table-320{
+    height: 320px;
+}
+
+.table-430{
+    height: 430px;
+    max-height: 430px;
+}
+
+.table-450{
+    height: 450px;
+    max-height: 450px;
+}
+
+/* tables heads */
+.th{
+    text-align: center;
+    background-color: var(--color1);
+    color: white;
+    height: 2rem;
+    font-weight: lighter;
+}
+
+/* body */
+.body {
+    font-weight: lighter;
+    text-align: center;
+}
+
+.body-std {
+    font-weight: lighter;
+    text-align: center;
+    max-height: 2rem; /* Maximum height */    
+    padding: 3px 5px;
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds ellipsis (...) */
+    white-space: nowrap; /* Prevents text from wrapping into multiple lines*/
+}
+
+.body-overflow{
+    font-weight: lighter;
+    padding: 3px 0px;
+    text-align: center;
+    max-height: 2rem; /* Maximum height */    
+    padding: 3px 5px;
+}
+
+.body-even{
+    background-color: white;
+}/*background when row number is even*/
+
+.body-odd{
+    background-color: var(--color3);
+}/*background when row number is odd*/
+
+.allowed-icon{
+    cursor:pointer;
+}
+
+/* icon that show popups */
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.icon-wrapper .tooltip {
+    display: none;
+    position: absolute;
+    top: -90%;
+    left: -420px; 
+    transform: translateY(-50%);
+    background-color: rgb(229, 221, 221);    
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 1;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    white-space: nowrap; 
+    width: 400px; 
+    height: 35px;
+    overflow: auto;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.icon-wrapper:hover .tooltip {
+display: flex;
+}
+
+/* table tooltips */
+.t-tooltip{
+    font-size: 12px;
+    position: absolute;
+    display: none;
+    text-align: center;
+}
+
+/* th with icons */
+.th-icon{
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-icon{
+    font-size: 14px;
+    cursor: pointer;
+}

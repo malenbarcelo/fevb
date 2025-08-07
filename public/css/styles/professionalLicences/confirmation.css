@@ -1,0 +1,35 @@
+
+.confirmation-div{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+}
+
+.confirmation-check{
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    font-size: 30px;
+    color: green;
+}
+
+.confirmation-text{
+    font-size: 17px;
+    max-width: 90%;
+    text-align: center;
+
+}
+
+@media (max-width:730px){
+    .confirmation-check{
+        font-size: 23px;
+    }
+    .confirmation-text{ 
+        font-size: 15px;
+    }
+}

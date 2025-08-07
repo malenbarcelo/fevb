@@ -1,0 +1,43 @@
+.classes{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px
+}
+
+.class{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 670px;
+    max-width: 90%;
+}
+
+.class-title{
+    background-color: var(--color1);
+    border: var(--color1) solid 2px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    color: white;
+    padding: 7px 0px;
+    text-align: center;    
+}
+
+.class-schedule{
+    border: var(--color1) solid 2px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.class-select{
+    border: black solid 1px;
+    width: 70%;
+    padding: 8px 0px;
+    text-align: center;
+    border-radius: 5px;
+}

@@ -1,0 +1,81 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="main-title">CATEGORÍAS</div>
+
+<div class="general-error mt-15- mb-20" id="catError">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    Debe seleccionar al menos una categoría para cada trámite
+</div>
+
+<div class="cat-price" id="totalPrice"><b>PRECIO TOTAL: </b> ARS 0.00</div>
+
+<form action="/professional-licences/set-categories" method="POST">
+
+    <div class="ta-c"><input type="hidden" name="totalPriceInput" id="totalPriceInput"></div>
+
+    <% types.forEach(type => { %>
+        <div class="cat-type">
+            <div class="cat-title"><%= type.title %></div>
+            <div class="cat-description">Seleccione las categorías que desea <b><i><%= type.action.toUpperCase() %></i></b></div>
+            <div  class="cat-categories">
+                <% categories.forEach(category => { %>
+                <div class="cat-category" id="<%= 'cat_' + type.id + '_' + category.id %>">
+                    <input type="checkbox" name="<%= 'check_' + type.id + '_' + category.id %>" id="<%= 'check_' + type.id + '_' + category.id %>">
+                    <div><%= category.category %></div>
+                </div>
+            <% }) %>
+            </div> 
+        </div>
+    <% }) %>
+
+    <div class="cat-info" id="catInfo">
+        <i>¿Qué significa cada categoría?</i>
+        <i class="fa-solid fa-circle-info"></i>
+    </div>
+
+    <div class="buttons-column mt-25 mb-25">
+        <button type="submit" id="continueButton" class="btn-std w-670 max-w-90p pad-11-0">
+            CONTINUAR
+        </button>
+
+        <button type="button" id="backButton" class="btn-std w-670 max-w-90p pad-11-0" onclick="history.back()">
+            ATRÁS
+        </button>
+    </div>
+</form>
+
+<!--- categories info popup (cipp) --->
+<div class="popup pp-std" id="cipp">
+
+    <div class="pp-content w-670 max-w-90p max-h-50 top-10" id="cippContent">
+
+        <div class="pp-close" id="cippClose">
+            <div class="pp-close-icon">x</div>
+        </div>
+
+        <div class="pp-title pp-tt-m mb-15" id="cippTitle">DETALLE DE CATEGORÍAS</div>
+
+        <div class="pad-0-5">
+            <% categories.forEach(category => { %>
+                <div class="">
+                    <div class="mb-5"><i><b><%= 'Categoría ' + category.category %></i></b></div>
+                    <div class="cat-info-description mb-20"><%= category.description %></div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/professionalLicences/categories.js?v=<%= Date.now() %>"></script>
+
+
+
+
+
+
+
+
+
+

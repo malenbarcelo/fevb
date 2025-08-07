@@ -1,0 +1,28 @@
+.checkout-info{
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+}
+
+.checkout-inscription-data{
+    display: flex;
+    justify-content: center;
+}
+
+.checkout-item::after {
+    content: "---";
+    margin: 0 5px;
+}
+
+.checkout-item:last-child::after {
+    content: "";
+}
+
+@media (max-width:730px){
+    .checkout-info{
+        font-size: 13px;
+    }
+    .checkout-inscription-data{ 
+        font-size: 13px;
+    }
+}

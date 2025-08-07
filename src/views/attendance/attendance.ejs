@@ -1,0 +1,22 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="inputs-column mt-35">
+    <div class="div-input">
+        <label class="label-std">Semana a imprimir</label>
+        <select id="selectWeek" class="input-std w-250 pad-9-0-7-0">
+            <option value=""></option>
+            <% options.forEach(o => { %>
+                <option value="<%= o.week_number + '_' + o.year %>"><%= o.description %></option>
+            <% }) %>
+        </select>
+    </div>
+
+</div>
+
+<div class="buttons-row mt-30 mb-15">
+    <div id="printButton" class="w-250 pad-9-0 btn-std">Imprimir</div>
+</div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/professionalLicences/attendance/attendance.js?v=<%= Date.now() %>"></script>

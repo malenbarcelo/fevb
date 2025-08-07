@@ -1,0 +1,9 @@
+.pd-alert{
+    color:var(--errorColor);
+    display: flex;
+    column-gap: 5px;
+    font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}

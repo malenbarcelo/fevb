@@ -1,0 +1,126 @@
+.cat-type{
+    display: flex;
+    flex-direction:column;
+    align-items: stretch;
+    width: 670px;
+    max-width: 90%;    
+    margin: auto;
+    margin-top: 20px;
+}
+
+.cat-title{
+    padding: 3px 0px;
+    background-color: var(--color1);
+    border: var(--color1) solid 2px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 15px;
+}
+
+.cat-description{
+    padding: 10px 0px;
+    text-align: center;
+    border-left: var(--color1) solid 2px;
+    border-right: var(--color1) solid 2px;
+}
+
+.cat-categories{
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+    padding: 10px 0px 10px 0px;    
+    border-left: var(--color1) solid 2px;
+    border-right: var(--color1) solid 2px;
+    border-bottom: var(--color1) solid 2px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    flex-wrap: wrap
+    
+}
+
+.cat-category{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    border: var(--color1) solid 2px;
+    border-radius: 6px;
+    font-size: 17px;
+    padding: 7px;
+    cursor: pointer;
+    margin-bottom: 10px;    
+}
+
+.cat-category:hover{
+    color: var(--color1);
+    font-weight: bold;    
+}
+
+.selected-cat{
+    background-color: var(--color2);
+    font-weight: bold;
+    color: var(--color1);
+}
+
+.cat-category input[type="checkbox"] {
+  pointer-events: none;
+}
+
+.cat-price{
+    border: var(--color1) solid 1px;
+    width: 250px;
+    text-align: center;
+    padding: 7px 0px;
+    margin: auto;
+    margin-top: -10px;
+    border-radius: 6px;
+}
+
+#totalPriceInput{
+    display: none;
+}
+
+.cat-info{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    width: fit-content;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.cat-info:hover{
+    color: var(--color1);
+    font-weight: bold;
+}
+
+.cat-info-description{
+    font-size: 13px;
+}
+
+@media (max-width:730px){
+    .cat-title{
+        font-size: 13px;
+    }
+    .cat-description{
+        font-size: 13px;
+    }
+    .cat-category{
+        font-size: 13px;
+    }
+    .cat-price{
+        margin-top: -5px;
+        font-size: 13px;
+        width: 200px;
+    }
+    #catError{
+        margin-top: -5px;
+    }
+    .cat-info{
+        font-size: 13px;
+    }
+}
