@@ -1,4 +1,6 @@
-window.addEventListener('load',async()=>{
+window.addEventListener('pageshow',async()=>{
+
+    loader.style.display = 'block'
 
     const allInfo = Array.from(document.querySelectorAll('[id*="info_"]'))
     const allChecks = Array.from(document.querySelectorAll('[id*="check_"]'))
@@ -42,6 +44,8 @@ window.addEventListener('load',async()=>{
 
     // continue
     typeButton.addEventListener('click', function(e) {
+
+        loader.style.display = 'block'
         
         e.preventDefault() 
 
@@ -52,6 +56,9 @@ window.addEventListener('load',async()=>{
             e.target.form.submit()
         } else {
             error.style.display = 'flex'
+            loader.style.display = 'none'
         }
     })
+
+    loader.style.display = 'none'
 })

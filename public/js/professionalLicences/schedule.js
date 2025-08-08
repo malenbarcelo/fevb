@@ -2,7 +2,9 @@ import { domain } from "../domain.js"
 import gg from "../globals.js"
 import { gf } from "../globalFunctions.js"
 
-window.addEventListener('load',async()=>{
+window.addEventListener('pageshow',async()=>{
+
+    loader.style.display = 'block'
 
     const schedule = await (await fetch(`${domain}composed/professional-licences/get-schedule`)).json()
 
@@ -24,6 +26,8 @@ window.addEventListener('load',async()=>{
     
     // continue
     continueButton.addEventListener('click', function(e) {
+
+        loader.style.display = 'block'
         
         e.preventDefault() 
 
@@ -32,8 +36,11 @@ window.addEventListener('load',async()=>{
             e.target.form.submit()
         } else {
             scheduleError.style.display = 'flex'
+            loader.style.display = 'none'
         }
     })
+
+    loader.style.display = 'none'
 
 
 })

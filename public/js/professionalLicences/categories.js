@@ -2,7 +2,9 @@ import { domain } from "../domain.js"
 import gg from "../globals.js"
 import { gf } from "../globalFunctions.js"
 
-window.addEventListener('load',async()=>{
+window.addEventListener('pageshow',async()=>{
+
+    loader.style.display = 'block'
 
     const allCats = Array.from(document.querySelectorAll('[id*="cat_"]'))
     const allChecks = Array.from(document.querySelectorAll('[id*="check_"]'))
@@ -77,6 +79,8 @@ window.addEventListener('load',async()=>{
 
     // continue
     continueButton.addEventListener('click', function(e) {
+
+        loader.style.display = 'block'
         
         e.preventDefault() 
 
@@ -96,6 +100,9 @@ window.addEventListener('load',async()=>{
             e.target.form.submit()
         } else {
             catError.style.display = 'flex'
+            loader.style.display = 'none'
         }
     })
+
+    loader.style.display = 'none'
 })

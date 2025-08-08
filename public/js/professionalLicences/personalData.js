@@ -1,7 +1,9 @@
 import { domain } from "../domain.js"
 import { gf } from "../globalFunctions.js"
 
-window.addEventListener('load',async()=>{
+window.addEventListener('pageshow',async()=>{
+
+    loader.style.display = 'block'
 
     const inputs = [nameInfo, cuit, email, phone]
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -23,6 +25,8 @@ window.addEventListener('load',async()=>{
 
     // continue
     continueButton.addEventListener('click', async function(e) {
+
+        loader.style.display = 'block'
         
         e.preventDefault()
 
@@ -56,6 +60,8 @@ window.addEventListener('load',async()=>{
                     })
                     
                     ecpp.style.display = 'block'
+
+                    loader.style.display = 'none'
                     
                 }else{
                     e.target.form.submit()
@@ -63,4 +69,6 @@ window.addEventListener('load',async()=>{
             }
         }
     })
+
+    loader.style.display = 'none'
 })

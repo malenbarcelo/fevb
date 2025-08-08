@@ -75,7 +75,7 @@ async function sendMail(td,mailData) {
             `
         }
 
-        await transporter.sendMail(mailOptions)
+        const response = await transporter.sendMail(mailOptions)
 
         console.log('Correo enviado:', result.response)
             
