@@ -4,3 +4,5 @@ package.json
 sqlScripts
 databaseConfig.js
 domain.js
+gmailCredentials.json
+

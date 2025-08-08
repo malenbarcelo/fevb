@@ -4,7 +4,7 @@ const studentsQueries = require("../dbQueries/professionalLicences/studentsQueri
 const studentsTypesCategoriesQueries = require("../dbQueries/professionalLicences/studentsTypesCategoriesQueries.js")
 const studentsAttendanceQueries = require("../dbQueries/professionalLicences/studentsAttendanceQueries.js")
 const { getSchedule } = require("../functions/getSchedule.js")
-const gf = require("../functions/transporterData.js")
+const {transporterData, sendMail} = require("../functions/mail.js")
 
 const professionalLicencesController = {
     // main menu
@@ -126,8 +126,10 @@ const professionalLicencesController = {
             const data = req.body
             const {flatOptions,selection} = await getSchedule(req.session)
             const selectedOption = flatOptions.filter( o => o.id == data.selectDate)[0]
-
             req.session.schedule = selectedOption
+            const feDescription = req.session.schedule.description
+            const ciuDescription = req.session.schedule.ciu ? (' Y ' + req.session.schedule.ciu_description) : ''
+            req.session.scheduleFullDescription = feDescription + ciuDescription
             
             // redirect
             return res.redirect('/professional-licences/personal-data')
@@ -177,10 +179,7 @@ const professionalLicencesController = {
 
             const {flatOptions,selection} = await getSchedule(req.session)
 
-            const feDescription = req.session.schedule.description
-            const ciuDescription = req.session.schedule.ciu ? (' Y ' + req.session.schedule.ciu_description) : ''
-            console.log(req.session.schedule)
-            const schedule = feDescription + ciuDescription
+            const schedule = req.session.scheduleFullDescription
             const price = req.session.price
             const name = req.session.name
             const cuit = req.session.cuit
@@ -284,18 +283,30 @@ const professionalLicencesController = {
             await studentsAttendanceQueries.create(attendance)
 
             // send email
-            const transporter = gf.transporterData()
-
-            const mailOptions = {
-                from: 'admvientoblanco@gmail.com',
-                to: 'barcelomalen@gmail.com',
-                subject: 'Confirmación de inscripción - Fundación El Viento Blanco',
-                html: `
-                <p style="color:black;">Hola: </p>                
-                `
+            const selectionData = await getSchedule(req.session)
+            const mailData = {
+                name: req.session.name,
+                email: req.session.email,
+                cuit: req.session.cuit,
+                price: String(req.session.price.toLocaleString('es-AR',{minimumFractionDigits: 0,maximumFractionDigits: 0})),
+                schedule: req.session.scheduleFullDescription,
+                selection: selectionData.selection
             }
 
-            await transporter.sendMail(mailOptions)
+            // const studentsData = [{
+            //     cuit: data.cuit,
+            //     name: data.name,
+            //     email: data.email,
+            //     phone_number: parseInt(data.phone_number),
+            //     week_number: data.schedule.week_number,
+            //     year:data.schedule.year,
+            //     price: data.price,
+            //     commission_name:data.schedule.commission_name,
+            //     commission_number:data.schedule.commission_number
+            // }]
+
+            const td = await transporterData()
+            await sendMail(td,mailData)
 
             return res.render('professionalLicences/confirmation',{title:'FEVB - Inscripciones'})
 

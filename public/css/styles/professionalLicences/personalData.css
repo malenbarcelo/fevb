@@ -7,3 +7,18 @@
     align-items: center;
     font-weight: bold;
 }
+
+
+
+@media (max-width:730px){
+    .pd-alert{
+        font-size: 15px;
+        text-align: center;
+    }
+    #ecppCuit{
+        width: 200px;
+    }
+    .pd-data{
+        font-size: 13px;
+    }
+}

@@ -6,7 +6,6 @@ const gf = {
         popups.forEach(popup => {
             const closeIcon = document.getElementById(popup.id + 'Close')
             const cancelIcon = document.getElementById(popup.id + 'Cancel')
-            console.log(cancelIcon)
             if (closeIcon) {
                 closeIcon.addEventListener("click", async() => {
                     popup.style.display = 'none'

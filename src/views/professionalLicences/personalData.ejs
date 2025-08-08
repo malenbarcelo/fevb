@@ -20,19 +20,19 @@
     <div class="inputs-column">
         <div class="div-input">
             <label class="label-std">Nombre y apellido</label>
-            <input type="text" id="nameInfo" name="nameInfo" class="input-std w-350 pad-14-0-10-0" autocomplete="off">
+            <input type="text" id="nameInfo" name="nameInfo" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
         </div>
         <div class="div-input mt-20">
             <label class="label-std">CUIT - Sin espacios ni guiones</label>
-            <input type="number" id="cuit" name="cuit" class="input-std w-350 pad-14-0-10-0" autocomplete="off">
+            <input type="number" id="cuit" name="cuit" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
         </div>
         <div class="div-input mt-20">
             <label class="label-std">Email</label>
-            <input type="text" id="email" name="email" class="input-std w-350 pad-14-0-10-0" autocomplete="off">
+            <input type="text" id="email" name="email" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
         </div>
         <div class="div-input mt-20">
             <label class="label-std">Teléfono - Sin espacios ni guiones</label>
-            <input type="number" id="phone" name="phone" class="input-std w-350 pad-14-0-10-0" autocomplete="off">
+            <input type="number" id="phone" name="phone" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
         </div>
     </div>
 
@@ -55,7 +55,7 @@
 <!--- existing cuit popup (ecpp) --->
 <div class="popup pp-std" id="ecpp">
 
-    <div class="pp-content w-670 max-w-90p max-h-50 top-50" id="ecppContent">
+    <div class="pp-content w-670 max-w-90p max-h-50 top-120" id="ecppContent">
 
         <div class="pp-close" id="ecppClose">
             <div class="pp-close-icon">x</div>
@@ -66,16 +66,16 @@
             <div id="ecppCuit"></div>            
         </div>
 
-        <div class="ta-c mt-25"><b>DETALLE DE LA INSCRIPCIÓN</b></div>
+        <div class="ta-c mt-25 pd-data"><b>DETALLE DE LA INSCRIPCIÓN</b></div>
         <div id="ecppInfo">
-            <div class="ta-c mt-5"></div>
-            <div class="ta-c mt-5"></div>
+            <div class="ta-c mt-5 pd-data"></div>
+            <div class="ta-c mt-5 pd-data"></div>
         </div>
         
-        <div class="ta-c mt-15"><b>ESTADO</b></div>
-        <div class="ta-c mt-5">Confirmada</div>
+        <div class="ta-c mt-15 pd-data"><b>ESTADO</b></div>
+        <div class="ta-c mt-5 pd-data">Confirmada</div>
 
-        <div class="ta-c mt-15"><b>Si desea modificar su reserva comuníquese por WhatsApp al +54 299 4209290</b></div>
+        <div class="ta-c mt-15 pd-data"><b>Si desea modificar su reserva comuníquese por WhatsApp al +54 299 4209290</b></div>
 
         <div class="buttons-row mt-30 mb-15">
             <div id="ecppCancel" class="btn-std w-150 pad-9-0">Aceptar</div>

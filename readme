@@ -9,6 +9,8 @@ npm install express-session
 npm install bcryptjs
 npm install session-file-store
 npm install nodemailer
+npm install googleapis
+
 
 /*---Sequelize---*/
 1. npm install --save sequelize-cli
@@ -22,7 +24,7 @@ npm install xlsx
 
 Resumed --->
 npm init -y
-npm install express ejs method-override multer express-validator express-session bcryptjs sequelize-cli sequelize mysql2 exceljs read-excel-file session-file-store xlsx nodemailer
+npm install express ejs method-override multer express-validator express-session bcryptjs sequelize-cli sequelize mysql2 exceljs read-excel-file session-file-store xlsx nodemailer googleapis
 
 To do actions Sequelize
 1. Create file .sequelizerc
@@ -33,6 +35,7 @@ Prd:
 1. Create file src/data/databaseConfig.js
 2. Create file src/data/doamin.js
 3. Create file public/js/domain.js
+4. CReate gmailCRedentials.json
 
 Dates importante!!
 Hice una tabla pl_dates donde pongo los numeros de semana por dia, hasta fines del 2028. Después del 2028 agregar más datos
