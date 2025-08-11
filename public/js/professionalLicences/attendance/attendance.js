@@ -8,7 +8,7 @@ window.addEventListener('load',async()=>{
             week_number: selectWeek.value.split('_')[0],
             year: selectWeek.value.split('_')[1]
         }
-        
+
         const response = await fetch(domain + 'composed/professional-licences/download-attendance-list',{
             method:'POST',
             headers: {'Content-Type': 'application/json'},

@@ -26,6 +26,14 @@ const studentsQueries = {
             andConditions.push({ commission_number: filters.commission_number })
         }
 
+        if (filters.week_number) {
+            andConditions.push({ week_number: filters.week_number })
+        }
+
+        if (filters.year) {
+            andConditions.push({ year: filters.year })
+        }
+
         // add week and year condition
         if (filters.weeks) {
             const orWeeks = filters.weeks.map(w => ({
