@@ -6,6 +6,9 @@ const router = express.Router()
 router.get('/professional-licences/get-schedule',plController.getSchedule)
 router.post('/professional-licences/download-attendance-list',plController.downloadAttendanceList)
 
+// session
+router.get('/professional-licences/get-session',plController.getSession)
+
 
 
 module.exports = router

@@ -90,6 +90,18 @@ const plController = {
           return res.send('Ha ocurrido un error')
         }
     },
+    getSession: async(req,res) =>{
+        try{
+
+            const data = req.session
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
 }
 module.exports = plController
 

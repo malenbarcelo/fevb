@@ -1,7 +1,7 @@
 import { domain } from "../domain.js"
 import { gf } from "../globalFunctions.js"
 
-window.addEventListener('pageshow',async()=>{
+window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
 

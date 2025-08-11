@@ -2,7 +2,13 @@ import { domain } from "../domain.js"
 import gg from "../globals.js"
 import { gf } from "../globalFunctions.js"
 
-window.addEventListener('pageshow',async()=>{
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload()
+    }
+})
+
+window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
 
@@ -11,6 +17,7 @@ window.addEventListener('pageshow',async()=>{
     const categories = await (await fetch(`${domain}get/professional-licences/categories`)).json()
     const prices = await (await fetch(`${domain}get/professional-licences/types-categories-prices`)).json()
     const additional = await (await fetch(`${domain}get/professional-licences/additional-per-category`)).json()
+    const session = await (await fetch(`${domain}composed/professional-licences/get-session`)).json()
 
     // close popups
     gf.closePopups([cipp])
@@ -72,6 +79,19 @@ window.addEventListener('pageshow',async()=>{
         })
     })
 
+    // add styles if session
+    if (session.selection) {
+        allCats.forEach(element => {
+            const typeId = element.id.split('_')[1]
+            const categoryId = element.id.split('_')[2]            
+            const check = document.getElementById('cat_' + typeId + '_' + categoryId)
+            const selectedElement = session.selection.find( s => s.id_types == typeId && s.id_categories == categoryId)
+            if (selectedElement) {
+                element.click()               
+            }
+        })
+    }
+
     // show categories info
     catInfo.addEventListener('click',async()=>{
         cipp.style.display = 'block'
@@ -97,6 +117,7 @@ window.addEventListener('pageshow',async()=>{
         })
         
         if (selectedTypes == types.length) {
+            loader.style.display = 'none'
             e.target.form.submit()
         } else {
             catError.style.display = 'flex'
