@@ -99,9 +99,6 @@ window.addEventListener('load',async()=>{
 
     // continue
     continueButton.addEventListener('click', function(e) {
-
-        loader.style.display = 'block'
-        
         e.preventDefault() 
 
         // validation
