@@ -99,6 +99,9 @@ window.addEventListener('load',async()=>{
 
     // continue
     continueButton.addEventListener('click', function(e) {
+
+        laoder.style.display = 'block'
+
         e.preventDefault() 
 
         // validation
@@ -114,7 +117,6 @@ window.addEventListener('load',async()=>{
         })
         
         if (selectedTypes == types.length) {
-            loader.style.display = 'none'
             e.target.form.submit()
         } else {
             catError.style.display = 'flex'

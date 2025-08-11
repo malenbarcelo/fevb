@@ -10,7 +10,6 @@ const professionalLicencesController = {
     // main menu
     mainMenu: (req,res) => {
         try{
-            req.session.destroy()
             return res.render('professionalLicences/types',{title:'FEVB - Inscripciones'})
         }catch(error){
             console.log(error)
@@ -294,20 +293,10 @@ const professionalLicencesController = {
                 selection: selectionData.selection
             }
 
-            // const studentsData = [{
-            //     cuit: data.cuit,
-            //     name: data.name,
-            //     email: data.email,
-            //     phone_number: parseInt(data.phone_number),
-            //     week_number: data.schedule.week_number,
-            //     year:data.schedule.year,
-            //     price: data.price,
-            //     commission_name:data.schedule.commission_name,
-            //     commission_number:data.schedule.commission_number
-            // }]
-
             const td = await transporterData()
             await sendMail(td,mailData)
+
+            req.session.destroy()
 
             return res.render('professionalLicences/confirmation',{title:'FEVB - Inscripciones'})
 
