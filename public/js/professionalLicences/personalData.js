@@ -1,7 +1,7 @@
 import { domain } from "../domain.js"
 import { gf } from "../globalFunctions.js"
 
-window.addEventListener('load',async()=>{
+window.addEventListener('pageshow',async()=>{
 
     loader.style.display = 'block'
 
@@ -36,10 +36,12 @@ window.addEventListener('load',async()=>{
         if (nameInfo.value == '' || cuit.value == '' || email.value == '' || phone.value == '') {
             errorText.innerText = 'Debe completar todos los campos'
             personalDataError.style.display = 'flex'
+            loader.style.display = 'none'
         } else {
             if (!emailRegex.test(email.value)) {
                 errorText.innerText = 'Email incorrecto'
                 personalDataError.style.display = 'flex'
+                loader.style.display = 'none'
             }else{
                 if (findStudent.length > 0) {
                     

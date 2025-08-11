@@ -2,11 +2,18 @@ import { domain } from "../domain.js"
 import gg from "../globals.js"
 import { gf } from "../globalFunctions.js"
 
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload()
+    }
+})
+
 window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
 
     const schedule = await (await fetch(`${domain}composed/professional-licences/get-schedule`)).json()
+    const session = await (await fetch(`${domain}composed/professional-licences/get-session`)).json()
 
     // select start date
     startDate.addEventListener('change',()=>{
@@ -22,6 +29,12 @@ window.addEventListener('load',async()=>{
             selectedDates.innerHTML = '<b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico'
         }
     })
+
+    // // add styles if session
+    // if (session.schedule) {
+    //     startDate.value = session.schedule.id
+    //     startDate.dispatchEvent(new Event('change'))
+    // }
     
     
     // continue

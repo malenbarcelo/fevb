@@ -10,6 +10,7 @@ const professionalLicencesController = {
     // main menu
     mainMenu: (req,res) => {
         try{
+            req.session.destroy()
             return res.render('professionalLicences/types',{title:'FEVB - Inscripciones'})
         }catch(error){
             console.log(error)
