@@ -51,17 +51,17 @@ window.addEventListener('load',async()=>{
         })
     })
 
-    // add styles if session
-    if (session.types) {
-        allInfo.forEach(element => {
-            const typeId = element.id.split('_')[1]
-            const selectedElement = session.types.find( s => s.id == typeId)
-            const check = document.getElementById('check_' + typeId)
-            if (selectedElement) {
-                element.click()                
-            }
-        })
-    }
+    // // add styles if session
+    // if (session.types) {
+    //     allInfo.forEach(element => {
+    //         const typeId = element.id.split('_')[1]
+    //         const selectedElement = session.types.find( s => s.id == typeId)
+    //         const check = document.getElementById('check_' + typeId)
+    //         if (selectedElement) {
+    //             element.click()                
+    //         }
+    //     })
+    // }
 
     // continue
     typeButton.addEventListener('click', function(e) {
