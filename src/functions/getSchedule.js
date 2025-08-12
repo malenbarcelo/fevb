@@ -48,7 +48,7 @@ async function getSchedule(sessionData) {
     for (let i = 0; i < options.length; i++) {
         for (let j = 0; j < mapFeCommissions.length; j++) {
             const filters = {
-                enabled:1,
+                //enabled:1,
                 id_commissions: mapFeCommissions[j],
                 year: options[i].year,
                 week_number: options[i].week_number
@@ -68,7 +68,7 @@ async function getSchedule(sessionData) {
     for (let i = 0; i < options.length; i++) {
         
         const filters = {
-            enabled:1,
+            //enabled:1,
             id_commissions: 9,
             year: options[i].year,
             week_number: options[i].week_number
