@@ -27,7 +27,7 @@ window.addEventListener('load',async()=>{
             const days = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo',]
             const countDays = days.filter(day => description.includes(day)).length
             
-            selectedDates.innerHTML = '<b>TEÓRICO: <i>El curso dura</i> ' + countDays + ' dias.</b> Horario: ' + description
+            selectedDates.innerHTML = '<b>TEÓRICO: <i>El curso dura ' + countDays + ' dias.</i></b> Horario: ' + description
         }else{
             selectedDates.innerHTML = '<b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico'
         }
