@@ -24,17 +24,14 @@ window.addEventListener('load',async()=>{
             // complete schedule
             const selected = schedule.flatOptions.filter( o => o.id == startDate.value)[0]
             const description = selected.description + (selected.ciu ? (' Y ' + selected.ciu_description) : '')
-            selectedDates.innerHTML = '<b>TEÓRICO: </b>' + description
+            const days = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo',]
+            const countDays = days.filter(day => description.includes(day)).length
+            
+            selectedDates.innerHTML = '<b>TEÓRICO: <i>El curso dura</i> ' + countDays + ' dias.</b> Horario: ' + description
         }else{
             selectedDates.innerHTML = '<b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico'
         }
     })
-
-    // // add styles if session
-    // if (session.schedule) {
-    //     startDate.value = session.schedule.id
-    //     startDate.dispatchEvent(new Event('change'))
-    // }
     
     
     // continue

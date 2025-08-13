@@ -35,10 +35,18 @@
     color: var(--color1);
 }
 
+.insc-type-description:hover .insc-highlight {
+    text-decoration: underline;
+}
+
 .selected-info{
     background-color: var(--color2);
     font-weight: bold;
     color: var(--color1);
+}
+
+.selected-info .insc-highlight{
+    text-decoration: underline;
 }
 
 #info_2{
@@ -78,6 +86,8 @@
     width: 93%;
     padding: 12px 7px;
 }
+
+
 
 @media (max-width:730px){
     #inscSubtitle{

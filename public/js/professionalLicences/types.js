@@ -42,8 +42,19 @@ window.addEventListener('load',async()=>{
             }
 
             if (typeId == 2 ) {
-                const check = document.getElementById('check_1')
-                const info = document.getElementById('info_1')
+                const check1 = document.getElementById('check_1')
+                const info1 = document.getElementById('info_1')
+                const check3 = document.getElementById('check_3')
+                const info3 = document.getElementById('info_3')
+                check1.checked = false
+                info1.classList.remove('selected-info')
+                check3.checked = false
+                info3.classList.remove('selected-info')
+            }
+
+            if (typeId == 3 ) {
+                const check = document.getElementById('check_2')
+                const info = document.getElementById('info_2')
                 check.checked = false
                 info.classList.remove('selected-info')
             }

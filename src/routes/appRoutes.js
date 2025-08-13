@@ -6,12 +6,11 @@ const professionalLicencesController = require('../controllers/professionalLicen
 const router = express.Router()
 
 ///// main
-router.get('/',mainController.login)
-router.post('/',mainController.loginProcess)
-router.get('/main-menu',mainController.mainMenu)
-router.post('/attendance',mainController.attendance)
+router.get('/main/login',mainController.login)
+router.post('/main/login',mainController.loginProcess)
+router.get('/main/main-menu',mainController.mainMenu)
+router.post('/main/attendance',mainController.attendance)
 
-// router.get('/print-assistance',appController.printAssistance)
 
 ///// professional licences
 router.get('/professional-licences/inscriptions',professionalLicencesController.mainMenu)

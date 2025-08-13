@@ -18,12 +18,13 @@ window.addEventListener('load',async()=>{
     const prices = await (await fetch(`${domain}get/professional-licences/types-categories-prices`)).json()
     const additional = await (await fetch(`${domain}get/professional-licences/additional-per-category`)).json()
     const session = await (await fetch(`${domain}composed/professional-licences/get-session`)).json()
+    let types = []
 
     // close popups
-    gf.closePopups([cipp])
+    gf.closePopups([cipp,sdpp])
 
     // close with escape
-    gf.closeWithEscape([cipp])
+    gf.closeWithEscape([cipp,sdpp])
 
     // select type with checks
     allCats.forEach(element => {
@@ -97,15 +98,29 @@ window.addEventListener('load',async()=>{
         cipp.style.display = 'block'
     })
 
+    // select sword declaration option    
+    sdppDeclaration_1.addEventListener('click',async()=>{
+        sdppCheck_1.checked = !sdppCheck_1.checked
+        if (sdppCheck_1.checked && sdppCheck_2.checked ) {
+            sdppError.style.display = 'none' 
+            
+        }
+    })
+    sdppDeclaration_2.addEventListener('click',async()=>{
+        sdppCheck_2.checked = !sdppCheck_2.checked
+        if (sdppCheck_1.checked && sdppCheck_2.checked ) {
+            sdppError.style.display = 'none' 
+            
+        }
+    })
+
     // continue
-    continueButton.addEventListener('click', function(e) {
+    continueButton.addEventListener('click',async()=>{
 
         loader.style.display = 'block'
 
-        e.preventDefault() 
-
         // validation
-        let types = allChecks.map( chk => chk.id.split('_')[1])
+        types = allChecks.map( chk => chk.id.split('_')[1])
         types = [...new Set(types)]
         let selectedTypes = 0
         
@@ -116,12 +131,43 @@ window.addEventListener('load',async()=>{
             }
         })
         
-        if (selectedTypes == types.length) {
-            e.target.form.submit()
-        } else {
+        if (selectedTypes != types.length) {
             catError.style.display = 'flex'
-            loader.style.display = 'none'
+        } else {
+            // show declaration
+            if (types.includes('2')) {
+                sdppText.innerHTML = 'Declaro que poseo <b>licencia clase B</b> de más de un año de antiguedad, vigente o vencida hace menos de 90 días y que comenzé el trámite en el sitio <b>lncargentina.seguridadvial.gob.ar</b> con las mismas categorías a las que me inscribo en este acto.'                              
+            }else{
+                sdppText.innerHTML = 'Declaro que poseo <b>licencia profesional</b> vigente o vencida hace menos de 90 días y que comencé el trámite en el sitio <b>lncargentina.seguridadvial.gob.ar</b> con las mismas categorías a las que me inscribo en este acto.'
+
+            }
+            sdppCheck_1.checked = false
+            sdppCheck_2.checked = false
+            sdppError.style.display = 'none'
+            sdpp.style.display = 'block'            
         }
+
+        loader.style.display = 'none'
+
+    })
+
+    // submit
+    submitButton.addEventListener('click', function(e) {
+
+        loader.style.display = 'block'
+
+        e.preventDefault()
+        
+        if (!sdppCheck_1.checked || !sdppCheck_2.checked) {
+            sdppError.style.display = 'flex'
+            loader.style.display = 'none'            
+        }else{
+            loader.style.display = 'block'
+            sdpp.style.display = 'none'
+            e.target.form.submit()
+        }
+
+        
     })
 
     loader.style.display = 'none'

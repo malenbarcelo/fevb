@@ -38,7 +38,8 @@ const professionalLicencesController = {
     // categories
     categories: async(req,res) => {
         try{
-            const types = req.session.types
+            let types = req.session.types
+            types.sort((a, b) => b.id - a.id)
             const filters = {enabled:1}
             const categories = await categoriesQueries.get({filters})
             return res.render('professionalLicences/categories',{title:'FEVB - Inscripciones',types,categories})

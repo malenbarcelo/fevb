@@ -138,9 +138,11 @@
 }
 
 /* --- max widths --- */
+.max-w-40p{
+    max-width: 40%;
+}
 .max-w-90p{
     max-width: 90%;
-
 }
 .max-w-95p{
     max-width: 95%;

@@ -17,7 +17,7 @@
     <% types.forEach(type => { %>
         <div class="cat-type">
             <div class="cat-title"><%= type.title %></div>
-            <div class="cat-description">Seleccione las categorías que desea <b><i><%= type.action.toUpperCase() %></i></b></div>
+            <div class="cat-description">Seleccione las categorías que desea <b><i><%= '' + type.action.toUpperCase() %></i></b><i><%= type.id == 1 ? ' a su licencia actual' : '' %></i></div>
             <div  class="cat-categories">
                 <% categories.forEach(category => { %>
                 <div class="cat-category" id="<%= 'cat_' + type.id + '_' + category.id %>">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="buttons-column mt-25 mb-25">
-        <button type="submit" id="continueButton" class="btn-std w-670 max-w-90p pad-11-0">
+        <button type="button" id="continueButton" class="btn-std w-670 max-w-90p pad-11-0">
             CONTINUAR
         </button>
 
@@ -43,12 +43,50 @@
             ATRÁS
         </button>
     </div>
+
+    <!--- sworn declaration popup (sdpp) --->
+    <div class="popup pp-std" id="sdpp">
+
+        <div class="pp-content w-670 max-w-90p max-h-50" id="sdppContent">
+
+            <div class="pp-close" id="sdppClose">
+                <div class="pp-close-icon">x</div>
+            </div>
+
+            <div class="pp-title pp-tt-m mb-30" id="sdppTitle">DECLARACIÓN JURADA</div>
+
+            <div class="general-error mt-15- mb-20" id="sdppError">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Debe tildar las dos declaraciiones jurada para continuar
+            </div>
+
+            <div class="cat-sd-div" id="sdppDeclaration_1">
+                <div><input type="checkbox" id="sdppCheck_1"></div>
+                <div id="sdppText"></div>                
+            </div>
+
+            <div class="cat-sd-div" id="sdppDeclaration_2">
+                <div><input type="checkbox" id="sdppCheck_2"></div>
+                <div>Declaro que asistiré al examen práctico con el vehículo de la categoría correspondiente.</div>                
+            </div>
+
+            <div class="buttons-row mt-35 mb-25">
+                <button type="submit" id="submitButton" class="btn-std btn-s w-150 max-w-40p pad-9-0">
+                    Aceptar
+                </button>
+
+                <button type="button" id="sdppCancel" class="btn-std btn-s w-150 max-w-40p pad-9-0">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
 </form>
 
 <!--- categories info popup (cipp) --->
 <div class="popup pp-std" id="cipp">
 
-    <div class="pp-content w-670 max-w-90p max-h-50 top-10" id="cippContent">
+    <div class="pp-content w-670 max-w-90p max-h-50 top-50" id="cippContent">
 
         <div class="pp-close" id="cippClose">
             <div class="pp-close-icon">x</div>
@@ -66,6 +104,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!----------SCRIPTS---------->
 <script type="module" src="/js/professionalLicences/categories.js?v=<%= Date.now() %>"></script>

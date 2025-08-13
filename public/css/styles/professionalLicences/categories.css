@@ -102,6 +102,28 @@
     font-size: 13px;
 }
 
+#sdppContent{
+    top: 180px;
+}
+
+.cat-sd-div{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    border: grey solid 1px;
+    border-radius: 7px;
+    padding: 7px;
+    width: 90%;
+    margin: auto;
+    font-size: 13px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.cat-sd-div input[type="checkbox"] {
+  pointer-events: none;
+}
+
 @media (max-width:730px){
     .cat-title{
         font-size: 13px;
@@ -122,5 +144,8 @@
     }
     .cat-info{
         font-size: 13px;
+    }
+    #sdppContent{
+        top: 100px;
     }
 }
