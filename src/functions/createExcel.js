@@ -105,7 +105,7 @@ const createExcel = {
 
             row.getCell(startColumn).value = element.id
             row.getCell(startColumn + 1).value = element.cuit
-            row.getCell(startColumn + 2).value = element.name
+            row.getCell(startColumn + 2).value = element.name.toUperCase()
             row.getCell(startColumn + 3).value = element.email
             row.getCell(startColumn + 4).value = String(element.phone_number)
             row.getCell(startColumn + 5).value = selectionString
