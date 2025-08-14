@@ -43,7 +43,7 @@ function getDataToPost(createdData,sessionData) {
     const dataToPost = [
         createdData.id,
         sessionData.cuit,
-        sessionData.name,
+        sessionData.name.toUpperCase(),
         sessionData.email,
         sessionData.phone_number,
         createdData.year,
