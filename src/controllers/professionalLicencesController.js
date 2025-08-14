@@ -5,6 +5,7 @@ const studentsTypesCategoriesQueries = require("../dbQueries/professionalLicence
 const studentsAttendanceQueries = require("../dbQueries/professionalLicences/studentsAttendanceQueries.js")
 const { getSchedule } = require("../functions/getSchedule.js")
 const {transporterData, sendMail} = require("../functions/mail.js")
+const {postData,getDataToPost} = require("../functions/postData.js")
 
 const professionalLicencesController = {
     // main menu
@@ -300,6 +301,10 @@ const professionalLicencesController = {
 
             const td = await transporterData()
             await sendMail(td,mailData)
+
+            // post data to google sheets
+            const dataToPost = getDataToPost(createdData[0], data)
+            await postData(dataToPost)
 
             req.session.destroy()
 

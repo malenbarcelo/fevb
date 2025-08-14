@@ -5,4 +5,5 @@ sqlScripts
 databaseConfig.js
 domain.js
 gmailCredentials.json
+googleSheetsCredentials.json
 

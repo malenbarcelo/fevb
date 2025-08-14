@@ -35,7 +35,8 @@ Prd:
 1. Create file src/data/databaseConfig.js
 2. Create file src/data/doamin.js
 3. Create file public/js/domain.js
-4. CReate gmailCRedentials.json
+4. Create gmailCredentials.json
+5. Create googleSheetsCredentials.json
 
 Dates importante!!
 Hice una tabla pl_dates donde pongo los numeros de semana por dia, hasta fines del 2028. Después del 2028 agregar más datos
