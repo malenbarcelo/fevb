@@ -165,8 +165,8 @@ const createExcel = {
             }
 
             // cell price as number
-            const cell = row.getCell(startColumn + 12)
-            cell.numFmt = '#,##0.00'
+            // const cell = row.getCell(startColumn + 12)
+            // cell.numFmt = '#,##0.00'
 
             row.commit()
 
