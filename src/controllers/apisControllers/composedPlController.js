@@ -37,11 +37,11 @@ const plController = {
             const worksheet2 = workbook.addWorksheet('Comisión 2')
             
             // add title
-            worksheet1.getCell('B2').value = 'SEMANA ' + data.week_number + ' - ' + 'Lunes ' + datesData[0].date_string + '/' + data.year + ' (Comisión 1)'
+            worksheet1.getCell('B2').value = 'SEMANA ' + data.week_number + ' - ' + 'Lunes ' + datesData[0].date_string + '/' + data.year
             worksheet1.getCell('B2').font = { size: 14, bold: true }
             worksheet1.getCell('B2').alignment = { vertical: 'middle', horizontal: 'left' }
 
-            worksheet2.getCell('B2').value = 'SEMANA ' + data.week_number + ' - ' + 'Lunes ' + datesData[0].date_string + '/' + data.year + ' (Comisión 2)'
+            worksheet2.getCell('B2').value = 'SEMANA ' + data.week_number + ' - ' + 'Lunes ' + datesData[0].date_string + '/' + data.year
             worksheet2.getCell('B2').font = { size: 14, bold: true }
             worksheet2.getCell('B2').alignment = { vertical: 'middle', horizontal: 'left' }
 
