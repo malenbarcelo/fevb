@@ -50,8 +50,9 @@ const plController = {
             ce.addMainTableHeaders(worksheet2,2)
 
             // add secondary table titles
-            const headersWs1 = ['CUIT', 'Nombre y Apellido', 'Email', 'Teléfono', 'Inscripción','LM', 'LT', 'MM', 'MT','XM', 'XT']
-            const headersWs2 = headers = ['CUIT', 'Nombre y Apellido', 'Email', 'Teléfono', 'Inscripción','XM', 'XT', 'JM','JT','--', '--']
+            const headersWs1 = ['ID','CUIT', 'Nombre y Apellido', 'Email', 'Teléfono', 'Inscripción','LM', 'LT', 'MM', 'MT','XM', 'XT','Precio','Pagado','//','O_C1','O_C2','O_C3','O_D1','O_D2','O_D3','O_E1','O_E2','A_C1','A_C2','A_C3','A_D1','A_D2','A_D3','A_E1','A_E2','R_C1','R_C2','R_C3','R_D1','R_D2','R_D3','R_E1','R_E2']
+            const headersWs2 = headers = ['ID','CUIT', 'Nombre y Apellido', 'Email', 'Teléfono', 'Inscripción','XM', 'XT', 'JM','JT','--', '--','Precio','Pagado','//','O_C1','O_C2','O_C3','O_D1','O_D2','O_D3','O_E1','O_E2','A_C1','A_C2','A_C3','A_D1','A_D2','A_D3','A_E1','A_E2','R_C1','R_C2','R_C3','R_D1','R_D2','R_D3','R_E1','R_E2',]
+            
             ce.addSecondaryTableHeaders(worksheet1,headersWs1,2,5)
             ce.addSecondaryTableHeaders(worksheet2,headersWs2,2,5)
 

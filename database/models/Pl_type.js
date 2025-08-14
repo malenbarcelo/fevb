@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       action:{
          type: DataTypes.STRING,
          allowNull: false,
+      },
+      alias:{
+         type: DataTypes.STRING,
+         allowNull: false,
       }
    }
 
