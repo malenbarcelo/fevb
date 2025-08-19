@@ -54,7 +54,7 @@ function getDataToPost(createdData,sessionData) {
       sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D2') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D3') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'E1') ? 'si' : 'no',
-      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'E2') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C1') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C2') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C3') ? 'si' : 'no',
