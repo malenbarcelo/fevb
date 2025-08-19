@@ -71,10 +71,10 @@ function getDataToPost(createdData,sessionData) {
       sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D3') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'E1') ? 'si' : 'no',
       sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'E2') ? 'si' : 'no',
-      sessionData.schedule.start_date.split(' ')[0],
-      sessionData.schedule.start_date.split(' ')[1],
+      `'${sessionData.schedule.start_date.split(' ')[0]}`,
+      `'${sessionData.schedule.start_date.split(' ')[1]}`,
       parseInt(sessionData.schedule.start_date.split('/')[1]),
-      `'${sessionData.schedule.start_day}`,
+      parseInt(sessionData.schedule.start_day),
       `'${sessionData.schedule.start_date}/${sessionData.schedule.year}`
 
   ]
