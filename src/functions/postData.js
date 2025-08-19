@@ -38,45 +38,48 @@ async function getSheets() {
 
 function getDataToPost(createdData,sessionData) {
 
-    console.log(sessionData)
+  const dataToPost = [
+      createdData.id,
+      sessionData.cuit,
+      sessionData.name.toUpperCase(),
+      sessionData.email,
+      sessionData.phone_number,
+      createdData.year,
+      createdData.week_number,
+      createdData.price,
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'C1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'C2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'C3') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D3') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'E1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C3') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'D1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'D2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'D3') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'C1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'C2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'C3') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D2') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D3') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'E1') ? 'si' : 'no',
+      sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'E2') ? 'si' : 'no',
+      sessionData.schedule.start_date.split(' ')[0],
+      sessionData.schedule.start_date.split(' ')[1],
+      parseInt(sessionData.schedule.start_date.split('/')[1]),
+      sessionData.schedule.start_day,
+      sessionData.schedule.start_date + '/' + String(sessionData.schedule.year)
 
-    const dataToPost = [
-        createdData.id,
-        sessionData.cuit,
-        sessionData.name.toUpperCase(),
-        sessionData.email,
-        sessionData.phone_number,
-        createdData.year,
-        createdData.week_number,
-        createdData.price,
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'C1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'C2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'C3') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'D3') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Obtención' && s.category == 'E1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'C3') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'D1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'D2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'D3') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Ampliación' && s.category == 'E2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'C1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'C2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'C3') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D2') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'D3') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'E1') ? 'si' : 'no',
-        sessionData.selection.find( s => s.type == 'Renovación' && s.category == 'E2') ? 'si' : 'no',
-        sessionData.schedule.start_date.split(' ')[0]
-    ]
+  ]
 
-     return dataToPost
+    return dataToPost
 }
 
 module.exports = { postData, getDataToPost }

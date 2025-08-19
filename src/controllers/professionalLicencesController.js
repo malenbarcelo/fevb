@@ -83,7 +83,7 @@ const professionalLicencesController = {
     // classes
     classes: async(req,res) => {
         try{
-
+            
             let {flatOptions,selection} = await getSchedule(req.session)
 
             // filter monday of current week
@@ -133,9 +133,18 @@ const professionalLicencesController = {
             const {flatOptions,selection} = await getSchedule(req.session)
             const selectedOption = flatOptions.filter( o => o.id == data.selectDate)[0]
             req.session.schedule = selectedOption
+            console.log(req.session)
+
+            let ciuDescription = ''
             const feDescription = req.session.schedule.description
-            const ciuDescription = req.session.schedule.ciu ? (' Y ' + req.session.schedule.ciu_description) : ''
-            req.session.scheduleFullDescription = feDescription + ciuDescription
+
+            if (req.session.selection[0].category != 'E2') {
+                ciuDescription = req.session.schedule.ciu ? (' Y ' + req.session.schedule.ciu_description) : ''
+                req.session.scheduleFullDescription = feDescription + ciuDescription                
+            }else{
+                ciuDescription = req.session.schedule.ciu ? (req.session.schedule.ciu_description + ' Y ') : ''
+                req.session.scheduleFullDescription = ciuDescription + feDescription
+            }
             
             // redirect
             return res.redirect('/professional-licences/personal-data')

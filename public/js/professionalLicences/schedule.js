@@ -23,11 +23,20 @@ window.addEventListener('load',async()=>{
             scheduleError.style.display = 'none'
             // complete schedule
             const selected = schedule.flatOptions.filter( o => o.id == startDate.value)[0]
-            const description = selected.description + (selected.ciu ? (' Y ' + selected.ciu_description) : '')
+            const description1 = selected.description + (selected.ciu ? (' Y ' + selected.ciu_description) : '')
+            const description2 = (selected.ciu ? (selected.ciu_description + ' Y ') : '') + selected.description 
+            let description = ''
+            if (selected.commission_name == "FE_E2_01") {
+                description = description2                
+            }else{
+                description = description1
+            }
+            
             const days = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo',]
             const countDays = days.filter(day => description.includes(day)).length
+            const dayString = countDays > 1 ? 'días' : 'día'
             
-            selectedDates.innerHTML = '<b>TEÓRICO: <i>El curso dura ' + countDays + ' dias.</i></b> Horario: ' + description
+            selectedDates.innerHTML = '<b>TEÓRICO: <i>El curso dura ' + countDays + ' ' + dayString + '.</i></b> Horario: ' + description
         }else{
             selectedDates.innerHTML = '<b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico'
         }

@@ -54,6 +54,25 @@ window.addEventListener('load',async()=>{
                 check.checked = false
             })
 
+            if (element.id.split('_')[2] == 9 && check.checked) { // if E2
+                const catsToUnselect = allCats.filter( cat => cat.id.split('_')[2] != 9)
+                catsToUnselect.forEach(cat => {
+                    const check = document.getElementById(cat.id.replace('cat','check'))
+                    cat.classList.remove('selected-cat')
+                    check.checked = false
+                })
+            }
+
+            if (element.id.split('_')[2] != 9 && check.checked) { // if E2
+                const catsToUnselect = allCats.filter( cat => cat.id.split('_')[2] == 9)
+                catsToUnselect.forEach(cat => {
+                    const check = document.getElementById(cat.id.replace('cat','check'))
+                    cat.classList.remove('selected-cat')
+                    check.checked = false
+                })
+            }
+
+
             // selected categories
             const selectedChecks = allChecks.filter( chk => chk.checked)
             const selected = selectedChecks.map(s => {

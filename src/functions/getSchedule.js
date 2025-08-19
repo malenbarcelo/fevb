@@ -22,8 +22,7 @@ async function getSchedule(sessionData) {
 
     options.forEach(o => {
         o.options = [],
-        o.ciu = false
-        
+        o.ciu = false        
     })
 
     // get classes to assist
@@ -35,8 +34,19 @@ async function getSchedule(sessionData) {
         typesCategories.includes(`${c.id_types}_${c.id_categories}`)
     )
 
-    const fe = classesFiltered.filter(c => c.id_courses == 2)
-    const maxFe = Math.max(...fe.map(item => item.id_classes))
+    // get data
+    let fe = []
+    let maxFe = 0
+
+    if (classesFiltered.filter(c => c.id_courses == 2).length > 0) {
+        fe = classesFiltered.filter(c => c.id_courses == 2)
+        maxFe = Math.max(...fe.map(item => item.id_classes))
+    }else{
+        fe = classesFiltered.filter(c => c.id_courses == 4)
+        maxFe = 7
+    }
+
+    // const maxFe = Math.max(...fe.map(item => item.id_classes))
     const ciu = classesFiltered.filter(c => c.id_courses == 1)
 
     // get fe commissions
