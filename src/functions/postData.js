@@ -75,7 +75,7 @@ function getDataToPost(createdData,sessionData) {
       sessionData.schedule.start_date.split(' ')[1],
       parseInt(sessionData.schedule.start_date.split('/')[1]),
       String(sessionData.schedule.start_day),
-      sessionData.schedule.start_date + '/' + String(sessionData.schedule.year)
+      String(sessionData.schedule.start_date + '/' + String(sessionData.schedule.year))
 
   ]
 
