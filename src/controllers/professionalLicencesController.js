@@ -114,8 +114,6 @@ const professionalLicencesController = {
             flatOptions = flatOptions.filter ( o => o.quota > 0)
             flatOptions = flatOptions.filter (o => o.option[0].enabled == 1)
 
-            console.log(flatOptions)
-
             const price = req.session.price
 
             return res.render('professionalLicences/schedule',{title:'FEVB - Inscripciones',flatOptions, selection, price})
