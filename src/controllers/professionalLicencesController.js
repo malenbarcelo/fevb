@@ -92,7 +92,8 @@ const professionalLicencesController = {
             // filter wednesdey if day >= 3            
             const date =  new Date()
             const day = date.getDay()
-            if (day >= 3) {
+            
+            if (day >= 3 && selection[0].categories != 'E2') {
                 flatOptions = flatOptions.filter( o => o.id != 2)
             }
 
@@ -106,17 +107,16 @@ const professionalLicencesController = {
                 const inscriptions = await studentsQueries.get({filters})
 
                 flatOptions[i].inscriptions = inscriptions.length
-                flatOptions[i].quota = 40 - inscriptions.length
-                
+                flatOptions[i].quota = 40 - inscriptions.length                
             }
 
             // filter if there are no available spaces
             flatOptions = flatOptions.filter ( o => o.quota > 0)
             flatOptions = flatOptions.filter (o => o.option[0].enabled == 1)
 
-            const price = req.session.price
+            console.log(flatOptions)
 
-            console.log(flatOptions[0].option)
+            const price = req.session.price
 
             return res.render('professionalLicences/schedule',{title:'FEVB - Inscripciones',flatOptions, selection, price})
 
