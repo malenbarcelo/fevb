@@ -47,4 +47,4 @@ app.use('/',appRoutes)
 app.use('/get',getRoutes)
 app.use('/composed',plRoutes)
 
-//console.log('malen: ' + bcrypt.hashSync('user1',10))
+//console.log('malen: ' + bcrypt.hashSync('nicocabrera1891',10))

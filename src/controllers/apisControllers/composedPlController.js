@@ -79,12 +79,12 @@ const plController = {
             ce.addRowsData(worksheet1, studentsCom1,6,2)
             ce.addRowsData(worksheet2, studentsCom2,6,2)
       
-          res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-          res.setHeader('Content-Disposition', 'attachment; filename=Semana.xlsx')
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            res.setHeader('Content-Disposition', 'attachment; filename=Semana.xlsx')
         
-        await workbook.xlsx.write(res)
+            await workbook.xlsx.write(res)
           
-        res.end()
+            res.end()
           
         }catch(error){
           console.log(error)

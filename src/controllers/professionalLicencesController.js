@@ -107,7 +107,7 @@ const professionalLicencesController = {
                 const inscriptions = await studentsQueries.get({filters})
 
                 flatOptions[i].inscriptions = inscriptions.length
-                flatOptions[i].quota = 40 - inscriptions.length                
+                flatOptions[i].quota = 45 - inscriptions.length                
             }
 
             // filter if there are no available spaces
