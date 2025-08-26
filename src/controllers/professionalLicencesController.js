@@ -86,8 +86,10 @@ const professionalLicencesController = {
             
             let {flatOptions,selection} = await getSchedule(req.session)
 
-            // filter monday of current week
-            flatOptions = flatOptions.filter( o => o.id != 1)
+            if (req.session.selection[0].category != 'E2') {
+                // filter monday of current week
+                flatOptions = flatOptions.filter( o => o.id != 1)
+            }
 
             // filter wednesdey if day >= 3            
             const date =  new Date()
