@@ -1,0 +1,8 @@
+.sch-price{
+    border: var(--color1) solid 2px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    width: fit-content;
+    margin: auto;
+    margin-top: 10px;
+}

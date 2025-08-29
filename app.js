@@ -10,6 +10,8 @@ const selectedCompanyMiddleware = require('./src/middlewares/selectedCompanyMidd
 //ROUTES
 const appRoutes = require('./src/routes/appRoutes.js')
 const getRoutes = require('./src/routes/apisRoutes/getRoutes.js')
+const composedRoutes = require('./src/routes/apisRoutes/composedRoutes.js')
+
 const plRoutes = require('./src/routes/apisRoutes/composedRoutes.js')
 
 const app = express()
@@ -45,6 +47,7 @@ app.listen(APP_PORT,() => console.log("Servidor corriendo en puerto " + APP_PORT
 //Routes
 app.use('/',appRoutes)
 app.use('/get',getRoutes)
-app.use('/composed',plRoutes)
+app.use('/composed',composedRoutes)
+app.use('/composed',plRoutes) // eliminar
 
 //console.log('malen: ' + bcrypt.hashSync('nicocabrera1891',10))

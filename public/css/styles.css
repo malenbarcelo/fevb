@@ -55,26 +55,6 @@ a{
     line-height: 1.7
 }
 
-/* fonts*/
-.fs-13{
-    font-size: 13px;
-}
-
-.fs-14{
-    font-size: 14px;
-}
-
-.fs-16{
-    font-size: 16px;
-}
-
-.fs-17{
-    font-size: 17px;
-}
-
-.fw-b{
-    font-weight: bold;
-}
 
 /* div flex */
 .flex-r{
@@ -91,8 +71,20 @@ a{
     justify-content: center;
 }
 
+.ai-c{
+    align-items: center;
+}
+
 .cg-5{
     column-gap: 10px;
+}
+
+.rg-20{
+    row-gap: 20px;
+}
+
+.rg-25{
+    row-gap: 25px;
 }
 
 /* links */

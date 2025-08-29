@@ -1,6 +1,7 @@
 const express = require('express')
 const mainController = require('../controllers/mainController.js')
-
+const inscriptionsController = require('../controllers/inscriptions/inscriptionsController.js')
+const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/professionalLicencesController.js')
 
 const router = express.Router()
@@ -10,6 +11,13 @@ router.get('/main/login',mainController.login)
 router.post('/main/login',mainController.loginProcess)
 router.get('/main/main-menu',mainController.mainMenu)
 router.post('/main/attendance',mainController.attendance)
+
+///// inscriptions
+router.get('/inscriptions',inscriptionsController.mainMenu)
+router.post('/inscriptions/set-course-type',inscriptionsController.setCourseType)
+router.get('/inscriptions/hazardous-materials/sworn-declaration',hazardousMaterialsController.hmSwornDeclaration)
+router.post('/inscriptions/hazardous-materials/set-sworn-declaration',hazardousMaterialsController.setSwornDeclaration)
+router.get('/inscriptions/schedule',inscriptionsController.schedule)
 
 
 ///// professional licences

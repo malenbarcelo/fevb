@@ -1,0 +1,56 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="main-title">HABILITACIÓN CARGAS PELIGROSAS</div>
+
+<div class="sch-price"><b><%= 'PRECIO (ARS): ' %></b><%= price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
+
+<div class="fs-16 fw-b ta-c mt-35">HORARIOS DISPONIBLES</div>
+
+    <div class="inputs-column mt-25">
+        <div class="div-input">
+            <select  class="input-std w-350 max-w-90p pad-12-0 schedule-data" name="selectDate" id="selectDate">
+                <option value="">--- Seleccione una opción --- </option>
+                <% scheduleOptions.forEach(option => { %>
+                    <option value="<%= option.id %>"><%= option.shifts[0].day + ' ' + option.shifts[0].date_string %></option>                 
+                <% }) %>
+            </select>
+        </div>
+    </div>
+
+    <div class="w-700 max-w-90p m-a mt-35 ta-c">
+        <div class="mb-25 ta-c"><b>HORARIO DE CURSADA</b></div>
+        <div class="mb-20" id="selectedDates"><b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico</div>
+        <div><b>PRÁCTICO: </b>El horario de la Práctica será coordinado con el instructor</div>
+    </div>
+
+    <div class="buttons-column mt-50 mb-25">
+        <button type="submit" id="continueButton" class="btn-std w-350 max-w-90p pad-11-0">
+            CONTINUAR
+        </button>
+
+        <button type="button" id="backButton" class="btn-std w-350 max-w-90p pad-11-0" onclick="history.back()">
+            ATRÁS
+        </button>
+    </div>
+    
+    <!-- loader -->
+    <div class="loader ld-std" id="loader">
+        <div class="ld-content lt-m"></div>
+    </div>
+
+    <!----------SCRIPTS---------->
+    <script type="module" src="/js/inscriptions/schedule.js?v=<%= Date.now() %>"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+

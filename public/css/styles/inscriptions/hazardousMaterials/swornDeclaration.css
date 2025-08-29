@@ -1,0 +1,28 @@
+.sd-declarations{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+    font-size: 16px;
+    align-items: center;
+}
+.sd-declaration{
+    display: flex;
+    column-gap: 10px;
+    border: var(--color1) solid 1px;
+    width: 700px;
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+}
+.sd-text{
+    cursor: pointer;
+}
+
+.sd-check{
+    cursor: pointer;
+}
+
+.sd-declaration input[type="checkbox"] {
+  pointer-events: none;
+}

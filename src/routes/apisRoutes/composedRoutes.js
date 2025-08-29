@@ -1,7 +1,14 @@
 const express = require('express')
-const plController = require('../../controllers/apisControllers/composedPlController')
+const coursesController = require('../../controllers/apisControllers/composedCoursesController')
+const plController = require('../../controllers/apisControllers/composedPlController') // eliminar
 
 const router = express.Router()
+
+///// courses
+router.get('/courses/get-schedule-options',coursesController.getScheduleOptions)
+
+
+
 
 router.get('/professional-licences/get-schedule',plController.getSchedule)
 router.post('/professional-licences/download-attendance-list',plController.downloadAttendanceList)
