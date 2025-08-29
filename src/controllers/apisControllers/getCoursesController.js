@@ -1,4 +1,5 @@
 const typesQueries = require("../../dbQueries/courses/typesQueries")
+const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const scheduleQueries = require("../../dbQueries/courses/scheduleQueries")
 const pricesQueries = require("../../dbQueries/courses/pricesQueries")
 
@@ -11,7 +12,7 @@ const getCoursesController = {
             
             // add filters
             if (id) {
-                filters.id = id
+                filters.id = JSON.parse(id)
             }
 
             if (enabled) {
@@ -24,6 +25,44 @@ const getCoursesController = {
 
             //get data
             const data = await typesQueries.get({ filters })
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+    courses: async(req,res) =>{
+        try{
+
+            const { id, id_courses_types, alias, enabled, order } = req.query
+            
+            const filters = {}
+            
+            // add filters
+            if (id) {
+                filters.id = JSON.parse(id)
+            }
+
+            if (id_courses_types) {
+                filters.id_courses_types = JSON.parse(id_courses_types)
+            }
+
+            if (alias) {
+                filters.alias = alias
+            }
+
+            if (enabled) {
+                filters.enabled = enabled
+            }
+
+            if (order) {
+                filters.order = JSON.parse(order)
+            }
+
+            //get data
+            const data = await coursesQueries.get({ filters })
 
             res.status(200).json(data)
 

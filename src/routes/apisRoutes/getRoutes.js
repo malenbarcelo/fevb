@@ -6,6 +6,7 @@ const router = express.Router()
 
 ///// courses
 router.get('/courses/types',getCoursesController.types)
+router.get('/courses',getCoursesController.courses)
 router.get('/courses/schedule',getCoursesController.schedule)
 router.get('/courses/prices',getCoursesController.prices)
 

@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      course_description:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       alias:{
          type: DataTypes.STRING,
          allowNull: false,
@@ -37,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
    Course.associate = (models) => {
       Course.belongsTo(models.Courses_types,{
          as:'type_data',
-         foreignKey: 'id_types'
+         foreignKey: 'id_courses_types'
       })
    }
    

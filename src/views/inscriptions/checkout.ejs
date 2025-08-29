@@ -1,0 +1,72 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="main-title">CONFIRMAR INSCRIPCIÓN</div>
+
+<div class="checkout-info mt-5-">
+    <b>VALOR A ABONAR: </b>
+    <div class="ta-c"><%= 'AR$ ' + price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
+</div>
+
+<div class="ta-c mt-15 color-red w-500 max-w-95p m-a">
+    <b>Transferir a "farola.burla.caucho" y enviar comprobante a comprobantes@elvientoblanco.org.ar para confirmar su cupo.</b>
+</div>
+
+<div class="mt-20 ta-c checkout-info"><b>DATOS DE LA INSCRIPCIÓN</b></div>
+
+<div class="checkout-inscription-data mt-10"><%= courseName %></div>
+
+<div class="mt-20 ta-c checkout-info"><b>HORARIOS</b></div>
+
+<div class="m-a mt-10 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= daysDescription %> </div>
+<div class="m-a mt-10 ta-c checkout-info max-w-95p"><span class="txt-u">PRÁCTICO:</span>El horario de la Práctica será coordinado con el instructor</div>
+
+<div class="checkout-info m-a mt-20 max-w-95p">
+    <b>DOMICILIO: </b>
+    <div class="ta-c">Colón 388, entre Roca y Belgrano, Neuquén. Instituto FAENA, Piso 3.</div>
+</div>
+
+<div class="mt-20 ta-c checkout-info"><b>SUS DATOS</b></div>
+<div class="mt-5 ta-c checkout-info"><b>Nombre: </b><%= name %></div>
+<div class="mt-5 ta-c checkout-info"><b>CUIT: </b><%= cuit %></div>
+<div class="mt-5 ta-c checkout-info"><b>Email: </b><%= email %></div>
+<div class="mt-5 ta-c checkout-info"><b>Teléfono: </b><%= phoneNumber %></div>
+
+<form action="/inscriptions/save-inscription" method="POST">
+    <div class="buttons-column mt-25 mb-25">
+        <button type="submit" id="continueButton" class="btn-std w-400 max-w-90p pad-11-0">
+            CONFIRMAR INSCRIPCIÓN
+        </button>
+
+        <button type="button" id="backButton" class="btn-std w-400 max-w-90p pad-11-0" onclick="history.back()">
+            ATRÁS
+        </button>
+    </div>
+</form>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-m"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

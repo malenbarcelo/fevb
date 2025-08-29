@@ -8,19 +8,17 @@ const coursesController = {
 
             const { id_courses } = req.query
 
-            console.log(id_courses)
+            const idCourses = id_courses ? id_courses : req.session.coursesData[0].id // from backend I cant get req.session
 
             const weeksToShow = df.weeksToShow()
             const mapWeekToShow = weeksToShow.map( wts => wts.year + '_' + wts.week_number)
             const stringWeeksToShow = mapWeekToShow.map( mwts => '"' + mwts + '"')
-            let filters = 'id_courses=' + id_courses
+            let filters = 'id_courses=' + idCourses
             filters += '&year_week=[' + stringWeeksToShow + ']'
             filters += '&enabled=1'
             filters += '&order=[["id_courses","ASC"],["week_number","ASC"],["day_number","ASC"]]'
             const schedule = await (await fetch(`${domain}get/courses/schedule?${filters}`)).json()
             const commissions = [...new Set(schedule.map(c => c.commission_number))]
-
-            console.log(`${domain}get/courses/schedule?${filters}`)
             
             // standarize data
             const scheduleOptions = []
@@ -47,6 +45,7 @@ const coursesController = {
                         scheduleOptions.push({
                             id: idCounter++,
                             week_number: w.week_number,
+                            year: w.year,
                             commission_number: c,
                             shifts,
                             daysShifts:daysShifts

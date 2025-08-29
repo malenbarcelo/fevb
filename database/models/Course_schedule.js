@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      course_name:{
+      course_description:{
          type: DataTypes.STRING,
          allowNull: false,
       },

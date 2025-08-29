@@ -7,6 +7,12 @@
 .mt-15-{
     margin-top: -15px;
 }
+.mt-10-{
+    margin-top: -10px;
+}
+.mt-5-{
+    margin-top: -5px;
+}
 .mt-5{
     margin-top:5px
 }
@@ -72,6 +78,9 @@
 }
 
 /* margin bottom */
+.mb-15-{
+    margin-bottom: -15px;
+}
 .mb-5{
     margin-bottom:5px
 }

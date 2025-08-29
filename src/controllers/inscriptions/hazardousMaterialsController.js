@@ -20,8 +20,9 @@ const hazardousMaterialsController = {
             const keys = Object.keys(data)
             const idCourses = keys.includes('check_cde') ? 1 : 2
             const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${idCourses}]&order=[["id","DESC"]]`)).json()
+            const courseData = await (await fetch(`${domain}get/courses?id=[${idCourses}]&enabled=1`)).json()
             
-            req.session.idCourses = idCourses
+            req.session.coursesData = courseData
             req.session.price = parseFloat(price[0].price)
 
             // redirect

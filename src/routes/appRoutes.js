@@ -15,9 +15,17 @@ router.post('/main/attendance',mainController.attendance)
 ///// inscriptions
 router.get('/inscriptions',inscriptionsController.mainMenu)
 router.post('/inscriptions/set-course-type',inscriptionsController.setCourseType)
+router.get('/inscriptions/select-course',inscriptionsController.selectCourse)
+router.post('/inscriptions/set-course',inscriptionsController.setCourse)
 router.get('/inscriptions/hazardous-materials/sworn-declaration',hazardousMaterialsController.hmSwornDeclaration)
 router.post('/inscriptions/hazardous-materials/set-sworn-declaration',hazardousMaterialsController.setSwornDeclaration)
 router.get('/inscriptions/schedule',inscriptionsController.schedule)
+router.post('/inscriptions/set-schedule',inscriptionsController.setSchedule)
+router.get('/inscriptions/personal-data',inscriptionsController.personalData)
+router.post('/inscriptions/set-personal-data',inscriptionsController.setPersonalData)
+router.get('/inscriptions/checkout',inscriptionsController.checkout)
+router.post('/inscriptions/save-inscription',inscriptionsController.saveInscription)
+
 
 
 ///// professional licences

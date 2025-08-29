@@ -24,3 +24,8 @@
 .ta-c{
     text-align: center;
 }
+
+/*--- underline ---*/
+.txt-u{
+    text-decoration: underline;
+}
