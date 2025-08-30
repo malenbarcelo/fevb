@@ -18,7 +18,7 @@
 
 <div class="mt-20 ta-c checkout-info"><b>HORARIOS</b></div>
 
-<div class="m-a mt-10 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= daysDescription %> </div>
+<div class="m-a mt-10 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= scheduleDescription %> </div>
 <div class="m-a mt-10 ta-c checkout-info max-w-95p"><span class="txt-u">PRÁCTICO:</span>El horario de la Práctica será coordinado con el instructor</div>
 
 <div class="checkout-info m-a mt-20 max-w-95p">
@@ -48,6 +48,9 @@
 <div class="loader ld-std" id="loader">
     <div class="ld-content lt-m"></div>
 </div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/inscriptions/checkout.js?v=<%= Date.now() %>"></script>
 
 
 

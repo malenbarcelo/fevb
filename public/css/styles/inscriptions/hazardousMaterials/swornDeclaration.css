@@ -1,8 +1,8 @@
 .sd-declarations{
-    margin-top: 50px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
+    row-gap: 20px;
     font-size: 15px;
     align-items: center;
 }
@@ -25,4 +25,11 @@
 
 .sd-declaration input[type="checkbox"] {
   pointer-events: none;
+}
+
+@media (max-width:730px){
+    .sd-declarations{
+        margin-top: 30px;
+        font-size: 14px;
+    }
 }

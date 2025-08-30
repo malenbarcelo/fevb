@@ -8,7 +8,7 @@
 <form action="/inscriptions/set-course-type" method="POST">
     <div class="flex flex-c rg-20 ai-c mt-50">
         <% coursesTypes.forEach(ct => { %>
-            <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-90p pad-17-0"><%= ct.type %></button> 
+            <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-80p pad-17-0"><%= ct.type %></button> 
         <% }) %>
     </div>
 </form>

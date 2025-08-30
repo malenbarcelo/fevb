@@ -1,5 +1,8 @@
 const domain = require("../../data/domain")
 const studentsQueries = require("../../dbQueries/courses/studentsQueries")
+const studentsAttendanceQueries = require("../../dbQueries/courses/studentsAttendanceQueries")
+const {transporterData, sendMail} = require("../../functions/mailFunctions")
+const {postData,getDataToPost} = require("../../functions/postGSdata")
 
 const inscriptionsController = {
     mainMenu: async(req,res) => {
@@ -75,7 +78,7 @@ const inscriptionsController = {
             }else{
                 redirection = '/inscriptions/schedule'
                 const courseData = await (await fetch(`${domain}get/courses?alias=${alias}`)).json()
-                const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${coursesData[0].id}]&order=[["id","DESC"]]`)).json()
+                const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${courseData[0].id}]&order=[["id","DESC"]]`)).json()
                 req.session.coursesData = courseData
                 req.session.price = parseFloat(price[0].price)
             }
@@ -115,7 +118,9 @@ const inscriptionsController = {
             const selectedOption = scheduleOptions.find( s => s.id == data.selectDate)
 
             req.session.schedule = selectedOption
-
+            req.session.scheduleDescription = selectedOption.daysShifts
+                                                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shifts[0].shift_description)
+                                                .join(' Y ')
             // redirect
             return res.redirect('/inscriptions/personal-data')
 
@@ -161,20 +166,15 @@ const inscriptionsController = {
     checkout: async(req,res) => {
         try{
 
-            const days = req.session.schedule.daysShifts
-
-            const daysDescription = days
-                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shifts[0].shift_description)
-                .join(' Y ')
-
             const courseName = req.session.coursesData[0].course_name
             const price = req.session.price
             const name = req.session.name
             const cuit = req.session.cuit
             const email = req.session.email
-            const phoneNumber = req.session.phone_number            
+            const phoneNumber = req.session.phone_number
+            const scheduleDescription = req.session.scheduleDescription            
 
-            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, daysDescription, courseName, name, cuit, email, phoneNumber})
+            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuit, email, phoneNumber})
 
         }catch(error){
             console.log(error)
@@ -203,94 +203,41 @@ const inscriptionsController = {
             // save students
             const createdData = await studentsQueries.create(studentsData)
 
-            // // get data for save pl_students_types_categories
-            // const selection = data.selection.map(item => ({
-            //     ...item,
-            //     id_students: createdData[0].id
-            // }))
+            // save data in students_attendance
+            const shifts = data.schedule.shifts.map(item => ({
+                id_students: createdData[0].id,
+                year: item.year,
+                week_number: item.week_number,
+                year_week: item.year_week,
+                date_string: item.date_string,
+                day_number: item.day_number,
+                shift_alias: item.shift_alias,
+                attended: 0
+            }))
 
-            // // save pl_students_types_categories
-            // await studentsTypesCategoriesQueries.create(selection)
+            // save students attendance
+            await studentsAttendanceQueries.create(shifts)
 
-            // // get data for pl_students_attendance
-            // const attendance = []
-            // data.schedule.option.forEach(o => {
-            //     if (o.shift_M == 1) {
-            //         attendance.push({
-            //             id_students:createdData[0].id,
-            //             week_number: o.week_number,
-            //             year: o.year,
-            //             date_string: o.date_string,
-            //             day_number: o.day_number,
-            //             shift: o.shift[0] + 'M',
-            //             attended: 0
-            //         })
-            //     }
-            //     if (o.shift_T == 1) {
-            //         attendance.push({
-            //             id_students:createdData[0].id,
-            //             week_number: o.week_number,
-            //             year: o.year,
-            //             date_string: o.date_string,
-            //             day_number: o.day_number,
-            //             shift: o.shift[0] + 'T',
-            //             attended: 0
-            //         })
-            //     }
-            // })
+            // send email
+            const mailData = {
+                name: data.name,
+                email: data.email,
+                cuit: data.cuit,
+                price: String(data.price.toLocaleString('es-AR',{minimumFractionDigits: 0,maximumFractionDigits: 0})),
+                scheduleDescription: data.scheduleDescription,
+                selection: data.coursesData
+            }
 
-            // // add CIU data if applies
-            // if (data.schedule.ciu) {
-            //     data.schedule.ciu_date.forEach(d => {
-            //         if (d.shift_M == 1) {
-            //             attendance.push({
-            //                 id_students:createdData[0].id,
-            //                 week_number: d.week_number,
-            //                 year: d.year,
-            //                 date_string: d.date_string,
-            //                 day_number: d.day_number,
-            //                 shift: d.shift[0] + 'M',
-            //                 attended: 0
-            //             })
-            //         }
-            //         if (d.shift_T == 1) {
-            //             attendance.push({
-            //                 id_students:createdData[0].id,
-            //                 week_number: d.week_number,
-            //                 year: d.year,
-            //                 date_string: d.date_string,
-            //                 day_number: d.day_number,
-            //                 shift: d.shift[0] + 'T',
-            //                 attended: 0
-            //             })
-            //         }
-            //     })
-            // }
+            const td = await transporterData()
+            await sendMail(td,mailData)
 
-            // // save pl_students_attendance
-            // await studentsAttendanceQueries.create(attendance)
+            // post data to google sheets
+            const dataToPost = getDataToPost(createdData[0], data)
+            await postData(dataToPost)
 
-            // // send email
-            // const selectionData = await getSchedule(req.session)
-            // const mailData = {
-            //     name: req.session.name,
-            //     email: req.session.email,
-            //     cuit: req.session.cuit,
-            //     price: String(req.session.price.toLocaleString('es-AR',{minimumFractionDigits: 0,maximumFractionDigits: 0})),
-            //     schedule: req.session.scheduleFullDescription,
-            //     selection: selectionData.selection
-            // }
+            req.session.destroy()
 
-            // const td = await transporterData()
-            // await sendMail(td,mailData)
-
-            // // post data to google sheets
-            // const dataToPost = getDataToPost(createdData[0], data)
-            // await postData(dataToPost)
-
-            // req.session.destroy()
-
-            // return res.render('professionalLicences/confirmation',{title:'FEVB - Inscripciones'})
+            return res.render('inscriptions/confirmation',{title:'FEVB - Inscripciones'})
 
         }catch(error){
             console.log(error)

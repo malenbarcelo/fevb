@@ -1,11 +1,11 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="main-title">HABILITACIÓN CARGAS PELIGROSAS</div>
+<div class="main-title">OBTENCIÓN CARGAS PELIGROSAS</div>
 
 <div class="fs-17 fw-b ta-c">DECLARACIÓN JURADA</div>
 
-<div class="general-error mt-25 mb-15-" id="error">
+<div class="general-error m-a mt-25" id="error">
     <i class="fa-solid fa-triangle-exclamation"></i>
     Para inscribirse a la Habilitación de Cargas Peligrosas debe poseer licencia tipo B con antigüedad mayor a un año
 </div>
@@ -13,12 +13,12 @@
 <form action="/inscriptions/hazardous-materials/set-sworn-declaration" method="POST">
 
     <div class="sd-declarations">
-        <div class="sd-declaration" id="divCde">
+        <div class="sd-declaration max-w-85p" id="divCde">
             <input type="checkbox" class="sd-ckeck" name="check_cde" id="checkCde">
             <label for="check_cde" class="sd-text">Declaro poseer algún tipo de <b><i>LICENCIA PROFESIONAL</i></b> (Tipo C, D y/o E).</label>
         </div>
 
-        <div class="sd-declaration" id="divB">
+        <div class="sd-declaration max-w-85p" id="divB">
             <input type="checkbox" class="sd-ckeck" name="check_b" id="checkB">
             <label for="check_b" class="sd-text">Declaro poseer <b><i>LICENCIA NACIONAL DE CONDUCIR</i></b> (Tipo B) vigente con antigüedad mayor a un año.</label>
         </div>

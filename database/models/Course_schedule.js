@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      day_shift:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       shift_description:{
          type: DataTypes.STRING,
          allowNull: false,

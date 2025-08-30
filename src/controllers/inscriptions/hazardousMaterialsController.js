@@ -4,7 +4,6 @@ const hazardousMaterialsController = {
 
     hmSwornDeclaration: (req,res) => {
         try{
-
             return res.render('inscriptions/hmSwornDeclaration',{title:'FEVB - Inscripciones'})
 
         }catch(error){
