@@ -22,7 +22,7 @@ const inscriptionsController = {
         try{
 
             const urls = [
-                {idCoursesTypes: 1,url: '/inscriptions/professional-licences/select-type'},
+                {idCoursesTypes: 1,url: '/professional-licences/inscriptions'},
                 {idCoursesTypes: 2,url: '/inscriptions/select-course'},
                 {idCoursesTypes: 3,url: '/inscriptions/select-course'},                
             ]
