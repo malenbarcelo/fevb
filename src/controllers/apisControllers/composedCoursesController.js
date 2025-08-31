@@ -1,6 +1,7 @@
 
 const df = require("../../functions/datesFuntions")
 const domain = require("../../data/domain")
+const fetch = require('node-fetch')
 
 const coursesController = {
     getScheduleOptions: async(req,res) =>{
