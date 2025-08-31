@@ -3,6 +3,7 @@ const studentsQueries = require("../../dbQueries/courses/studentsQueries")
 const studentsAttendanceQueries = require("../../dbQueries/courses/studentsAttendanceQueries")
 const {transporterData, sendMail} = require("../../functions/mailFunctions")
 const {postData,getDataToPost} = require("../../functions/postGSdata")
+const fetch = require('node-fetch')
 
 const inscriptionsController = {
     mainMenu: async(req,res) => {

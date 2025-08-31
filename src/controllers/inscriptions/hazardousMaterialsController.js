@@ -1,4 +1,5 @@
 const domain = require("../../data/domain")
+const fetch = require('node-fetch')
 
 const hazardousMaterialsController = {
 
