@@ -24,8 +24,8 @@ const inscriptionsController = {
 
             const urls = [
                 {idCoursesTypes: 1,url: '/professional-licences/inscriptions'},
-                {idCoursesTypes: 2,url: '/inscriptions/select-course'},
-                {idCoursesTypes: 3,url: '/inscriptions/select-course'},                
+                {idCoursesTypes: 2,url: '/inscripciones/cursos'},
+                {idCoursesTypes: 3,url: '/inscripciones/cursos'},                
             ]
 
             const data = req.body
@@ -75,9 +75,9 @@ const inscriptionsController = {
             // define redirectio according to course type
             let redirection = ''            
             if (alias == 'cargas_peligrosas_obtencion') {
-                redirection = '/inscriptions/hazardous-materials/sworn-declaration'
+                redirection = '/inscripciones/cargas-peligrosas/declaracion-jurada'
             }else{
-                redirection = '/inscriptions/schedule'
+                redirection = '/inscripciones/cronograma'
                 const courseData = await (await fetch(`${domain}get/courses?alias=${alias}`)).json()
                 const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${courseData[0].id}]&order=[["id","DESC"]]`)).json()
                 req.session.coursesData = courseData
@@ -123,7 +123,7 @@ const inscriptionsController = {
                                                 .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shifts[0].shift_description)
                                                 .join(' Y ')
             // redirect
-            return res.redirect('/inscriptions/personal-data')
+            return res.redirect('/inscripciones/datos-personales')
 
         }catch(error){
             console.log(error)
@@ -156,7 +156,7 @@ const inscriptionsController = {
             req.session.phone_number = data.phone            
             
             // redirect
-            return res.redirect('/inscriptions/checkout')
+            return res.redirect('/inscripciones/confirmar-inscripcion')
 
         }catch(error){
             console.log(error)

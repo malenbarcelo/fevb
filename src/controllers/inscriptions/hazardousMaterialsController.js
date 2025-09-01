@@ -26,7 +26,7 @@ const hazardousMaterialsController = {
             req.session.price = parseFloat(price[0].price)
 
             // redirect
-            return res.redirect('/inscriptions/schedule')
+            return res.redirect('/inscripciones/cronograma')
 
         }catch(error){
             console.log(error)

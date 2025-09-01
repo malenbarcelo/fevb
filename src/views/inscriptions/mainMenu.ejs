@@ -5,7 +5,7 @@
 
 <div class="subtitle">Seleccione un tipo de curso para comenzar</div>
 
-<form action="/inscriptions/set-course-type" method="POST">
+<form action="/inscripciones/tipos-de-cursos" method="POST">
     <div class="flex flex-c rg-20 ai-c mt-50">
         <% coursesTypes.forEach(ct => { %>
             <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-80p pad-17-0"><%= ct.type %></button> 

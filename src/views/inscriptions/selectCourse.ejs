@@ -5,7 +5,7 @@
 
 <div class="subtitle">Seleccione un curso</div>
 
-<form action="/inscriptions/set-course" method="POST">
+<form action="/inscripciones/cursos" method="POST">
     <div class="flex flex-c rg-20 ai-c mt-50">
         <% coursesToShow.forEach(c => { %>
             <button type="submit" name="courseButton" value="<%= c.alias %>" class="btn-std fs-16 w-600 max-w-90p pad-17-0"><%= c.courseName.toUpperCase() %></button> 
