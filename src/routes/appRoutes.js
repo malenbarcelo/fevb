@@ -4,6 +4,8 @@ const inscriptionsController = require('../controllers/inscriptions/inscriptions
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/professionalLicencesController.js')
 
+const profLicencesController = require('../controllers/professionalLicencesController.js')
+
 const router = express.Router()
 
 ///// main
@@ -15,8 +17,15 @@ router.post('/main/attendance',mainController.attendance)
 ///// inscriptions
 router.get('/inscripciones',inscriptionsController.mainMenu)
 router.post('/inscripciones/tipos-de-cursos',inscriptionsController.setCourseType)
+router.get('/inscripciones/manejo-defensivo/cursos',inscriptionsController.selectCourse)
+router.get('/inscripciones/mercancias-peligrosas/cursos',inscriptionsController.selectCourse)
 router.get('/inscripciones/cursos',inscriptionsController.selectCourse)
 router.post('/inscripciones/cursos',inscriptionsController.setCourse)
+// router.get('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.types)
+// router.post('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.setTypes)
+// router.get('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.courses)
+//router.post('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.setCourses)
+
 router.get('/inscripciones/cargas-peligrosas/declaracion-jurada',hazardousMaterialsController.hmSwornDeclaration)
 router.post('/inscripciones/cargas-peligrosas/declaracion-jurada',hazardousMaterialsController.setSwornDeclaration)
 router.get('/inscripciones/cronograma',inscriptionsController.schedule)
@@ -29,16 +38,16 @@ router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveIn
 
 
 ///// professional licences
-router.get('/professional-licences/inscriptions',professionalLicencesController.mainMenu)
-router.post('/professional-licences/set-type',professionalLicencesController.setType)
-router.get('/professional-licences/categories',professionalLicencesController.categories)
-router.post('/professional-licences/set-categories',professionalLicencesController.setCategories)
-router.get('/professional-licences/classes',professionalLicencesController.classes)
-router.post('/professional-licences/set-schedule',professionalLicencesController.setSchedule)
-router.get('/professional-licences/personal-data',professionalLicencesController.personalData)
-router.post('/professional-licences/set-personal-data',professionalLicencesController.setPersonalData)
-router.get('/professional-licences/checkout',professionalLicencesController.checkout)
-router.post('/professional-licences/save-inscription',professionalLicencesController.saveInscription)
+router.get('/professional-licences/inscriptions',profLicencesController.mainMenu)
+router.post('/professional-licences/set-type',profLicencesController.setType)
+router.get('/professional-licences/categories',profLicencesController.categories)
+router.post('/professional-licences/set-categories',profLicencesController.setCategories)
+router.get('/professional-licences/classes',profLicencesController.classes)
+router.post('/professional-licences/set-schedule',profLicencesController.setSchedule)
+router.get('/professional-licences/personal-data',profLicencesController.personalData)
+router.post('/professional-licences/set-personal-data',profLicencesController.setPersonalData)
+router.get('/professional-licences/checkout',profLicencesController.checkout)
+router.post('/professional-licences/save-inscription',profLicencesController.saveInscription)
 
 
 

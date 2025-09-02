@@ -7,12 +7,16 @@ const getCoursesController = {
     types: async(req,res) =>{
         try{
 
-            const { id, enabled, order } = req.query
+            const { id, alias, enabled, order } = req.query
             const filters = {}
             
             // add filters
             if (id) {
                 filters.id = JSON.parse(id)
+            }
+
+            if (alias) {
+                filters.alias = JSON.parse(alias)
             }
 
             if (enabled) {
@@ -36,7 +40,7 @@ const getCoursesController = {
     courses: async(req,res) =>{
         try{
 
-            const { id, id_courses_types, alias, enabled, order } = req.query
+            const { id, id_courses_types, alias, type_alias, enabled, order } = req.query
             
             const filters = {}
             
@@ -51,6 +55,10 @@ const getCoursesController = {
 
             if (alias) {
                 filters.alias = alias
+            }
+
+            if (type_alias) {
+                filters.type_alias = JSON.parse(type_alias)
             }
 
             if (enabled) {

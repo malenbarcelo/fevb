@@ -25,6 +25,22 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      type:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      type_alias:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      type_action:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      category:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

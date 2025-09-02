@@ -51,6 +51,7 @@ function getDataToPost(createdData,sessionData) {
       createdData.year_week,
       createdData.price,
       sessionData.courseType.alias,
+      sessionData.coursesData[0].course_name,
       `'${sessionData.schedule.daysShifts[0].day} ${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year} - ${sessionData.courseType.alias}`,
       `'${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}`,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LM') ? 1 : 0,

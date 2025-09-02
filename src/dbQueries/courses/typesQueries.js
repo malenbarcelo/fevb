@@ -17,6 +17,10 @@ const typesQueries = {
             where.id = filters.id
         }
 
+        if (filters.alias) {
+            where.alias = filters.alias
+        }
+
         if (filters.enabled) {
             where.enabled = filters.enabled
         }

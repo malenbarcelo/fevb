@@ -25,6 +25,10 @@ const coursesQueries = {
             where.alias = filters.alias
         }
 
+        if (filters.type_alias) {
+            where.type_alias = filters.type_alias
+        }
+
         if (filters.enabled) {
             where.enabled = filters.enabled
         }
