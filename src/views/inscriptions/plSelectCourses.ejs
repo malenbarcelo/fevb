@@ -17,10 +17,10 @@
     <% courses.forEach(course => { %>
         <div class="cat-type">
             <div class="cat-title"><%= course.type_action + ' Licencia Profesional' %></div>
-            <div class="cat-description">Seleccione las categorías que desea <b><i><%= '' + course.type_action.toUpperCase() %></i></div>
+            <div class="cat-description">Seleccione las categorías que desea <b><i><%= '' + course.type_action.toUpperCase() %></i></b></div>
             <div  class="cat-categories">
                 <% course.courses.forEach(c => { %>
-                <div class="cat-category" id="<%= c.id %>">
+                <div class="cat-category" id="<%= 'cat_' + c.id %>">
                     <input type="checkbox" name="<%= 'check_' + c.id %>" id="<%= 'check_' + c.id %>">
                     <div><%= c.category %></div>
                 </div>
@@ -106,7 +106,7 @@
 </div>
 
 <!----------SCRIPTS---------->
-<script type="module" src="/js/professionalLicences/categories.js?v=<%= Date.now() %>"></script>
+<script type="module" src="/js/inscriptions/plCategories.js?v=<%= Date.now() %>"></script>
 
 <!-- loader -->
 <div class="loader ld-std" id="loader">

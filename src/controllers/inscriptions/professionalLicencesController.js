@@ -1,10 +1,17 @@
 const domain = require("../../data/domain")
 const fetch = require('node-fetch')
+const plCategoriesQueries = require("../../dbQueries/courses/plCategoriesQueries")
 
 const professionalLicencesController = {
 
-    types: (req,res) => {
+    types: async(req,res) => {
         try{
+
+            // define course type
+            const alias = ['LP']
+            const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
+            req.session.courseType = courseType[0]
+
             return res.render('inscriptions/plTypes',{title:'FEVB - Inscripciones'})
 
         }catch(error){
@@ -47,9 +54,9 @@ const professionalLicencesController = {
                 })                
             })
 
-            console.log(courses)
+            const categories = await plCategoriesQueries.get({filters:{enabled:1}})
 
-            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses})
+            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories})
 
         }catch(error){
             console.log(error)

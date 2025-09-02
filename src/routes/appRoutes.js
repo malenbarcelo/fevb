@@ -2,7 +2,7 @@ const express = require('express')
 const mainController = require('../controllers/mainController.js')
 const inscriptionsController = require('../controllers/inscriptions/inscriptionsController.js')
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
-const professionalLicencesController = require('../controllers/professionalLicencesController.js')
+const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
 
 const profLicencesController = require('../controllers/professionalLicencesController.js')
 
@@ -21,9 +21,11 @@ router.get('/inscripciones/manejo-defensivo',inscriptionsController.selectCourse
 router.get('/inscripciones/mercancias-peligrosas',inscriptionsController.selectCourse)
 router.get('/inscripciones/cursos',inscriptionsController.selectCourse)
 router.post('/inscripciones/cursos',inscriptionsController.setCourse)
-// router.get('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.types)
-// router.post('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.setTypes)
-// router.get('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.courses)
+
+
+router.get('/inscripciones/licencias-profesionales',professionalLicencesController.types)
+router.post('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.setTypes)
+router.get('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.courses)
 //router.post('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.setCourses)
 
 router.get('/inscripciones/cargas-peligrosas/declaracion-jurada',hazardousMaterialsController.hmSwornDeclaration)

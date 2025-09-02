@@ -2,6 +2,7 @@ const typesQueries = require("../../dbQueries/courses/typesQueries")
 const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const scheduleQueries = require("../../dbQueries/courses/scheduleQueries")
 const pricesQueries = require("../../dbQueries/courses/pricesQueries")
+const plAdditionalPerCategoryQueries = require("../../dbQueries/courses/plAdditionalPerCategoryQueries")
 
 const getCoursesController = {
     types: async(req,res) =>{
@@ -133,7 +134,20 @@ const getCoursesController = {
             console.log(error)
             return res.send('Ha ocurrido un error')
         }
-    }
+    },
+    addionalPerCategory: async(req,res) =>{
+        try{
+
+            //get data
+            const data = await plAdditionalPerCategoryQueries.get()
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
 }
 module.exports = getCoursesController
 
