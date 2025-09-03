@@ -3,6 +3,13 @@
 
 <div class="main-title"><%= title.toUpperCase() %></div>
 
+<div class="<%= selectionSummary.length > 0 ? 'mt-5- mb-20' : '' %>">
+    <% selectionSummary.forEach(s => { %>
+        <div class="ta-c mb-5"><b><%= s.description.toUpperCase() %></b></div>     
+    <% }) %>
+</div>
+
+
 <div class="sch-price"><b><%= 'PRECIO (ARS): ' %></b><%= price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
 
 <div class="fs-16 fw-b ta-c mt-35">HORARIOS DISPONIBLES</div>

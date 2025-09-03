@@ -53,6 +53,7 @@ const inscriptionsController = {
             const alias = url.includes('manejo-defensivo') ? ['MD'] : ['CP']
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
+            req.session.types = [] // only if professional licences
 
             // get data
             const title = req.session.courseType.type
@@ -73,23 +74,46 @@ const inscriptionsController = {
         }
     },
 
-    setCourse: async(req,res) => {
+    setCourses: async(req,res) => {
         try{
 
             const data = req.body
             const alias = data.courseButton
+            const summary = [] // only if professional licences
+            let redirection = ''
 
-            // define redirectio according to course type
-            let redirection = ''            
-            if (alias == 'cargas_peligrosas_obtencion') {
-                redirection = '/inscripciones/cargas-peligrosas/declaracion-jurada'
+            if (alias) {
+                // define redirectio according to course type
+                if (alias == 'cargas_peligrosas_obtencion') {
+                    redirection = '/inscripciones/cargas-peligrosas/declaracion-jurada'
+                }else{
+                    redirection = '/inscripciones/cronograma'
+                    const courseData = await (await fetch(`${domain}get/courses?alias=${alias}`)).json()
+                    const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${courseData[0].id}]&order=[["id","DESC"]]`)).json()
+                    req.session.coursesData = courseData
+                    req.session.price = parseFloat(price[0].price)
+                }   
             }else{
                 redirection = '/inscripciones/cronograma'
-                const courseData = await (await fetch(`${domain}get/courses?alias=${alias}`)).json()
-                const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${courseData[0].id}]&order=[["id","DESC"]]`)).json()
-                req.session.coursesData = courseData
-                req.session.price = parseFloat(price[0].price)
+                const keys = (Object.keys(data)).filter( key => key.split('_')[0] == 'check')
+                const coursesIds = keys.map(key => parseInt(key.split('_')[1]))
+                const coursesData = await (await fetch(`${domain}get/courses?id=${JSON.stringify(coursesIds)}`)).json()
+
+                req.session.types.forEach(type => {
+                    const courses = coursesData.filter( c => c.type_alias == type)
+                    const categories = courses.map( item => item.category)
+                    const typeName = courses[0].type
+                    summary.push({
+                        typeAlias: type,
+                        categories: categories,
+                        description: typeName + ': ' + categories.join(', ')
+                    })                    
+                })
+                req.session.coursesData = coursesData
+                req.session.price = parseFloat(data.totalPriceInput)
             }
+
+            req.session.selectionSummary = summary
 
             // redirect
             return res.redirect(redirection)
@@ -106,10 +130,13 @@ const inscriptionsController = {
             // get data
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
+            const selectionSummary = req.session.selectionSummary // only if professional licences
 
             const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${req.session.coursesData[0].id}`)).json()
+
+            console.log(selectionSummary)
             
-            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price})
+            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

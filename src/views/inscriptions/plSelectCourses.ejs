@@ -3,20 +3,20 @@
 
 <div class="main-title">LICENCIA PROFESIONAL DE CONDUCIR</div>
 
-<div class="general-error mt-15- mb-20" id="catError">
+<div class="general-error m-a ta-c mt-15- mb-20" id="catError">
     <i class="fa-solid fa-triangle-exclamation"></i>
     Debe seleccionar al menos una categoría para cada trámite
 </div>
 
 <div class="cat-price" id="totalPrice"><b>PRECIO TOTAL: </b> ARS 0.00</div>
 
-<form action="/inscripciones/licencias-profesionales/cursos" method="POST">
+<form action="/inscripciones/cursos" method="POST">
 
     <div class="ta-c"><input type="hidden" name="totalPriceInput" id="totalPriceInput"></div>
 
     <% courses.forEach(course => { %>
         <div class="cat-type">
-            <div class="cat-title"><%= course.type_action + ' Licencia Profesional' %></div>
+            <div class="cat-title"><%= (course.type_action + ' Licencia Profesional').toUpperCase() %></div>
             <div class="cat-description">Seleccione las categorías que desea <b><i><%= '' + course.type_action.toUpperCase() %></i></b></div>
             <div  class="cat-categories">
                 <% course.courses.forEach(c => { %>
@@ -55,9 +55,9 @@
 
             <div class="pp-title pp-tt-m mb-30" id="sdppTitle">DECLARACIÓN JURADA</div>
 
-            <div class="general-error mt-15- mb-20" id="sdppError">
+            <div class="general-error m-a ta-c mt-15- mb-20" id="sdppError">
                 <i class="fa-solid fa-triangle-exclamation"></i>
-                Debe tildar las dos declaraciiones jurada para continuar
+                Debe tildar las dos declaraciones jurada para continuar
             </div>
 
             <div class="cat-sd-div" id="sdppDeclaration_1">
@@ -106,7 +106,7 @@
 </div>
 
 <!----------SCRIPTS---------->
-<script type="module" src="/js/inscriptions/plCategories.js?v=<%= Date.now() %>"></script>
+<script type="module" src="/js/inscriptions/plSelectCourses.js?v=<%= Date.now() %>"></script>
 
 <!-- loader -->
 <div class="loader ld-std" id="loader">

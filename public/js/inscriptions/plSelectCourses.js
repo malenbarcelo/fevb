@@ -19,6 +19,10 @@ window.addEventListener('load',async()=>{
     const session = await (await fetch(`${domain}composed/inscriptions/get-session`)).json()
     const idCoursesTypes = session.courseType.id
     const courses = await (await fetch(`${domain}get/courses?id_courses_types=[${idCoursesTypes}]`)).json()
+    let selectedCoursesIds = []
+    let selectedCategories = []
+    let selectedTypeAlias = []
+    let price = 0
 
     // close popups
     gf.closePopups([cipp,sdpp])
@@ -59,31 +63,34 @@ window.addEventListener('load',async()=>{
                 check.checked = false
             })
 
-            // get price
+            // get selection
             const selectedChecks = allChecks.filter( chck => chck.checked)
-            const selectedCoursesIds = selectedChecks.map( sc => sc.id.split('_')[1]).map( sci => parseInt(sci))
+            selectedCoursesIds = selectedChecks.map( sc => sc.id.split('_')[1]).map( sci => parseInt(sci))
             const selectedCourses = courses.filter( c => selectedCoursesIds.includes(c.id))
-            const selectedCategories = [...new Set(selectedCourses.map(sc => sc.category[0]))]
+            selectedCategories = [...new Set(selectedCourses.map(sc => sc.category[0]))]
+            selectedTypeAlias = [...new Set(selectedCourses.map(sc => sc.type_alias))]            
             const selectedPrices = prices.filter( p => selectedCoursesIds.includes(p.id_courses))
             const maxPrice = Math.max(...selectedPrices.map(s => parseFloat(s.price)))
             const categoriesQty = selectedCategories.length
-            const price = selectedCategories.length == 0 ? 0 : maxPrice + ( categoriesQty - 1) * parseFloat(additional.additional)
+            
+            // get price
+            price = selectedCategories.length == 0 ? 0 : maxPrice + ( categoriesQty - 1) * parseFloat(additional.additional)
             totalPrice.innerHTML = '<b>Precio total: </b> ARS ' + gg.formatter.format(price)
             totalPriceInput.value = price
         })
     })
 
     // add styles if session
-    if (session.selection) {
-        allCats.forEach(element => {
-            const typeId = element.id.split('_')[1]
-            const categoryId = element.id.split('_')[2]            
-            const check = document.getElementById('cat_' + typeId + '_' + categoryId)
-            const selectedElement = session.selection.find( s => s.id_types == typeId && s.id_categories == categoryId)
-            if (selectedElement) {
-                element.click()               
-            }
-        })
+    if (session.coursesData) {
+        // allElements.forEach(element => {
+        //     const typeId = element.id.split('_')[1]
+        //     const categoryId = element.id.split('_')[2]            
+        //     const check = document.getElementById('cat_' + typeId + '_' + categoryId)
+        //     const selectedElement = session.selection.find( s => s.id_types == typeId && s.id_categories == categoryId)
+        //     if (selectedElement) {
+        //         element.click()               
+        //     }
+        // })
     }
 
     // show categories info
@@ -91,7 +98,7 @@ window.addEventListener('load',async()=>{
         cipp.style.display = 'block'
     })
 
-    // select sword declaration option    
+    // select sworn declaration option    
     sdppDeclaration_1.addEventListener('click',async()=>{
         sdppCheck_1.checked = !sdppCheck_1.checked
         if (sdppCheck_1.checked && sdppCheck_2.checked ) {
@@ -113,27 +120,19 @@ window.addEventListener('load',async()=>{
         loader.style.display = 'block'
 
         // validation
-        types = allChecks.map( chk => chk.id.split('_')[1])
-        types = [...new Set(types)]
-        let selectedTypes = 0
-        
-        types.forEach(t => {
-            const qty = allChecks.filter( chk => chk.checked && chk.id.split('_')[1] == t)
-            if (qty.length > 0) {
-                selectedTypes +=1
-            }
-        })
-        
-        if (selectedTypes != types.length) {
+        const sessionTypes = session.types
+
+        if (sessionTypes.length > selectedTypeAlias.length) {
             catError.style.display = 'flex'
         } else {
             // show declaration
-            if (types.includes('2')) {
-                sdppText.innerHTML = 'Declaro que poseo <b>licencia clase B</b> de más de un año de antiguedad, vigente o vencida hace menos de 90 días y que comenzé el trámite en el sitio <b>lncargentina.seguridadvial.gob.ar</b> con las mismas categorías a las que me inscribo en este acto.'                              
+            if (selectedTypeAlias.includes('O')) {
+                sdppText.innerHTML = 'Declaro que poseo <b>licencia clase B</b> de más de un año de antiguedad, vigente o vencida hace menos de 90 días y que comencé el trámite en el sitio <b>lncargentina.seguridadvial.gob.ar</b> con las mismas categorías a las que me inscribo en este acto.'                              
             }else{
                 sdppText.innerHTML = 'Declaro que poseo <b>licencia profesional</b> vigente o vencida hace menos de 90 días y que comencé el trámite en el sitio <b>lncargentina.seguridadvial.gob.ar</b> con las mismas categorías a las que me inscribo en este acto.'
 
             }
+
             sdppCheck_1.checked = false
             sdppCheck_2.checked = false
             sdppError.style.display = 'none'

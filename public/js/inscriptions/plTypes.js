@@ -63,12 +63,10 @@ window.addEventListener('load',async()=>{
     })
 
     // add styles if session
-    console.log(session)
     if (session.types) {
         allInfo.forEach(element => {
-            const typeId = element.id.split('_')[1]
-            const selectedElement = session.types.find( s => s.id == typeId)
-            const check = document.getElementById('check_' + typeId)
+            const typeAlias = element.id.split('_')[1]
+            const selectedElement = session.types.find( s => s == typeAlias)
             if (selectedElement) {
                 element.click()                
             }

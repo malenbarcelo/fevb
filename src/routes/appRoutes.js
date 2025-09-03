@@ -20,13 +20,10 @@ router.post('/inscripciones/tipos-de-cursos',inscriptionsController.setCourseTyp
 router.get('/inscripciones/manejo-defensivo',inscriptionsController.selectCourse)
 router.get('/inscripciones/mercancias-peligrosas',inscriptionsController.selectCourse)
 router.get('/inscripciones/cursos',inscriptionsController.selectCourse)
-router.post('/inscripciones/cursos',inscriptionsController.setCourse)
-
-
+router.post('/inscripciones/cursos',inscriptionsController.setCourses)
 router.get('/inscripciones/licencias-profesionales',professionalLicencesController.types)
 router.post('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.setTypes)
 router.get('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.courses)
-//router.post('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.setCourses)
 
 router.get('/inscripciones/cargas-peligrosas/declaracion-jurada',hazardousMaterialsController.hmSwornDeclaration)
 router.post('/inscripciones/cargas-peligrosas/declaracion-jurada',hazardousMaterialsController.setSwornDeclaration)
