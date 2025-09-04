@@ -37,10 +37,6 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      shift_description:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
       commission_number:{
          type: DataTypes.INTEGER,
          allowNull: false,

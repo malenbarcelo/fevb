@@ -82,15 +82,15 @@ window.addEventListener('load',async()=>{
 
     // add styles if session
     if (session.coursesData) {
-        // allElements.forEach(element => {
-        //     const typeId = element.id.split('_')[1]
-        //     const categoryId = element.id.split('_')[2]            
-        //     const check = document.getElementById('cat_' + typeId + '_' + categoryId)
-        //     const selectedElement = session.selection.find( s => s.id_types == typeId && s.id_categories == categoryId)
-        //     if (selectedElement) {
-        //         element.click()               
-        //     }
-        // })
+        const coursesIds = session.coursesData.map( c => c.id)
+        const catsToCheck = coursesIds.map( c => 'cat_' + c)
+        catsToCheck.forEach(cat => {
+            const element = document.getElementById(cat)
+            if (element) {
+                element.click()
+            }
+            
+        })
     }
 
     // show categories info

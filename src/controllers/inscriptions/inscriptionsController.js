@@ -130,12 +130,12 @@ const inscriptionsController = {
             // get data
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
+            const idCourses = [...new Set(req.session.coursesData.map( cd => cd.id))]
+            
             const selectionSummary = req.session.selectionSummary // only if professional licences
 
-            const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${req.session.coursesData[0].id}`)).json()
+            const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${JSON.stringify(idCourses)}`)).json()
 
-            console.log(selectionSummary)
-            
             return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary})
         }catch(error){
             console.log(error)
