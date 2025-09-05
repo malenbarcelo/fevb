@@ -84,7 +84,7 @@ const inscriptionsController = {
 
             if (alias) {
                 // define redirectio according to course type
-                if (alias == 'mecancias_peligrosas_obtencion') {
+                if (alias == 'mercancias_peligrosas_obtencion') {
                     redirection = '/inscripciones/mercancias-peligrosas/declaracion-jurada'
                 }else{
                     redirection = '/inscripciones/cronograma'
