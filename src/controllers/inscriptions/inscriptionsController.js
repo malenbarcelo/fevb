@@ -54,15 +54,15 @@ const inscriptionsController = {
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
             req.session.types = [] // only if professional licences
-            req.session.coursesData = []
-            req.session.price = 0
-            req.session.selectionSummary = []
-            req.session.schedule = []
-            req.session.scheduleDescription = ''
-            req.session.name = ''
-            req.session.cuit = ''
-            req.session.email = ''
-            req.session.phone_number = ''
+            req.session.coursesData = null
+            req.session.price = null
+            req.session.selectionSummary = null
+            req.session.schedule = null
+            req.session.scheduleDescription = null
+            req.session.name = null
+            req.session.cuit = null
+            req.session.email = null
+            req.session.phone_number = null
 
             // get data
             const title = req.session.courseType.type
@@ -122,14 +122,10 @@ const inscriptionsController = {
                 req.session.price = parseFloat(data.totalPriceInput)
             }
 
-            req.session.selectionSummary = summary
-
-            console.log(req.session)
-            console.log('holaaa')
-            
+            req.session.selectionSummary = summary            
 
             // redirect
-            return res.redirect(redirection)
+            return res.redirect(`${redirection}?t=${Date.now()}`)
 
         }catch(error){
             console.log(error)
@@ -177,7 +173,7 @@ const inscriptionsController = {
                                                 .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription)
                                                 .join(' Y ')
             // redirect
-            return res.redirect('/inscripciones/datos-personales')
+            return res.redirect(`/inscripciones/datos-personales?t=${Date.now()}`)
 
         }catch(error){
             console.log(error)
@@ -211,8 +207,8 @@ const inscriptionsController = {
             req.session.phone_number = data.phone            
             
             // redirect
-            return res.redirect('/inscripciones/confirmar-inscripcion')
-
+            return res.redirect(`/inscripciones/confirmar-inscripcion?t=${Date.now()}`)
+            
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

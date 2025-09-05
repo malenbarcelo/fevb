@@ -29,7 +29,8 @@ const professionalLicencesController = {
             req.session.types = types
 
             // redirect
-            return res.redirect('/inscripciones/licencias-profesionales/cursos')
+            return res.redirect(`/inscripciones/licencias-profesionales/cursos?t=${Date.now()}`)
+            
 
         }catch(error){
             console.log(error)
