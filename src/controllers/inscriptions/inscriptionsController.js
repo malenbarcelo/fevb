@@ -54,6 +54,15 @@ const inscriptionsController = {
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
             req.session.types = [] // only if professional licences
+            req.session.coursesData = []
+            req.session.price = 0
+            req.session.selectionSummary = []
+            req.session.schedule = []
+            req.session.scheduleDescription = ''
+            req.session.name = ''
+            req.session.cuit = ''
+            req.session.email = ''
+            req.session.phone_number = ''
 
             // get data
             const title = req.session.courseType.type
@@ -260,8 +269,6 @@ const inscriptionsController = {
             // save students attendance
             await studentsAttendanceQueries.create(shifts)
 
-            console.log(data.selectionSummary)
-
             // selection
             let htmlSelection = ''
             if (data.courseType.alias == 'LP') {
@@ -291,6 +298,8 @@ const inscriptionsController = {
             // post data to google sheets
             const dataToPost = getDataToPost(createdData[0], data)
             await postData(dataToPost)
+
+            console.log(req.session)
 
             req.session.destroy()
 
