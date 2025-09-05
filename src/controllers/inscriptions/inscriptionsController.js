@@ -92,7 +92,7 @@ const inscriptionsController = {
             let redirection = ''
 
             if (alias) {
-                // define redirectio according to course type
+                // define redirection according to course type
                 if (alias == 'mercancias_peligrosas_obtencion') {
                     redirection = '/inscripciones/mercancias-peligrosas/declaracion-jurada'
                 }else{
@@ -124,6 +124,10 @@ const inscriptionsController = {
 
             req.session.selectionSummary = summary
 
+            console.log(req.session)
+            console.log('holaaa')
+            
+
             // redirect
             return res.redirect(redirection)
 
@@ -136,9 +140,10 @@ const inscriptionsController = {
     schedule: async(req,res) => {
         try{
 
-
+            console.log('chau')
             console.log(req.session)
             
+
             // get data
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
@@ -301,8 +306,6 @@ const inscriptionsController = {
             // post data to google sheets
             const dataToPost = getDataToPost(createdData[0], data)
             await postData(dataToPost)
-
-            console.log(req.session)
 
             req.session.destroy()
 
