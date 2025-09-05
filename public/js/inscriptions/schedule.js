@@ -23,7 +23,7 @@ window.addEventListener('load',async()=>{
             days.innerHTML = ''
             selectedDates.innerHTML = '<b>TEÓRICO: <i>La cursada es de ' + daysNumber + ' ' + daysString + '</i></b>:'
             selectedShift.daysShifts.forEach(d => {
-                days.innerHTML += '<div>-  ' +  d.day + ' ' + d.shifts[0].date_string + ' ' + d.shifts[0].shift_description + '</div>'
+                days.innerHTML += '<div>-  ' +  d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription + '</div>'
                 
             });
             

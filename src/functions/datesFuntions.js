@@ -5,7 +5,7 @@ const datesFunctions = {
         target.setUTCDate(target.getUTCDate() + 4 - dayNumber)
         const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1))
         const weekNumber = Math.ceil(((target - yearStart) / 86400000 + 1) / 7)
-        return weekNumber
+        return { weekNumber , dayNumber }
     },
     getWeeksInYear: (year) => {
         
@@ -25,7 +25,7 @@ const datesFunctions = {
     weeksToShow: () => {        
         const date = new Date()
         const year = date.getFullYear()
-        const weekNumber = datesFunctions.getWeekNumber(date)
+        const {weekNumber,dayNumber} = datesFunctions.getWeekNumber(date)
         const lastWeek = datesFunctions.getWeeksInYear(year)
         const week1 = weekNumber
         const year1 = year

@@ -50,7 +50,7 @@ const inscriptionsController = {
             
             // define course type
             const url = req.path
-            const alias = url.includes('manejo-defensivo') ? ['MD'] : ['CP']
+            const alias = url.includes('manejo-defensivo') ? ['MD'] : ['MP']
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
             req.session.types = [] // only if professional licences
@@ -148,13 +148,16 @@ const inscriptionsController = {
 
             const data = req.body
 
-            const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${req.session.coursesData[0].id}`)).json()
+            const idCourses = [...new Set(req.session.coursesData.map( cd => cd.id))]
+
+            const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${JSON.stringify(idCourses)}`)).json()
 
             const selectedOption = scheduleOptions.find( s => s.id == data.selectDate)
 
             req.session.schedule = selectedOption
+
             req.session.scheduleDescription = selectedOption.daysShifts
-                                                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shifts[0].shift_description)
+                                                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription)
                                                 .join(' Y ')
             // redirect
             return res.redirect('/inscripciones/datos-personales')
@@ -171,8 +174,9 @@ const inscriptionsController = {
             // get data
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
+            const selectionSummary = req.session.selectionSummary // only if professional licences
             
-            return res.render('inscriptions/personalData',{title:'FEVB - Inscripciones',title,price})
+            return res.render('inscriptions/personalData',{title:'FEVB - Inscripciones',title,price,selectionSummary})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -207,9 +211,12 @@ const inscriptionsController = {
             const cuit = req.session.cuit
             const email = req.session.email
             const phoneNumber = req.session.phone_number
-            const scheduleDescription = req.session.scheduleDescription            
+            const scheduleDescription = req.session.scheduleDescription
+            const selectionSummary = req.session.selectionSummary // only if professional licences
+            const selectionDescriptions = selectionSummary.map( s => s.description)
+            const selectionText = selectionDescriptions.join(' || ')
 
-            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuit, email, phoneNumber})
+            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuit, email, phoneNumber,selectionText})
 
         }catch(error){
             console.log(error)
@@ -253,6 +260,21 @@ const inscriptionsController = {
             // save students attendance
             await studentsAttendanceQueries.create(shifts)
 
+            console.log(data.selectionSummary)
+
+            // selection
+            let htmlSelection = ''
+            if (data.courseType.alias == 'LP') {
+                data.selectionSummary.forEach(s => {
+                    htmlSelection += '<br>' + s.description
+                });
+                
+            }else{
+                data.coursesData.forEach(c => {
+                    htmlSelection += '<br>' + c.course_name            
+                });
+            }
+
             // send email
             const mailData = {
                 name: data.name,
@@ -260,7 +282,7 @@ const inscriptionsController = {
                 cuit: data.cuit,
                 price: String(data.price.toLocaleString('es-AR',{minimumFractionDigits: 0,maximumFractionDigits: 0})),
                 scheduleDescription: data.scheduleDescription,
-                selection: data.coursesData
+                selection: htmlSelection
             }
 
             const td = await transporterData()

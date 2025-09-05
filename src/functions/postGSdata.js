@@ -16,7 +16,6 @@ async function postData(dataToPost) {
             insertDataOption: 'INSERT_ROWS',
             requestBody: { values: [dataToPost] }
         })
-        console.log('Listo', res.data.updates.updatedRange)
             
     } catch (error) {
         console.error('Error al enviar datos:', error)
@@ -40,6 +39,16 @@ function getDataToPost(createdData,sessionData) {
 
   console.log(sessionData.schedule.shifts)
 
+  let course = ''
+  if (sessionData.courseType.alias == 'LP') {
+    course = sessionData.selectionSummary
+            .map(d => `${d.typeAlias}: ${d.categories.join(', ')}`)
+            .join(' | ')
+          
+  }else{
+    course = (sessionData.courseType.alias + ': ') + (sessionData.coursesData[0].category == sessionData.courseType.alias ? sessionData.coursesData[0].type_alias : sessionData.coursesData[0].category)
+  }
+  
   const dataToPost = [
       createdData.id,
       sessionData.cuit,
@@ -51,7 +60,7 @@ function getDataToPost(createdData,sessionData) {
       createdData.year_week,
       createdData.price,
       sessionData.courseType.alias,
-      sessionData.coursesData[0].course_name,
+      course,
       `'${sessionData.schedule.daysShifts[0].day} ${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year} - ${sessionData.courseType.alias}`,
       `'${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}`,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LM') ? 1 : 0,
@@ -67,7 +76,31 @@ function getDataToPost(createdData,sessionData) {
       sessionData.schedule.shifts.find( s => s.day_shift == 'SM') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'ST') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'DM') ? 1 : 0,
-      sessionData.schedule.shifts.find( s => s.day_shift == 'DT') ? 1 : 0
+      sessionData.schedule.shifts.find( s => s.day_shift == 'DT') ? 1 : 0,
+      sessionData.coursesData.find(cd=> cd.alias == 'C1_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C2_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C3_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D1_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D2_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D3_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'E1_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'E2_obtencion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C1_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C2_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C3_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D1_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D2_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D3_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'E1_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'E2_ampliacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C1_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C2_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'C3_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D1_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D2_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'D3_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'E1_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd=> cd.alias == 'E2_renovacion') ? 'si' : 'no'
   ]
 
     return dataToPost

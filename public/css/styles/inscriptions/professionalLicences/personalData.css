@@ -21,4 +21,8 @@
     .pd-data{
         font-size: 13px;
     }
+    #personalDataError{
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
 }

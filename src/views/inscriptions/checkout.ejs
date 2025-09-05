@@ -16,6 +16,10 @@
 
 <div class="checkout-inscription-data mt-10"><%= courseName %></div>
 
+<% if (selectionText.length != '') { %>
+    <div class="tm m-a ta-c mt-10"><%= selectionText %></div>
+<% } %>
+
 <div class="mt-20 ta-c checkout-info"><b>HORARIOS</b></div>
 
 <div class="m-a mt-10 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= scheduleDescription %> </div>

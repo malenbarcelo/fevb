@@ -1,3 +1,9 @@
+/*--- text sizes ---*/
+.tm{
+    font-size: 14px;
+}
+
+
 /*--- font sizes ---*/
 .fs-13{
     font-size: 13px;
@@ -31,6 +37,9 @@
 }
 
 @media (max-width:730px){
+    .tm{
+        font-size: 13px;
+    }
     .fs-17{
         font-size: 15px;
     }
