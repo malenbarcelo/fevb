@@ -125,7 +125,8 @@ const inscriptionsController = {
             req.session.selectionSummary = summary            
 
             // redirect
-            return res.redirect(`${redirection}?t=${Date.now()}`)
+            return res.redirect(`${redirection}`)
+            //return res.redirect(`${redirection}?t=${Date.now()}`)
 
         }catch(error){
             console.log(error)
