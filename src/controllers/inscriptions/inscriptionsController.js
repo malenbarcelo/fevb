@@ -136,10 +136,6 @@ const inscriptionsController = {
     schedule: async(req,res) => {
         try{
 
-            console.log('chau')
-            console.log(req.session)
-            
-
             // get data
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
