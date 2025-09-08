@@ -59,7 +59,7 @@ function getDataToPost(createdData,sessionData) {
       createdData.price,
       sessionData.courseType.alias,
       course,
-      `'${sessionData.schedule.daysShifts[0].day} ${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year} - ${sessionData.courseType.alias}`,
+      `'${sessionData.schedule.daysShifts[0].day} ${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}` + (sessionData.courseType.alias == 'MP' ? sessionData.courseType.alias : ''),
       `'${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}`,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LM') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LT') ? 1 : 0,
@@ -98,7 +98,8 @@ function getDataToPost(createdData,sessionData) {
       sessionData.coursesData.find(cd=> cd.alias == 'D2_renovacion') ? 'si' : 'no',
       sessionData.coursesData.find(cd=> cd.alias == 'D3_renovacion') ? 'si' : 'no',
       sessionData.coursesData.find(cd=> cd.alias == 'E1_renovacion') ? 'si' : 'no',
-      sessionData.coursesData.find(cd=> cd.alias == 'E2_renovacion') ? 'si' : 'no'
+      sessionData.coursesData.find(cd=> cd.alias == 'E2_renovacion') ? 'si' : 'no',
+      sessionData.coursesData.find(cd => cd.category == 'E2') ? 'si' : 'no'
   ]
 
     return dataToPost
