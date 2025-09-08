@@ -111,8 +111,8 @@ const coursesController = {
                 })
             })
 
-            // filter dates if applies
-            scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || (s.week_number == weekNumber && s.dayNumber >= dayNumber) )
+            // filter dates if applies            
+            scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || (s.week_number == weekNumber && s.shifts[0].day_number > dayNumber) )
 
             res.status(200).json(scheduleOptions)
 

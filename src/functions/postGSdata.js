@@ -60,7 +60,7 @@ function getDataToPost(createdData,sessionData) {
       sessionData.courseType.alias,
       course,
       `'${sessionData.schedule.daysShifts[0].day} ${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year} - ${sessionData.courseType.alias}`,
-      `'${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}`,
+      new Date(`'${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}`),
       sessionData.schedule.shifts.find( s => s.day_shift == 'LM') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LT') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'MM') ? 1 : 0,
