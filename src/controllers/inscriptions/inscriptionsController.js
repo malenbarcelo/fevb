@@ -126,7 +126,6 @@ const inscriptionsController = {
 
             // redirect
             return res.redirect(`${redirection}`)
-            //return res.redirect(`${redirection}?t=${Date.now()}`)
 
         }catch(error){
             console.log(error)
@@ -170,7 +169,7 @@ const inscriptionsController = {
                                                 .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription)
                                                 .join(' Y ')
             // redirect
-            return res.redirect(`/inscripciones/datos-personales?t=${Date.now()}`)
+            return res.redirect(`/inscripciones/datos-personales`)
 
         }catch(error){
             console.log(error)
@@ -204,7 +203,7 @@ const inscriptionsController = {
             req.session.phone_number = data.phone            
             
             // redirect
-            return res.redirect(`/inscripciones/confirmar-inscripcion?t=${Date.now()}`)
+            return res.redirect(`/inscripciones/confirmar-inscripcion?`)
             
         }catch(error){
             console.log(error)
