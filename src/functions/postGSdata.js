@@ -37,8 +37,6 @@ async function getSheets() {
 
 function getDataToPost(createdData,sessionData) {
 
-  console.log(sessionData.schedule.shifts)
-
   let course = ''
   if (sessionData.courseType.alias == 'LP') {
     course = sessionData.selectionSummary

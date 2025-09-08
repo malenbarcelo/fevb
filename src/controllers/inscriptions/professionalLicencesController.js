@@ -4,6 +4,17 @@ const plCategoriesQueries = require("../../dbQueries/courses/plCategoriesQueries
 
 const professionalLicencesController = {
 
+    redirect: async(req,res) => {
+        try{
+
+            return res.redirect(`/inscripciones/licencias-profesionales`)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
     types: async(req,res) => {
         try{
 

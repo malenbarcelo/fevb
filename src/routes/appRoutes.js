@@ -36,16 +36,16 @@ router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveIn
 
 
 ///// professional licences
-router.get('/professional-licences/inscriptions',profLicencesController.mainMenu)
-router.post('/professional-licences/set-type',profLicencesController.setType)
-router.get('/professional-licences/categories',profLicencesController.categories)
-router.post('/professional-licences/set-categories',profLicencesController.setCategories)
-router.get('/professional-licences/classes',profLicencesController.classes)
-router.post('/professional-licences/set-schedule',profLicencesController.setSchedule)
-router.get('/professional-licences/personal-data',profLicencesController.personalData)
-router.post('/professional-licences/set-personal-data',profLicencesController.setPersonalData)
-router.get('/professional-licences/checkout',profLicencesController.checkout)
-router.post('/professional-licences/save-inscription',profLicencesController.saveInscription)
+router.get('/professional-licences/inscriptions',professionalLicencesController.redirect)
+// router.post('/professional-licences/set-type',profLicencesController.setType)
+// router.get('/professional-licences/categories',profLicencesController.categories)
+// router.post('/professional-licences/set-categories',profLicencesController.setCategories)
+// router.get('/professional-licences/classes',profLicencesController.classes)
+// router.post('/professional-licences/set-schedule',profLicencesController.setSchedule)
+// router.get('/professional-licences/personal-data',profLicencesController.personalData)
+// router.post('/professional-licences/set-personal-data',profLicencesController.setPersonalData)
+// router.get('/professional-licences/checkout',profLicencesController.checkout)
+// router.post('/professional-licences/save-inscription',profLicencesController.saveInscription)
 
 
 

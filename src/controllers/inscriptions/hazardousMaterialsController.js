@@ -28,8 +28,6 @@ const hazardousMaterialsController = {
             // redirect
             return res.redirect(`/inscripciones/cronograma`)
 
-            //return res.redirect(`/inscripciones/cronograma?t=${Date.now()}`)
-
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
