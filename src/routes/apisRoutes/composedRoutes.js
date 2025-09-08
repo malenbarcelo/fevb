@@ -10,12 +10,12 @@ router.get('/inscriptions/get-session',coursesController.getSession)
 
 
 
-/////
-router.get('/professional-licences/get-schedule',plController.getSchedule)
-router.post('/professional-licences/download-attendance-list',plController.downloadAttendanceList)
+// /////
+// router.get('/professional-licences/get-schedule',plController.getSchedule)
+// router.post('/professional-licences/download-attendance-list',plController.downloadAttendanceList)
 
-// session
-router.get('/professional-licences/get-session',plController.getSession)
+// // session
+// router.get('/professional-licences/get-session',plController.getSession)
 
 
 

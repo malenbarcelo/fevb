@@ -12,11 +12,11 @@ router.get('/courses/prices',getCoursesController.prices)
 router.get('/courses/additional-per-category',getCoursesController.addionalPerCategory)
 
 ///// professional licences
-router.get('/professional-licences/types',getPlController.types)
-router.get('/professional-licences/categories',getPlController.categories)
-router.get('/professional-licences/types-categories-prices',getPlController.typesCategoriesPrices)
-router.get('/professional-licences/additional-per-category',getPlController.addionalPerCategory)
-router.get('/professional-licences/students',getPlController.students)
+// router.get('/professional-licences/types',getPlController.types)
+// router.get('/professional-licences/categories',getPlController.categories)
+// router.get('/professional-licences/types-categories-prices',getPlController.typesCategoriesPrices)
+// router.get('/professional-licences/additional-per-category',getPlController.addionalPerCategory)
+// router.get('/professional-licences/students',getPlController.students)
 
 
 module.exports = router
