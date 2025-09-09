@@ -5,7 +5,7 @@ const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const fetch = require('node-fetch')
 const scheduleQueries = require("../../dbQueries/courses/scheduleQueries")
 const shiftsDescriptionsQueries = require("../../dbQueries/courses/shiftsDescriptionsQueries")
-
+const datesFunctions = require("../../functions/datesFuntions")
 
 const coursesController = {
     getScheduleOptions: async(req,res) =>{
@@ -125,6 +125,35 @@ const coursesController = {
         try{
 
             const data = req.session
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    getWeekAndDay: async(req,res) =>{
+        try{
+
+            const date = new Date()
+            const data = datesFunctions.getWeekNumber(date)
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    getWeeksInYear: async(req,res) =>{
+        try{
+
+            const { year } = req.query
+
+            const data = datesFunctions.getWeeksInYear(year)
 
             res.status(200).json(data)
 

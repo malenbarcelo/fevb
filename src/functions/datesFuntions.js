@@ -1,5 +1,6 @@
 const datesFunctions = {
     getWeekNumber: (date) => {
+
         const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
         const dayNumber = target.getUTCDay() || 7
         target.setUTCDate(target.getUTCDate() + 4 - dayNumber)

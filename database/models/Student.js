@@ -54,5 +54,12 @@ module.exports = (sequelize, DataTypes) => {
 
    const Student = sequelize.define(alias, cols, config)
 
+   Student.associate = (models) => {
+      Student.belongsTo(models.Courses_types,{
+         as:'course_type_data',
+         foreignKey: 'id_courses_types'
+      })
+   }
+
    return Student
 }

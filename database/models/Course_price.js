@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
    Course_price.associate = (models) => {
       Course_price.belongsTo(models.Courses,{
-         as:'cpurse_data',
+         as:'course_data',
          foreignKey: 'id_courses'
       })
    }
