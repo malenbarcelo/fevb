@@ -1,0 +1,69 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="txxxxl fw-b mt-25 mb-35 ta-c">GESTIÓN DE INSCRIPCIONES</div>
+
+<div class="inputs-row mb-35">
+    <div class="div-input">
+        <label class="label-std">Semana</label>
+        <select class="input-std w-150 pad-7-0">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Tipo de curso</label>
+        <select class="input-std w-250 pad-7-0">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Alumno</label>
+        <input type="text" class="input-std w-250 pad-7-0">
+    </div>
+    <div class="div-input">
+        <label class="label-std">CUIT</label>
+        <input type="text" class="input-std w-120 pad-7-0">
+    </div>
+    <div class="div-input">
+        <label class="label-std">Email</label>
+        <input type="text" class="input-std w-250 pad-7-0">
+    </div>
+    <div class="div-input">
+        <label class="label-std">Teléfono</label>
+        <input type="text" class="input-std w-120 pad-7-0">
+    </div>
+    <div id="unfilter" class="unfilter">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <div class="unfilter-info">Quitar filtros</div>
+    </div>        
+</div>
+
+<!--- main table --->
+<div class="div-table table-450 mt-30" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="">Ver / Editar</div>
+    <div class="t-tooltip" id="">Eliminar</div>
+    
+    <!--- table data --->
+    <table>
+        <thead>
+            <th class="th w-50">ID</th>
+            <th class="th w-250">ALUMNO</th>
+            <th class="th w-120">CUIT</th>
+            <th class="th w-250">EMAIL</th>
+            <th class="th w-120">TELÉFONO</th>
+            
+            <th class="th w-80">
+                <i class="fa-regular fa-pen-to-square pointer" id="cedppIcon"></i>
+            </th>
+        </thead>
+        <tbody class="body-m" id="body"></tbody>
+    </table>
+</div>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-l"></div>
+</div>
+

@@ -23,7 +23,6 @@ const inscriptionsController = {
         try{
 
             const urls = [
-                //{idCoursesTypes: 1,url: '/professional-licences/inscriptions'},
                 {idCoursesTypes: 1,url: '/inscripciones/licencias-profesionales'},
                 {idCoursesTypes: 2,url: '/inscripciones/cursos'},
                 {idCoursesTypes: 3,url: '/inscripciones/cursos'},                
@@ -49,8 +48,7 @@ const inscriptionsController = {
         try{
             
             // define course type
-            const url = req.path
-            const alias = url.includes('manejo-defensivo') ? ['MD'] : ['MP']
+            const alias = [req.session.courseType.alias]
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
             req.session.types = [] // only if professional licences

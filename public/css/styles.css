@@ -87,15 +87,7 @@ a{
     row-gap: 25px;
 }
 
-/* links */
-.link{
-    color: blue;
-    text-decoration: underline;
-    text-align: center;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-}
+
 
 /* unfilters */
 .unfilter{

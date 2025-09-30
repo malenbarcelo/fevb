@@ -1,20 +1,19 @@
 const express = require('express')
-const mainController = require('../controllers/mainController.js')
+const adminController = require('../controllers/adminController.js')
+
 const inscriptionsController = require('../controllers/inscriptions/inscriptionsController.js')
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
 
-const profLicencesController = require('../controllers/professionalLicencesController.js')
-
 const router = express.Router()
 
-///// main
-router.get('/main/login',mainController.login)
-router.post('/main/login',mainController.loginProcess)
-router.get('/main/main-menu',mainController.mainMenu)
-router.post('/main/attendance',mainController.attendance)
+///// admin
+router.get('/',adminController.login)
+router.post('/login',adminController.loginProcess)
+router.post('/login',adminController.loginProcess)
 
 ///// inscriptions
+router.get('/inscripciones/gestion',adminController.inscManagement)
 router.get('/inscripciones',inscriptionsController.mainMenu)
 router.post('/inscripciones/tipos-de-cursos',inscriptionsController.setCourseType)
 router.get('/inscripciones/manejo-defensivo',inscriptionsController.selectCourse)

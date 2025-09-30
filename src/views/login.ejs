@@ -1,10 +1,36 @@
 <%- include('./partials/head') %>
 <%- include('./partials/header') %>
 
-<form action="/main/login" method="POST">
-    <div class="buttons-column mt-25 mb-25">
-        <button type="submit" class="btn-std w-670 max-w-90p pad-11-0">
-            INGRESAR
-        </button>
+<div class="txxxxl fw-b mt-35 mb-70 ta-c">INICIAR SESIÓN</div>
+
+<form action="/login" method="POST">
+    <div class="inputs-column">
+        <div class="div-input">
+            <label for="email" class="label-std <%= locals.errors && errors.userName ? '' : null %>">Email</label>
+            <input type="text" name="email" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? '' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
+            <div class="input-error">
+                <% if (locals.errors && errors.userName) { %>
+                    <%= errors.userName.msg %>
+                <% } %>
+            </div>
+        </div>
+        <div class="div-input mt-20">
+            <label for="password" class="label-std <%= locals.errors && errors.userName ? '' : null %>">Contraseña</label>
+            <input type="password" name="password" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? '' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
+            <div class="input-error">
+                <% if (locals.errors && errors.userName) { %>
+                    <%= errors.userName.msg %>
+                <% } %>
+            </div>
+        </div>        
     </div>
+
+    <div class="buttons-row mt-xl">
+        <button type="submit" class="btn-std mt-35 w-350 pad-12-0" id="loginBtn">Ingresar</button>
+    </div>
+
+    <div class="flex jc-c"><div class="ts ta-c mt-35 txt-u pointer fc-blue" id="restorePassword">Olvidé mi contraseña</div></div>
+    <div class="flex jc-c" ><div class="ts ta-c mt-10 txt-u pointer fc-blue">Cambiar mi contraseña</div></div>
+    
+    
 </form>

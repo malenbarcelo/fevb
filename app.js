@@ -5,8 +5,6 @@ const session = require('express-session')
 const FileStore = require('session-file-store')(session);
 const bcrypt = require('bcryptjs')
 const userLoggedMiddleware = require('./src/middlewares/userLoggedMiddleware.js')
-const selectedCompanyMiddleware = require('./src/middlewares/selectedCompanyMiddleware.js')
-// const isProd = process.env.NODE_ENV === 'production'
 
 //ROUTES
 const appRoutes = require('./src/routes/appRoutes.js')
@@ -63,27 +61,8 @@ app.use(session({
     saveUninitialized: false,
 }))
 
-// app.use(session({
-//   name: 'connect.sid',          // nombre por defecto; podés cambiarlo
-//   secret: process.env.SESSION_SECRET || 'cambiame-por-env',
-//   resave: false,
-//   saveUninitialized: false,
-//   store: new FileStore({
-//     path: path.join(__dirname, './sessions'), // carpeta donde guardar
-//     retries: 0,
-//     ttl: 60 * 60 * 24 // 1 día en segundos
-//   }),
-//   cookie: {
-//     httpOnly: true,
-//     sameSite: 'lax',            
-//     secure: isProd,             // TRUE solo si el usuario entra por HTTPS
-//     maxAge: 1000 * 60 * 60 * 2  // 2 horas
-//   }
-// }))
-
 // middlewares
 app.use(userLoggedMiddleware)
-app.use(selectedCompanyMiddleware)
 
 //Declare and listen port
 const APP_PORT = 3012
@@ -95,4 +74,4 @@ app.use('/get',getRoutes)
 app.use('/composed',composedRoutes)
 app.use('/composed',plRoutes) // eliminar
 
-//console.log('malen: ' + bcrypt.hashSync('nicocabrera1891',10))
+//console.log('malen: ' + bcrypt.hashSync('ailensantisteban@gmail.com',10))
