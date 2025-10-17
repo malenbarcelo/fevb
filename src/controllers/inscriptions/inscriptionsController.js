@@ -1,5 +1,6 @@
 const domain = require("../../data/domain")
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
+const typesQueries = require("../../dbQueries/courses/typesQueries")
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
 const {transporterData, sendMail} = require("../../functions/mailFunctions")
 const {postData,getDataToPost} = require("../../functions/postGSdata")
@@ -46,11 +47,28 @@ const inscriptionsController = {
 
     selectCourse: async(req,res) => {
         try{
-            
-            // define course type
-            const alias = [req.session.courseType.alias]
-            const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
+
+            let alias
+
+            const path = req.path
+
+            if (path.includes('mercancias-peligrosas')) {
+                alias = ['MP']
+            }else{
+                if (path.includes('manejo-defensivo')) {
+                    alias = ['MD']
+                }else{
+                    if (path.includes('licencias-profesionales')) {
+                        alias = ['LP']
+                    }else{
+                        alias = [req.session.courseType.alias]
+                    }
+                }
+            }
+
+            const courseType = await typesQueries.get({filters:{alias:alias}})
             req.session.courseType = courseType[0]
+            
             req.session.types = [] // only if professional licences
             req.session.coursesData = null
             req.session.price = null
@@ -201,7 +219,7 @@ const inscriptionsController = {
             req.session.phone_number = data.phone            
             
             // redirect
-            return res.redirect(`/inscripciones/confirmar-inscripcion?`)
+            return res.redirect(`/inscripciones/confirmar-inscripcion`)
             
         }catch(error){
             console.log(error)
@@ -301,6 +319,36 @@ const inscriptionsController = {
 
             return res.render('inscriptions/confirmation',{title:'FEVB - Inscripciones'})
 
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    // success mercado pago payment
+    success: (req,res) => {
+        try{
+            return res.render('mercadoPago/success',{title:'FEVB - Checkout'})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    // pending mercado pago payment
+    pending: (req,res) => {
+        try{
+            return res.render('mercadoPago/pending',{title:'FEVB - Checkout'})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    // failure mercado pago payment
+    failure: (req,res) => {
+        try{
+            return res.render('mercadoPago/failure',{title:'FEVB - Checkout'})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

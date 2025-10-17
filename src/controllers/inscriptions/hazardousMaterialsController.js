@@ -13,6 +13,16 @@ const hazardousMaterialsController = {
         }
     },
 
+    hmSwornDeclaration: (req,res) => {
+        try{
+            return res.render('inscriptions/hmSwornDeclaration',{title:'FEVB - Inscripciones'})
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
     setSwornDeclaration: async(req,res) => {
         try{
 

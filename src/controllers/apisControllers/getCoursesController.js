@@ -151,7 +151,7 @@ const getCoursesController = {
             console.log(error)
             return res.send('Ha ocurrido un error')
         }
-    },
+    }    
 }
 module.exports = getCoursesController
 

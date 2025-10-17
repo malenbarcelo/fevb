@@ -10,6 +10,8 @@ router.get('/courses',getCoursesController.courses)
 router.get('/courses/schedule',getCoursesController.schedule)
 router.get('/courses/prices',getCoursesController.prices)
 router.get('/courses/additional-per-category',getCoursesController.addionalPerCategory)
+
+///// students
 router.get('/students',getStudentsController.students)
 
 

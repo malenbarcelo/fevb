@@ -1,6 +1,5 @@
 const express = require('express')
 const adminController = require('../controllers/adminController.js')
-
 const inscriptionsController = require('../controllers/inscriptions/inscriptionsController.js')
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
@@ -9,7 +8,6 @@ const router = express.Router()
 
 ///// admin
 router.get('/',adminController.login)
-router.post('/login',adminController.loginProcess)
 router.post('/login',adminController.loginProcess)
 
 ///// inscriptions
@@ -32,21 +30,8 @@ router.post('/inscripciones/datos-personales',inscriptionsController.setPersonal
 router.get('/inscripciones/confirmar-inscripcion',inscriptionsController.checkout)
 router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveInscription)
 
-
-
 ///// professional licences
-router.get('/professional-licences/inscriptions',professionalLicencesController.redirect)
-// router.post('/professional-licences/set-type',profLicencesController.setType)
-// router.get('/professional-licences/categories',profLicencesController.categories)
-// router.post('/professional-licences/set-categories',profLicencesController.setCategories)
-// router.get('/professional-licences/classes',profLicencesController.classes)
-// router.post('/professional-licences/set-schedule',profLicencesController.setSchedule)
-// router.get('/professional-licences/personal-data',profLicencesController.personalData)
-// router.post('/professional-licences/set-personal-data',profLicencesController.setPersonalData)
-// router.get('/professional-licences/checkout',profLicencesController.checkout)
-// router.post('/professional-licences/save-inscription',profLicencesController.saveInscription)
-
-
+router.get('/professional-licences/inscriptions',professionalLicencesController.redirect) // redirect old route
 
 
 module.exports = router
