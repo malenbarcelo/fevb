@@ -3,18 +3,18 @@
 
 <div class="main-title">CONFIRMAR INSCRIPCIÓN</div>
 
-<div class="checkout-info mt-5-">
+<div class="checkout-info mt-6-">
     <b>VALOR A ABONAR: </b>
     <div class="ta-c"><%= 'AR$ ' + price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
 </div>
 
-<div class="ta-c mt-15 color-red w-500 max-w-95p m-a">
+<div class="ta-c mt-10 color-red w-500 max-w-95p m-a">
     <b>Transferir a "farola.burla.caucho" y enviar comprobante a comprobantes@elvientoblanco.org.ar para confirmar su cupo.</b>
 </div>
 
 <div class="mt-20 ta-c checkout-info"><b>DATOS DE LA INSCRIPCIÓN</b></div>
 
-<div class="checkout-inscription-data mt-10"><%= courseName %></div>
+<div class="checkout-inscription-data mt-5"><%= courseName %></div>
 
 <% if (selectionText.length != '') { %>
     <div class="tm m-a ta-c mt-10"><%= selectionText %></div>
@@ -22,7 +22,7 @@
 
 <div class="mt-20 ta-c checkout-info"><b>HORARIOS</b></div>
 
-<div class="m-a mt-10 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= scheduleDescription %> </div>
+<div class="m-a mt-5 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= scheduleDescription %> </div>
 <div class="m-a mt-10 ta-c checkout-info max-w-95p"><span class="txt-u">PRÁCTICO:</span>El horario de la Práctica será coordinado con el instructor</div>
 
 <div class="checkout-info m-a mt-20 max-w-95p">
@@ -36,8 +36,10 @@
 <div class="mt-5 ta-c checkout-info"><b>Email: </b><%= email %></div>
 <div class="mt-5 ta-c checkout-info"><b>Teléfono: </b><%= phoneNumber %></div>
 
+<div class="mt-15"><%- include('../partials/contactPopup') %></div>
+
 <form action="/inscripciones/confirmar-inscripcion" method="POST">
-    <div class="buttons-column mt-25 mb-25">
+    <div class="buttons-column mt-20 mb-25">
         <button type="submit" id="continueButton" class="btn-std w-400 max-w-90p pad-11-0">
             CONFIRMAR INSCRIPCIÓN
         </button>

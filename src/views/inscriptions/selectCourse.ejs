@@ -5,8 +5,10 @@
 
 <div class="subtitle">Seleccione un curso</div>
 
+<div class="mt-20"><%- include('../partials/contactPopup') %></div>
+
 <form action="/inscripciones/cursos" method="POST">
-    <div class="flex flex-c rg-20 ai-c mt-50">
+    <div class="flex flex-c rg-20 ai-c mt-35">
         <% coursesToShow.forEach(c => { %>
             <button type="submit" name="courseButton" value="<%= c.alias %>" class="btn-std fs-16 w-600 max-w-90p pad-17-0"><%= c.courseName.toUpperCase() %></button> 
         <% }) %>

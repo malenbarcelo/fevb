@@ -79,12 +79,20 @@ a{
     column-gap: 10px;
 }
 
+.cg-10{
+    column-gap: 10px;
+}
+
 .rg-20{
     row-gap: 20px;
 }
 
 .rg-25{
     row-gap: 25px;
+}
+
+.jc-sb{
+    justify-content: space-between;
 }
 
 
