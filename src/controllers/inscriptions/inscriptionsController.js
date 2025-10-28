@@ -35,6 +35,7 @@ const inscriptionsController = {
             const redirection = urls.find(url => url.idCoursesTypes == req.body.typeButton).url
             
             req.session.courseType = courseType[0]
+            req.session.hasPractical = 1 // by default, change it if applies in LP
 
             // redirect
             return res.redirect(redirection)
@@ -93,6 +94,7 @@ const inscriptionsController = {
             })
 
             return res.render('inscriptions/selectCourse',{title:'FEVB - Inscriptiones',title,coursesToShow})
+
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -138,7 +140,7 @@ const inscriptionsController = {
                 req.session.price = parseFloat(data.totalPriceInput)
             }
 
-            req.session.selectionSummary = summary            
+            req.session.selectionSummary = summary
 
             // redirect
             return res.redirect(`${redirection}`)
@@ -161,7 +163,9 @@ const inscriptionsController = {
 
             const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${JSON.stringify(idCourses)}`)).json()
 
-            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary})
+            const hasPractical = req.session.hasPractical
+
+            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary, hasPractical})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

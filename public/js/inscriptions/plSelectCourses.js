@@ -89,7 +89,6 @@ window.addEventListener('load',async()=>{
             if (element) {
                 element.click()
             }
-            
         })
     }
 
@@ -106,13 +105,17 @@ window.addEventListener('load',async()=>{
             
         }
     })
-    sdppDeclaration_2.addEventListener('click',async()=>{
-        sdppCheck_2.checked = !sdppCheck_2.checked
-        if (sdppCheck_1.checked && sdppCheck_2.checked ) {
-            sdppError.style.display = 'none' 
-            
-        }
-    })
+
+    const sdppDeclaration_2 = document.getElementById('sdppDeclaration_2')
+    const sdppCheck_2 = document.getElementById('sdppCheck_2')
+    if (sdppDeclaration_2) {
+        sdppDeclaration_2.addEventListener('click',async()=>{
+            sdppCheck_2.checked = !sdppCheck_2.checked
+            if (sdppCheck_1.checked && sdppCheck_2.checked ) {
+                sdppError.style.display = 'none'
+            }
+        })
+    }    
 
     // continue
     continueButton.addEventListener('click',async()=>{
@@ -133,9 +136,17 @@ window.addEventListener('load',async()=>{
 
             }
 
+            // uncheck elements
             sdppCheck_1.checked = false
-            sdppCheck_2.checked = false
+            
+            if (sdppCheck_2) {
+                sdppCheck_2.checked = false
+            }
+
+            // hide error            
             sdppError.style.display = 'none'
+
+            // hsow popup
             sdpp.style.display = 'block'            
         }
 
@@ -150,7 +161,7 @@ window.addEventListener('load',async()=>{
 
         e.preventDefault()
         
-        if (!sdppCheck_1.checked || !sdppCheck_2.checked) {
+        if (!sdppCheck_1.checked || (sdppCheck_2 && !sdppCheck_2.checked)) {
             sdppError.style.display = 'flex'
             loader.style.display = 'none'            
         }else{

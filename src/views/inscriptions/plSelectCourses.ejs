@@ -67,10 +67,12 @@
                 <div id="sdppText"></div>                
             </div>
 
-            <div class="cat-sd-div" id="sdppDeclaration_2">
-                <div><input type="checkbox" id="sdppCheck_2"></div>
-                <div>Declaro que asistiré al examen práctico con el vehículo de la categoría correspondiente.</div>                
-            </div>
+            <% if (hasPractical) { %>
+                <div class="cat-sd-div" id="sdppDeclaration_2">
+                    <div><input type="checkbox" id="sdppCheck_2"></div>
+                    <div>Declaro que asistiré al examen práctico con el vehículo de la categoría correspondiente.</div>                
+                </div>             
+            <% } %>
 
             <div class="buttons-row mt-35 mb-25">
                 <button type="submit" id="submitButton" class="btn-std btn-s w-150 max-w-40p pad-9-0">

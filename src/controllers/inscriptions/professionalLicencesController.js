@@ -22,6 +22,7 @@ const professionalLicencesController = {
             const alias = ['LP']
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
+            req.session.hasPractical = 1 // by default, change it if applies in LP
 
             return res.render('inscriptions/plTypes',{title:'FEVB - Inscripciones'})
 
@@ -38,6 +39,7 @@ const professionalLicencesController = {
             const types = Object.keys(data)
             
             req.session.types = types
+            req.session.hasPractical = (types.includes('O') || types.includes('A')) ? 1 : 0
 
             // redirect
             return res.redirect(`/inscripciones/licencias-profesionales/cursos`)
@@ -68,7 +70,9 @@ const professionalLicencesController = {
 
             const categories = await plCategoriesQueries.get({filters:{enabled:1}})
 
-            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories})
+            const hasPractical = req.session.hasPractical
+
+            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories,hasPractical})
 
         }catch(error){
             console.log(error)

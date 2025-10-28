@@ -35,7 +35,10 @@
         <div class="mb-5" id="selectedDates"><b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico</div>
         <div class="sch-days" id="days"></div>
         
-        <div><b>PRÁCTICO: </b>El horario de la Práctica será coordinado con el instructor</div>
+        <% if (hasPractical) { %>
+            <div><b>PRÁCTICO: </b>El horario de la Práctica será coordinado con el instructor</div>
+        <% } %>
+    
     </div>
 
     <div class="mt-20"><%- include('../partials/contactPopup') %></div>
