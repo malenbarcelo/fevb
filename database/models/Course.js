@@ -41,6 +41,14 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      ciu:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      practical:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

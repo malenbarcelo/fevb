@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-   const alias = "Courses_schedule"
+   const alias = "Courses_ciu_schedule"
 
    const cols = {
       id:{
@@ -8,18 +8,6 @@ module.exports = (sequelize, DataTypes) => {
          primaryKey: true,
          autoIncrement : true,
          allowNull: false
-      },
-      id_courses:{
-         type: DataTypes.INTEGER,
-         allowNull: false,
-      },
-      course_description:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
-      classroom_alias:{
-         type: DataTypes.STRING,
-         allowNull: false,
       },
       day_number:{
          type: DataTypes.INTEGER,
@@ -45,10 +33,6 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      weeks:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
       year:{
          type: DataTypes.INTEGER,
          allowNull: false,
@@ -72,18 +56,11 @@ module.exports = (sequelize, DataTypes) => {
    }
 
    const config = {
-      tableName : 'courses_schedule',
+      tableName : 'courses_ciu_schedule',
       timestamps : false
    }
 
-   const Course_schedule = sequelize.define(alias, cols, config)
+   const Course_ciu_schedule = sequelize.define(alias, cols, config)
 
-   Course_schedule.associate = (models) => {
-      Course_schedule.belongsTo(models.Courses,{
-         as:'course_data',
-         foreignKey: 'id_courses'
-      })
-   }
-   
-   return Course_schedule
+   return Course_ciu_schedule
 }

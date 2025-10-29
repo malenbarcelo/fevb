@@ -19,7 +19,7 @@
             <select  class="input-std w-350 max-w-90p pad-12-0 schedule-data" name="selectDate" id="selectDate">
                 <option value="">--- Seleccione una opción --- </option>
                 <% scheduleOptions.forEach(option => { %>
-                    <option value="<%= option.id %>"><%= option.shifts[0].day + ' ' + option.shifts[0].date_string %></option>                 
+                    <option value="<%= option.id %>"><%= option.shiftsDescription %></option>                 
                 <% }) %>
             </select>
         </div>
