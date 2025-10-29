@@ -127,18 +127,18 @@ const coursesController = {
                 schedule = schedule.filter( s => s.week_number % 2 != 0)
             }
 
-            // filter commission 2 if only E2 or MP(GOD LEVEL HARDCODING)
-            const categories = [...new Set(coursesData.map( cd => cd.category))]
-            const courseName = [...new Set(coursesData.map( cd => cd.course_name))]
-            const typeAlias = [...new Set(coursesData.map( cd => cd.type_alias))]
-            const onlyR = typeAlias.length == 1 && typeAlias.includes('R')
+            // // filter commission 2 if only E2 or MP(GOD LEVEL HARDCODING)
+            // const categories = [...new Set(coursesData.map( cd => cd.category))]
+            // const courseName = [...new Set(coursesData.map( cd => cd.course_name))]
+            // const typeAlias = [...new Set(coursesData.map( cd => cd.type_alias))]
+            // const onlyR = typeAlias.length == 1 && typeAlias.includes('R')
             
-            const E2 = categories.length == 1 && categories.includes('E2')     
-            const MP = categories.filter( c => c == 'MP')
+            // const E2 = categories.length == 1 && categories.includes('E2')     
+            // const MP = categories.filter( c => c == 'MP')
 
-            if ((courseName.includes('Licencia Profesional de Conducir') && E2 && !onlyR) || MP.length > 0) {
-                schedule = schedule.filter( s => s.commission_number == 1)
-            }
+            // if ((courseName.includes('Licencia Profesional de Conducir') && E2 && !onlyR) || MP.length > 0) {
+            //     schedule = schedule.filter( s => s.commission_number == 1)
+            // }
             
             const commissions = [...new Set(schedule.map(c => c.commission_number))]
 
@@ -207,7 +207,18 @@ const coursesController = {
 
             // delete unabled dates
             scheduleOptions = scheduleOptions.filter( s => s.shifts.filter( sh => sh.unabledDate == true).length == 0)
-            res.status(200).json(scheduleOptions)
+
+            // eliminate duplicates
+            let options = []
+            scheduleOptions.forEach(option => {
+                const findElement = options.filter( so => so.shiftsDescription == option.shiftsDescription)
+                if (findElement.length == 0) {
+
+                    options.push(option)
+                }
+            })
+            
+            res.status(200).json(options)
 
         }catch(error){
             console.log(error)
