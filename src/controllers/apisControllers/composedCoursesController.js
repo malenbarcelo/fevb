@@ -2,6 +2,7 @@
 const df = require("../../functions/datesFuntions")
 const domain = require("../../data/domain")
 const coursesQueries = require("../../dbQueries/courses/coursesQueries")
+const datesQueries = require("../../dbQueries/courses/datesQueries")
 const ciuScheduleQueries = require("../../dbQueries/courses/ciuScheduleQueries")
 const fetch = require('node-fetch')
 const scheduleQueries = require("../../dbQueries/courses/scheduleQueries")
@@ -20,6 +21,13 @@ const coursesController = {
 
             // get courses data
             const coursesData = await coursesQueries.get({filters:{id:idCourses}})
+
+            // get enabled days
+            const date = new Date()
+            const year = date.getFullYear()
+            const years = [year-1, year, year+1]
+            let unabledDates = await datesQueries.get({filters:{years:years,enabled:0}})
+            unabledDates = unabledDates.map( ud => ud.date_string + '/' + ud.year)
 
             // gte weeks to show
             const weeksToShow = df.weeksToShow()
@@ -142,6 +150,10 @@ const coursesController = {
                 commissions.forEach(c => {
 
                     let shifts = schedule.filter(s => s.year_week == w && s.commission_number == c)
+                    shifts.forEach(s => {
+                        s.complete_date = s.date_string + '/' + s.year
+                        s.unabledDate = unabledDates.includes(s.complete_date)
+                    });
 
                     if (shifts.length > 0) {
 
@@ -193,6 +205,8 @@ const coursesController = {
             // filter dates if applies            
             scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || (s.week_number == weekNumber && s.shifts[0].day_number > dayNumber) )
 
+            // delete unabled dates
+            scheduleOptions = scheduleOptions.filter( s => s.shifts.filter( sh => sh.unabledDate == true).length == 0)
             res.status(200).json(scheduleOptions)
 
         }catch(error){

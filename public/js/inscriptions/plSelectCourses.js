@@ -67,7 +67,7 @@ window.addEventListener('load',async()=>{
             const selectedChecks = allChecks.filter( chck => chck.checked)
             selectedCoursesIds = selectedChecks.map( sc => sc.id.split('_')[1]).map( sci => parseInt(sci))
             const selectedCourses = courses.filter( c => selectedCoursesIds.includes(c.id))
-            selectedCategories = [...new Set(selectedCourses.map(sc => sc.category[0]))]
+            selectedCategories = [...new Set(selectedCourses.map(sc => sc.category == 'E2' ? 'E2' : sc.category[0]))]
             selectedTypeAlias = [...new Set(selectedCourses.map(sc => sc.type_alias))]            
             const selectedPrices = prices.filter( p => selectedCoursesIds.includes(p.id_courses))
             const maxPrice = Math.max(...selectedPrices.map(s => parseFloat(s.price)))

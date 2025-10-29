@@ -186,7 +186,7 @@ const inscriptionsController = {
             req.session.schedule = selectedOption
 
             req.session.scheduleDescription = selectedOption.daysShifts
-                                                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription)
+                                                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription + ' (' + d.duration + ' horas)')
                                                 .join(' Y ')
             // redirect
             return res.redirect(`/inscripciones/datos-personales`)
