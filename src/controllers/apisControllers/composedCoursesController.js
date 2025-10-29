@@ -125,7 +125,7 @@ const coursesController = {
             const typeAlias = [...new Set(coursesData.map( cd => cd.type_alias))]
             const onlyR = typeAlias.length == 1 && typeAlias.includes('R')
             
-            const E2 = categories.includes('E2')     
+            const E2 = categories.length == 1 && categories.includes('E2')     
             const MP = categories.filter( c => c == 'MP')
 
             if ((courseName.includes('Licencia Profesional de Conducir') && E2 && !onlyR) || MP.length > 0) {
