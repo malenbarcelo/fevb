@@ -10,8 +10,17 @@ const datesQueries = {
         if (filters.enabled != undefined) {
             where.enabled = filters.enabled
         }
+
         if (filters.years) {
             where.year = filters.years
+        }
+
+        if (filters.weeks_numbers) {
+            where.week_number = filters.weeks_numbers
+        }
+
+        if (filters.days_numbers) {
+            where.day_number = filters.days_numbers
         }
 
         const data = await model.findAll({

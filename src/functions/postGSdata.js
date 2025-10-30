@@ -1,5 +1,6 @@
 const { google } = require('googleapis')
 const credentials = require('../data/googleSheetsCredentials.json')
+const dateQueries = require("../dbQueries/courses/datesQueries")
 
 async function postData(dataToPost) {
 
@@ -35,7 +36,7 @@ async function getSheets() {
   return google.sheets({ version: 'v4', auth: client })
 }
 
-function getDataToPost(createdData,sessionData) {
+async function getDataToPost(createdData,sessionData) {
 
   let course = ''
   if (sessionData.courseType.alias == 'LP') {
@@ -46,6 +47,13 @@ function getDataToPost(createdData,sessionData) {
   }else{
     course = (sessionData.courseType.alias + ': ') + (sessionData.coursesData[0].category == sessionData.courseType.alias ? sessionData.coursesData[0].type_alias : sessionData.coursesData[0].category)
   }
+
+  // get sheet name
+  const monday = await dateQueries.get({filters:{weeks_numbers:[createdData.week_number],years:[createdData.year],days_numbers:[1]}})
+  const date = `${monday[0].date_string}/${monday[0].year}`
+  const dateString = `'${date}`
+  const sheet = `'Lunes ${date} - ${sessionData.courseType.alias}`
+  const dateNumber = Number(date.split('/')[2] + date.split('/')[1] + date.split('/')[0])
   
   const dataToPost = [
       createdData.id,
@@ -59,9 +67,9 @@ function getDataToPost(createdData,sessionData) {
       createdData.price,
       sessionData.courseType.alias,
       course,
-      `'${sessionData.schedule.daysShifts[0].day} ${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year} - ${sessionData.courseType.alias}`,
-      `'${sessionData.schedule.daysShifts[0].shifts[0].date_string}/${sessionData.schedule.daysShifts[0].shifts[0].year}`,
-      parseInt(sessionData.schedule.daysShifts[0].shifts[0].year + sessionData.schedule.daysShifts[0].shifts[0].date_string.split('/')[1]+sessionData.schedule.daysShifts[0].shifts[0].date_string.split('/')[0]),
+      sheet,
+      dateString,
+      dateNumber,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LM') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'LT') ? 1 : 0,
       sessionData.schedule.shifts.find( s => s.day_shift == 'MM') ? 1 : 0,

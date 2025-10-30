@@ -316,7 +316,7 @@ const inscriptionsController = {
             await sendMail(td,mailData)
 
             // post data to google sheets
-            const dataToPost = getDataToPost(createdData[0], data)
+            const dataToPost = await getDataToPost(createdData[0], data)
             await postData(dataToPost)
 
             req.session.destroy()
