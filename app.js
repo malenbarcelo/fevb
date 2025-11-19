@@ -5,10 +5,12 @@ const session = require('express-session')
 const FileStore = require('session-file-store')(session);
 const bcrypt = require('bcryptjs')
 const userLoggedMiddleware = require('./src/middlewares/userLoggedMiddleware.js')
+const studentLoggedMiddleware = require('./src/middlewares/studentLoggedMiddleware.js')
 
 //ROUTES
 const appRoutes = require('./src/routes/appRoutes.js')
 const getRoutes = require('./src/routes/apisRoutes/getRoutes.js')
+const updateRoutes = require('./src/routes/apisRoutes/updateRoutes.js')
 const composedRoutes = require('./src/routes/apisRoutes/composedRoutes.js')
 
 const app = express()
@@ -61,6 +63,7 @@ app.use(session({
 
 // middlewares
 app.use(userLoggedMiddleware)
+app.use(studentLoggedMiddleware)
 
 //Declare and listen port
 const APP_PORT = 3012
@@ -69,6 +72,7 @@ app.listen(APP_PORT,() => console.log("Servidor corriendo en puerto " + APP_PORT
 //Routes
 app.use('/',appRoutes)
 app.use('/get',getRoutes)
+app.use('/update',updateRoutes)
 app.use('/composed',composedRoutes)
 
-//console.log('malen: ' + bcrypt.hashSync('ailensantisteban@gmail.com',10))
+//console.log('malen: ' + bcrypt.hashSync('jpoblete',10))

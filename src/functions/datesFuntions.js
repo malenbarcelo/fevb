@@ -1,4 +1,5 @@
 const datesFunctions = {
+
     getWeekNumber: (date) => {
 
         const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
@@ -8,6 +9,7 @@ const datesFunctions = {
         const weekNumber = Math.ceil(((target - yearStart) / 86400000 + 1) / 7)
         return { weekNumber , dayNumber }
     },
+
     getWeeksInYear: (year) => {
         
         function isLeapYear(y) {
@@ -23,6 +25,7 @@ const datesFunctions = {
         }
         return 52
     },
+
     weeksToShow: () => {        
         const date = new Date()
         const year = date.getFullYear()
@@ -44,6 +47,63 @@ const datesFunctions = {
             { week_number:week4, year:year4 }
         ]
 
+        return weeksToShow
+    },
+
+    getNweeks: (weeks) => {
+
+        const date = new Date()
+        const dateArg = new Date(date.getTime() - 3 * 60 * 60 * 1000)
+        const year = dateArg.getFullYear()
+        const weekAndDay = datesFunctions.getWeekNumber(dateArg)
+
+        const previousWeeks = weeks % 2 === 0 ? weeks / 2 : Math.floor(weeks / 2) + 1
+        const nextWeeks = Math.floor(weeks / 2)
+
+        let weeksToShow = [year + '_' + weekAndDay.weekNumber]
+
+        // previous weeks
+        for (let i = 0; i < previousWeeks; i++) {
+            
+            const previousYear = Number(weeksToShow[weeksToShow.length - 1].split('_')[0])
+            const previousWeek = Number(weeksToShow[weeksToShow.length - 1].split('_')[1])
+            let year
+            let week
+
+            if (previousWeek == 1) {
+                year = previousYear - 1
+                week = datesFunctions.getWeeksInYear(year)                    
+            }else{
+                year = previousYear
+                week = previousWeek - 1
+            }
+
+            weeksToShow.push(year + '_' + week)
+        }
+
+        weeksToShow = weeksToShow.reverse()
+
+        // next weeks
+        for (let i = 0; i < nextWeeks; i++) {
+            
+            const previousYear = Number(weeksToShow[weeksToShow.length - 1].split('_')[0])
+            const previousWeek = Number(weeksToShow[weeksToShow.length - 1].split('_')[1])
+            const lastWeek = datesFunctions.getWeeksInYear(previousYear)
+
+            let year
+            let week
+
+            if (previousWeek == lastWeek) {
+                year = previousYear + 1
+                week = 1                    
+            }else{
+                year = previousYear
+                week = previousWeek + 1
+            }
+
+            weeksToShow.push(year + '_' + week)
+        }
+        
         return weeksToShow
     },
 

@@ -12,6 +12,13 @@
                         <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></a>
                     </div>
                 <% } %>
+                <% if (locals.studentLogged) { %>
+                    <i class="fa-solid fa-user user-logged-icon"></i>
+                    <div class="user-logged-name">
+                        <%= studentLogged.studentData.name %>
+                        <a href="/examenes/logout"><i class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></a>
+                    </div>
+                <% } %>
             </div>
         </div>
     </div>

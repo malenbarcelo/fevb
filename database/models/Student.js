@@ -58,6 +58,21 @@ module.exports = (sequelize, DataTypes) => {
       Student.belongsTo(models.Courses_types,{
          as:'course_type_data',
          foreignKey: 'id_courses_types'
+      }),
+      Student.hasMany(models.Students_exams,{
+         as:'student_exams',
+         foreignKey: 'id_students',
+         sourceKey:'id'
+      }),
+      Student.hasMany(models.Students_attendance,{
+         as:'attendance',
+         foreignKey: 'id_students',
+         sourceKey:'id'
+      }),
+      Student.hasMany(models.Students_payments,{
+         as:'payments',
+         foreignKey: 'id_students',
+         sourceKey:'id'
       })
    }
 

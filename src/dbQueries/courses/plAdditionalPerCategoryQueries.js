@@ -1,5 +1,5 @@
 const db = require('../../../database/models')
-const model = db.Pl_additional_per_category
+const model = db.Courses_pl_additional_per_category
 
 const additionPerCategoryQueries = {
     get: async() => {

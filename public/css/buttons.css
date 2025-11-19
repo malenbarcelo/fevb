@@ -22,6 +22,15 @@
     text-align: center;
 }
 
+.btn-unabled{
+    background-color: gray;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
 .btn-s{
     font-size: 13px;
 }

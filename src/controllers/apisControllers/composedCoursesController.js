@@ -7,7 +7,6 @@ const ciuScheduleQueries = require("../../dbQueries/courses/ciuScheduleQueries")
 const fetch = require('node-fetch')
 const scheduleQueries = require("../../dbQueries/courses/scheduleQueries")
 const shiftsDescriptionsQueries = require("../../dbQueries/courses/shiftsDescriptionsQueries")
-const datesFunctions = require("../../functions/datesFuntions")
 
 const coursesController = {
     getScheduleOptions: async(req,res) =>{
@@ -126,19 +125,6 @@ const coursesController = {
             if (weeksTypes.includes('even')) {
                 schedule = schedule.filter( s => s.week_number % 2 != 0)
             }
-
-            // // filter commission 2 if only E2 or MP(GOD LEVEL HARDCODING)
-            // const categories = [...new Set(coursesData.map( cd => cd.category))]
-            // const courseName = [...new Set(coursesData.map( cd => cd.course_name))]
-            // const typeAlias = [...new Set(coursesData.map( cd => cd.type_alias))]
-            // const onlyR = typeAlias.length == 1 && typeAlias.includes('R')
-            
-            // const E2 = categories.length == 1 && categories.includes('E2')     
-            // const MP = categories.filter( c => c == 'MP')
-
-            // if ((courseName.includes('Licencia Profesional de Conducir') && E2 && !onlyR) || MP.length > 0) {
-            //     schedule = schedule.filter( s => s.commission_number == 1)
-            // }
             
             const commissions = [...new Set(schedule.map(c => c.commission_number))]
 
@@ -225,6 +211,7 @@ const coursesController = {
             return res.send('Ha ocurrido un error')
         }
     },
+
     getSession: async(req,res) =>{
         try{
 
@@ -236,36 +223,7 @@ const coursesController = {
             console.log(error)
             return res.send('Ha ocurrido un error')
         }
-    },
-
-    getWeekAndDay: async(req,res) =>{
-        try{
-
-            const date = new Date()
-            const data = datesFunctions.getWeekNumber(date)
-
-            res.status(200).json(data)
-
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
-
-    getWeeksInYear: async(req,res) =>{
-        try{
-
-            const { year } = req.query
-
-            const data = datesFunctions.getWeeksInYear(year)
-
-            res.status(200).json(data)
-
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
+    }
 }
 module.exports = coursesController
 

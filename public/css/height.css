@@ -16,6 +16,35 @@
     height: 50px;
 }
 
+/* height vw */
+.h-5vh{
+    height: 5vh;
+}
+.h-8vh{
+    height: 8vh;
+}
+.h-10vh{
+    height: 10vh;
+}
+.h-20vh{
+    height: 20vh;
+}
+.h-25vh{
+    height: 25vh;
+}
+.h-30vh{
+    height: 30vh;
+}
+.h-50vh{
+    height: 50vh;
+}
+.h-55vh{
+    height: 55vh;
+}
+.h-60vh{
+    height: 60vh;
+}
+
 /* max height */
 .max-h-50{
     max-height:550px

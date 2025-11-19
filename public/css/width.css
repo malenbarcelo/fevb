@@ -149,7 +149,7 @@
     width:950px
 }
 
-/* --- max widths --- */
+/* --- max widths percentage--- */
 .max-w-40p{
     max-width: 40%;
 }
@@ -165,4 +165,9 @@
 .max-w-95p{
     max-width: 95%;
 
+}
+
+/* --- max widths px--- */
+.max-w-600px{
+    max-width: 600px;
 }

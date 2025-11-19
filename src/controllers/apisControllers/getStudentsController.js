@@ -8,7 +8,7 @@ const getStudentsController = {
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
-            
+
             // add filters
             if (cuit) {
                 filters.cuit = cuit

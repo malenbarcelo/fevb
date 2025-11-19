@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-   const alias = "Corses_pl_additional_per_category"
+   const alias = "Courses_pl_additional_per_category"
 
    const cols = {
       id:{

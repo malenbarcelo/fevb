@@ -1,6 +1,7 @@
 const express = require('express')
 const getCoursesController = require('../../controllers/apisControllers/getCoursesController')
 const getStudentsController = require('../../controllers/apisControllers/getStudentsController')
+const getExamsController = require('../../controllers/apisControllers/getExamsController')
 
 const router = express.Router()
 
@@ -13,6 +14,9 @@ router.get('/courses/additional-per-category',getCoursesController.addionalPerCa
 
 ///// students
 router.get('/students',getStudentsController.students)
+
+///// exams
+router.get('/exams/questions',getExamsController.examsQuestions)
 
 
 module.exports = router

@@ -49,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      id_exams:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

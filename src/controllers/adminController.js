@@ -1,5 +1,5 @@
 const { weeksToShow } = require("../functions/datesFuntions.js")
-const datesQueries = require("../dbQueries/professionalLicences/datesQueries.js")
+const datesQueries = require("../dbQueries/courses/datesQueries.js")
 
 const adminController = {
     // login

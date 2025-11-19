@@ -31,11 +31,27 @@ const studentsQueries = {
 
         
         const data = await model.findAndCountAll({
-            include:[{association: 'course_type_data'}],            
+            include:[
+                {association: 'course_type_data'},
+                {
+                    association: 'student_exams',
+                    include: [
+                        { 
+                            association:'attempts',
+                            include: [{association: 'answers'}] 
+                        },
+                        { association:'exam_data' }
+                    ],
+                    require: true
+                },
+                {association: 'attendance'},
+                {association: 'payments'},
+            ],            
             order,
             where,
             limit,
             offset,
+            distinct: true,
             nest:true
         })
 

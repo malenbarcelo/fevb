@@ -1,5 +1,6 @@
 const express = require('express')
 const adminController = require('../controllers/adminController.js')
+const examsController = require('../controllers/examsController.js')
 const inscriptionsController = require('../controllers/inscriptions/inscriptionsController.js')
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
@@ -32,6 +33,18 @@ router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveIn
 
 ///// professional licences
 router.get('/professional-licences/inscriptions',professionalLicencesController.redirect) // redirect old route
+
+///// exams
+router.get('/examenes/ingresar',examsController.ingresar)
+router.get('/examenes/login',examsController.login)
+router.post('/examenes/login',examsController.setStudentData)
+router.get('/examenes/logout',examsController.logout)
+router.get('/examenes/pendientes',examsController.pendingExams)
+router.post('/examenes/set-exam',examsController.setExam)
+router.get('/examenes/resultado',examsController.examResult)
+router.get('/examenes/preguntas',examsController.exam)
+router.get('/examenes/ver-respuestas',examsController.examAnswers)
+
 
 
 module.exports = router

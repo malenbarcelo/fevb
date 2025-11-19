@@ -2,6 +2,8 @@ const domain = require("../../data/domain")
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
 const typesQueries = require("../../dbQueries/courses/typesQueries")
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
+const studentsInscriptionsQueries = require("../../dbQueries/students/studentsInscriptionsQueries")
+const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries")
 const {transporterData, sendMail} = require("../../functions/mailFunctions")
 const {postData,getDataToPost} = require("../../functions/postGSdata")
 const fetch = require('node-fetch')
@@ -257,7 +259,7 @@ const inscriptionsController = {
         try{
 
             const data = req.session
-            
+
             // save data in students
             const studentsData = [{
                 cuit: data.cuit,
@@ -271,8 +273,29 @@ const inscriptionsController = {
                 price: data.price,
             }]
 
-            // save students
             const createdData = await studentsQueries.create(studentsData)
+
+            // save students inscriptions
+            const inscription = data.coursesData.map(cd => ({
+                id_students: createdData[0].id,
+                id_courses: cd.id
+            }))
+
+            await studentsInscriptionsQueries.create(inscription)
+
+            // save students exams
+            const exams = data.coursesData.map(cd => ({
+                id_exams: cd.id_exams,
+                practical: cd.practical
+            }))
+
+            const uniqueExams = [...new Set(exams.map(d => d.id_exams))].map(id => ({
+                id_students: createdData[0].id,
+                id_exams: id,
+                practical: exams.some(d => d.id_exams === id && d.practical === 1) ? 1 : 0
+            }))
+
+            await studentsExamsQueries.create(uniqueExams)
 
             // save data in students_attendance
             const shifts = data.schedule.shifts.map(item => ({
@@ -286,7 +309,6 @@ const inscriptionsController = {
                 attended: 0
             }))
 
-            // save students attendance
             await studentsAttendanceQueries.create(shifts)
 
             // selection
@@ -327,37 +349,7 @@ const inscriptionsController = {
             console.log(error)
             return res.send('Ha ocurrido un error')
         }
-    },
-
-    // success mercado pago payment
-    success: (req,res) => {
-        try{
-            return res.render('mercadoPago/success',{title:'FEVB - Checkout'})
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
-
-    // pending mercado pago payment
-    pending: (req,res) => {
-        try{
-            return res.render('mercadoPago/pending',{title:'FEVB - Checkout'})
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
-
-    // failure mercado pago payment
-    failure: (req,res) => {
-        try{
-            return res.render('mercadoPago/failure',{title:'FEVB - Checkout'})
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
+    }
 }
 module.exports = inscriptionsController
 

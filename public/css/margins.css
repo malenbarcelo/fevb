@@ -58,6 +58,15 @@
 .mt-50{
     margin-top:50px
 }
+.mt-55{
+    margin-top:55px
+}
+.mt-60{
+    margin-top:60px
+}
+.mt-65{
+    margin-top:65px
+}
 .mt-70{
     margin-top:70px
 }
@@ -86,6 +95,9 @@
 /* margin bottom */
 .mb-15-{
     margin-bottom: -15px;
+}
+.mb-0{
+    margin-bottom:0px
 }
 .mb-5{
     margin-bottom:5px
@@ -143,4 +155,21 @@
 }
 .mb-75{
     margin-bottom:75px
+}
+
+/* margin left */
+.ml-5{
+    margin-left: 5px;
+}
+.ml-10{
+    margin-left: 10px;
+}
+.ml-15{
+    margin-left: 15px;
+}
+
+@media (max-width:730px){
+    .mt-25{
+        margin-top: 5px;
+    }
 }

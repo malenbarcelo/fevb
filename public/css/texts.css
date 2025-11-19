@@ -31,6 +31,10 @@
     font-size: 14px;
 }
 
+.fs-15{
+    font-size: 15px;
+}
+
 .fs-16{
     font-size: 16px;
 }
@@ -39,10 +43,44 @@
     font-size: 17px;
 }
 
+.fs-19{
+    font-size: 19px;
+}
+
+.fs-20{
+    font-size: 20px;
+}
+
+.fs-22{
+    font-size: 22px;
+}
+
+.fs-25{
+    font-size: 25px;
+}
+
 /*--- font color ---*/
 .fc-blue{
     color: blue;
+}
+.fc-error{
+    color: var(--errorColor);
+}
+.fc-green{
+    color: green;
+}
+.fc-gray{
+    color: gray;
+}
+.fc-1{
+    color: var(--color1);
+}
+.fc-1-hover-5{
+    color: var(--color1);
+}
 
+.fc-1-hover-5:hover{
+    color: var(--color5);
 }
 
 /*--- font weight ---*/
@@ -64,10 +102,16 @@
     .tm{
         font-size: 13px;
     }
-    .fs-17{
-        font-size: 15px;
+    .fs-15{
+        font-size: 14px;
     }
     .fs-16{
         font-size: 14px;
+    }
+    .fs-17{
+        font-size: 15px;
+    }
+    .fs-19{
+        font-size: 17px;
     }
 }

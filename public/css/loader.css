@@ -32,6 +32,10 @@
 }
 
 /* laoder - top */
+.lt-s{
+    top: 30%;
+}
+
 .lt-m{
     top: 40%;
 }

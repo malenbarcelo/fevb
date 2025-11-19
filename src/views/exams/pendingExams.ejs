@@ -1,0 +1,33 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">EXÁMENES VIGENTES</div>
+
+<form action="/examenes/set-exam" method="POST">
+    <div class="pending-exams">
+        <% pendingExams.forEach(exam => { %>
+            <div class="pending-exam">
+                <div class="fw-b fs-16"><%= exam.exam_data.exam_name.toUpperCase() %></div>
+                <div class="flex-r cg-10 jc-c">
+                    <div>Examen práctico: </div>
+                    <div class="fs-15 fw-b <%= exam.status_css %>"><%= exam.status.toUpperCase() %></div>
+                </div>
+                <div class="flex-r cg-10 jc-c">
+                    <div>Examen teórico: </div>
+                    <div class="fs-15 fw-b <%= exam.status_css %>">PENDIENTE</div>
+                </div>
+                
+                <% if (exam.status != 'Aprobado') { %>
+                    <button class="<%= exam.button_data.class %> w-250 pad-7-0 m-a mt-15" type="<%= exam.button_data.type %>" name="<%= exam.id %>"><%= exam.button_data.text %></button>
+                <% } %>
+                
+            </div>
+        <% }) %>
+    </div>
+</form>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-m"></div>
+</div>
+
