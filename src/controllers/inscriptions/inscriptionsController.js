@@ -206,8 +206,9 @@ const inscriptionsController = {
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
             const selectionSummary = req.session.selectionSummary // only if professional licences
-            
+
             return res.render('inscriptions/personalData',{title:'FEVB - Inscripciones',title,price,selectionSummary})
+
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -284,18 +285,18 @@ const inscriptionsController = {
             await studentsInscriptionsQueries.create(inscription)
 
             // save students exams
-            const exams = data.coursesData.map(cd => ({
-                id_exams: cd.id_exams,
-                practical: cd.practical
-            }))
+            // const exams = data.coursesData.map(cd => ({
+            //     id_exams: cd.id_exams,
+            //     practical: cd.practical
+            // }))
 
-            const uniqueExams = [...new Set(exams.map(d => d.id_exams))].map(id => ({
-                id_students: createdData[0].id,
-                id_exams: id,
-                practical: exams.some(d => d.id_exams === id && d.practical === 1) ? 1 : 0
-            }))
+            // const uniqueExams = [...new Set(exams.map(d => d.id_exams))].map(id => ({
+            //     id_students: createdData[0].id,
+            //     id_exams: id,
+            //     practical: exams.some(d => d.id_exams === id && d.practical === 1) ? 1 : 0
+            // }))
 
-            await studentsExamsQueries.create(uniqueExams)
+            // await studentsExamsQueries.create(uniqueExams)
 
             // save data in students_attendance
             const shifts = data.schedule.shifts.map(item => ({

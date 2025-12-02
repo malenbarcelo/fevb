@@ -35,12 +35,13 @@ const gf = {
     },
 
     showResultPopup: function(popupToShow) {
+
         popupToShow.classList.add('okSlideIn')
 
         //hide okPopup after one second
         setTimeout(function() {
             popupToShow.classList.remove('okSlideIn')
-        }, 2000)    
+        }, 3000)    
     },
 
     clearInputs: function(inputs) {

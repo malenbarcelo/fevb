@@ -35,14 +35,15 @@ const studentsQueries = {
                 {association: 'course_type_data'},
                 {
                     association: 'student_exams',
-                    include: [
-                        { 
-                            association:'attempts',
-                            include: [{association: 'answers'}] 
-                        },
-                        { association:'exam_data' }
-                    ],
-                    require: true
+                    // include: [
+                    //     { 
+                    //         association:'student_answer_data',
+                    //         require: true,
+                    //         include: [{association: 'answers'}] 
+                    //     },
+                    //     { association:'exam_data' }
+                    // ],
+                    // require: true
                 },
                 {association: 'attendance'},
                 {association: 'payments'},

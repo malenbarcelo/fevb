@@ -44,12 +44,12 @@ module.exports = (sequelize, DataTypes) => {
       ciu:{
          type: DataTypes.INTEGER,
          allowNull: false,
-      },
-      practical:{
+      },      
+      id_exams_theoricals:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      id_exams:{
+      id_exams_practicals:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },
@@ -70,6 +70,14 @@ module.exports = (sequelize, DataTypes) => {
       Course.belongsTo(models.Courses_types,{
          as:'type_data',
          foreignKey: 'id_courses_types'
+      }),
+      Course.belongsTo(models.Exams_theoricals,{
+         as:'theorical_data',
+         foreignKey: 'id_exams_theoricals'
+      }),
+      Course.belongsTo(models.Exams_practicals,{
+         as:'practical_data',
+         foreignKey: 'id_exams_practicals'
       })
    }
    

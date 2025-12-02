@@ -3,7 +3,7 @@ table{
     margin: auto;
     border-collapse: collapse;
     width: max-content; /* permite que la tabla se expanda más allá del contenedor si es necesario */
-    table-layout: auto; /* evita truncamientos extraños */
+    table-layout: fixed; 
 }
 thead{
     position: sticky;
@@ -39,7 +39,6 @@ thead{
     text-align: center;
     background-color: var(--color1);
     color: white;
-    height: 2rem;
     font-weight: lighter;
 }
 
@@ -56,7 +55,7 @@ thead{
     padding: 3px 5px;
     overflow: hidden; /* Hides overflow */
     text-overflow: ellipsis; /* Adds ellipsis (...) */
-    white-space: nowrap; /* Prevents text from wrapping into multiple lines*/
+    /*white-space: nowrap; */
 }
 
 .body-overflow{

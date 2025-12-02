@@ -1,0 +1,33 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">FEVB - EXÁMENES</div>
+
+<div class="fs-15 mt-15 mb-10 ta-c">Ingrese su CUIT</div>
+
+<form action="/cuestionarios/login" method="POST">
+
+    <div class="ta-c">
+        <input type="text" name="cuit" id="cuit" class="input-std w-250 max-w-90p pad-12-0" autocomplete="off">
+    </div>
+    
+    <div class="flex-r cg-5 ai-c jc-c mt-25 fs-15 fc-error max-w-90p m-a not-visible" id="error">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>No re registran exámenes pendientes para el CUIT ingresado</div>
+    </div>
+
+    <div class="buttons-row mt-xl">
+        <button type="submit" class="btn-std mt-35 w-250 max-w-90p pad-12-0" id="loginBtn">BUSCAR CUIT</button>
+    </div>
+</form>
+
+
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-s"></div>
+</div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/exams/login/login.js?v=<%= Date.now() %>"></script>
+

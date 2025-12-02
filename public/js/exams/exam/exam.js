@@ -13,8 +13,6 @@ window.addEventListener('load',async()=>{
     g.questions = await (await fetch(`${domain}get/exams/questions?order:[["question_number","ASC"]]`)).json()
     g.examImages = await (await fetch(`${domain}composed/get-exam-images`)).json()
 
-    console.log(sessionData)
-
     // update question
     f.updateQuestion()
 

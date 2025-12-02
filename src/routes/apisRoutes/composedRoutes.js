@@ -19,8 +19,10 @@ router.get('/get-last-n-weeks',datesController.getLastNweeks)
 router.get('/get-session-data',studentSessionController.getSessionData)
 
 ///// exams
-router.get('/get-exam-images',examsController.getExamImages)
-router.get('/get-exam-action',examsController.getExamAction)
+router.get('/theoricals/get-exam-images',examsController.getExamImages)
+router.get('/theoricals/get-exam-action',examsController.getExamAction)
+
+
 
 
 

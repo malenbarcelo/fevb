@@ -24,50 +24,6 @@
     margin: auto;
 }
 
-
-
-/* popups titles and texts */
-.pp-title{
-    font-weight: bold;
-    text-align: center;
-}
-
-.pp-text{
-    text-align: center;
-}
-
-/* popups titles and texts sizes*/
-.pp-tt-14{
-    font-size: 14px;
-}
-.pp-tt-15{
-    font-size: 15px;
-}
-.pp-tt-16{
-    font-size: 16px;
-}
-.pp-tt-17{
-    font-size: 17px;
-}
-
-.pp-tt-s{
-    font-size: 15px;
-}
-
-.pp-tt-m{
-    font-size: 17px;
-}
-
-.pp-tt-20{
-    font-size: 20px;
-}
-
-.pp-tt-l{
-    font-size: 20px;
-}
-
-/* popup image */
-
 /* div popup close */
 .pp-img-and-close{
     width: 100%;
@@ -88,9 +44,6 @@
 .pp-close-icon{
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 20px;
-    height: 20px;
     background-color: var(--color1);
     color: white;
 }
@@ -99,7 +52,3 @@
     background-color:var(--color5);
 }
 
-/* div popup close icon sizes*/
-.ppc-s{
-    font-size: 20px;
-}

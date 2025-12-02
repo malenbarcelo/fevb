@@ -78,6 +78,7 @@ const coursesController = {
             const includesCIU = coursesData.find(c => c.ciu == 1)
 
             if (includesCIU) {
+
                 let ciuSchedule = await ciuScheduleQueries.get({filters:{year_week:mapWeeksToShow}})
                 
                 // show only shifts data
@@ -88,6 +89,11 @@ const coursesController = {
                     exclude.forEach(key => delete newObj[key])
                     return newObj
                 })
+
+                // filter weeks
+                const scheduleWeeks = [...new Set(schedule.map( s => s.week_number))]
+
+                ciuSchedule = ciuSchedule.filter( cs => scheduleWeeks.includes(cs.week_number))
 
                 const ciuShiftsDurations = ciuSchedule.map(({ day, day_shift, duration_hours }) => ({
                     day,
@@ -118,13 +124,13 @@ const coursesController = {
             )
 
             // show only corresdponding week type if applies
-            const weeksTypes = [...new Set(schedule.map( s => s.weeks))]
-            if (weeksTypes.includes('odd')) {
-                schedule = schedule.filter( s => s.week_number % 2 == 0)
-            }
-            if (weeksTypes.includes('even')) {
-                schedule = schedule.filter( s => s.week_number % 2 != 0)
-            }
+            // const weeksTypes = [...new Set(schedule.map( s => s.weeks))]
+            // if (weeksTypes.includes('odd')) {
+            //     schedule = schedule.filter( s => s.week_number % 2 == 0)
+            // }
+            // if (weeksTypes.includes('even')) {
+            //     schedule = schedule.filter( s => s.week_number % 2 != 0)
+            // }
             
             const commissions = [...new Set(schedule.map(c => c.commission_number))]
 

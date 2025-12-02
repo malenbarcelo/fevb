@@ -1,0 +1,69 @@
+.pending-exams{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+}
+
+.pending-exam{
+    width: 500px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px 0px;
+    background-color: rgb(238, 236, 236);
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    max-width: 90%;
+}
+
+.pending-exam-title{
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.pending-exam-info{
+    display: flex;
+    column-gap: 5px;
+    justify-content: center;
+}
+
+.pending-exam-info-title{
+    width: 60px;
+    text-align: left;
+}
+
+.pending-exam-info-status{
+    width: 160px;
+    text-align: left;
+}
+
+.passed-exam{
+    color: green;
+}
+
+.not-passed-exam{
+    color: var(--errorColor);
+}
+
+.pending-exam-status{
+    color: rgb(163, 163, 2);
+}
+
+.pending-course{
+    color: gray;
+}
+
+@media (max-width:730px){
+    .pending-exams{
+        margin-top: -15px;
+    }
+    .pending-exam-title{
+        font-size: 14px
+    }
+    .pending-exam-info{
+        font-size: 13px;
+    
+    }
+}

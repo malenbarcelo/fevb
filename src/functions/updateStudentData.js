@@ -1,9 +1,9 @@
 const df = require("../functions/datesFuntions")
 const studentsQueries = require("../dbQueries/students/studentsQueries.js")
-const studentsAnswersQueries = require("../dbQueries/students/studentsAnswersQueries.js")
+const studentsTheoricalsAnswersQueries = require("../dbQueries/students/studentsTheoricalsAnswersQueries.js")
 const studentsAnswersDetailsQueries = require("../dbQueries/students/studentsAnswersDetailsQueries.js")
 const studentsExamsQueries = require("../dbQueries/students/studentsExamsQueries.js")
-const examsQuestionsQueries = require("../dbQueries/exams/examsQuestionsQueries.js")
+const examsTheoricalsQuestionsQueries = require("../dbQueries/exams/examsTheoricalsQuestionsQueries.js")
 
 const updateStudentData = {
 
@@ -42,9 +42,9 @@ const updateStudentData = {
                 const attended = sd.attendance.some(a => a.attended == 0) ? false : true
                 const payments = sd.payments.reduce((sum, item) => sum + parseFloat(item.amount), 0)
                 const paid = payments >= parseFloat(sd.price)
-                const pending = yearWeekPosition < weeksToShow.indexOf(sd.year_week)
-                const course_status = pending ? 'Curso pendiente' : ( !paid ? 'Pago pendiente' : ( !attended ? 'Curso incompleto' : 'Examen autorizado' ))
-                return sd.student_exams.map(exam => ({ ...exam, course_status }))
+                const pending_course = yearWeekPosition < weeksToShow.indexOf(sd.year_week)
+                //const course_status = pending ? 'Curso pendiente' : ( !paid ? 'Pago pendiente' : ( !attended ? 'Curso incompleto' : 'Examen autorizado' ))
+                return sd.student_exams.map(exam => ({ ...exam, attended, paid, pending_course }))
             })
             .sort((a, b) => 
                 a.exam_data.exam_name.localeCompare(b.exam_data.exam_name)
@@ -52,19 +52,16 @@ const updateStudentData = {
 
         // exam status
         pendingExams.forEach(exam => {
-            if (exam.attempts.length == 0) {
-                exam.exam_status = 'Examen pendiente'
-            }else{
-                const lastAttempt = exam.attempts.reduce((max, item) => item.id > max.id ? item : max)
-                exam.exam_status = lastAttempt.status == 'in-progress' ? 'Examen en proceso' : (lastAttempt.status == 'not-passed' ? 'Desaprobado' : 'Aprobado')
-            }
-        });
-
-        // general status
-        pendingExams.forEach(exam => {                
-            const status = exam.course_status == 'Examen autorizado' ? exam.exam_status : exam.course_status
-            exam.status = status
-        });
+            exam.status =
+                exam.pending_course            ? 'Curso pendiente'
+                : !exam.paid                     ? 'Pago pendiente'
+                : !exam.attended                 ? 'Curso incompleto'
+                : !exam.id_students_answers      ? 'Examen pendiente'
+                : exam.student_answer_data.status === 'in-progress'  ? 'Examen en proceso'
+                : exam.student_answer_data.status === 'passed'       ? 'Aprobado'
+                : exam.student_answer_data.status === 'not-passed'   ? 'Desaprobado'
+                : exam.status
+        })
 
         // CSS
         const statusMap = {
@@ -111,11 +108,11 @@ const updateStudentData = {
         if (answers.length == 0 || answers[0].status == 'not-passed') {
             
             // get version
-            let version = await examsQuestionsQueries.getVersion(idExams)
+            let version = await examsTheoricalsQuestionsQueries.getVersion(idExams)
             version = version.version
 
             // get variant
-            let variants = await examsQuestionsQueries.uniqueVariants({filters:{id_exams:idExams,exam_version:version}})
+            let variants = await examsTheoricalsQuestionsQueries.uniqueVariants({filters:{id_exams:idExams,exam_version:version}})
             variants = variants.map( v => v.variants)
             const variant = answers.length > 0 ? answers[0].exam_variant : variants[Math.floor(Math.random() * variants.length)]
             
@@ -145,7 +142,7 @@ const updateStudentData = {
 
             // create students answers details
             const answersDetails = []
-            const questions = await examsQuestionsQueries.get({filters:{id_exam:idExams, exam_version:version, exam_variant: variant}})
+            const questions = await examsTheoricalsQuestionsQueries.get({filters:{id_exam:idExams, exam_version:version, exam_variant: variant}})
 
             questions.forEach(question => {
 

@@ -1,0 +1,41 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="fs-19 fw-b mt-25--5 flex-r ai-c jc-c"><%= examName.toUpperCase() %></div>
+
+<div class="question-container">
+
+    <div class="fs-14 fd-15 w-fc w-600 ta-c lh-1-5 max-w-90p m-a mb-15" id="question"></div>
+
+    <div class="fs-14 fc-error w-fc m-a fw-b not-visible" id="error">Debe seleccionar una opción para continuar</div>
+
+    <div class="mt-30" id="questionImage"></div>
+
+    <div class="fs-14 txs flex-c rg-15 m-a mt-25 w-fc max-w-90p" id="questionOptions"></div>    
+
+</div>
+
+<div class="ta-c mb-20 fs-14" id="questionNumber"></div>
+
+<div class="flex-r cg-5 jc-sb m-a mb-5 w-400 max-w-90p fw-b fs-17">
+    
+    <div class="flex-r cg-5 jc-fs ai-c pointer fc-1-hover-5 w-150" id="backBtn">
+        <i class="fa-solid fa-backward"></i>
+        <div>ATRAS</div>
+    </div>
+
+    <div class="flex-r cg-5 ai-c jc-fe pointer fc-1-hover-5 w-150" id="continueBtn">        
+        <div id="continueBtnText">CONTINUAR</div>
+        <i class="fa-solid fa-forward"></i>
+    </div>
+    
+</div>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-m"></div>
+</div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/exams/exam/exam.js?v=<%= Date.now() %>"></script>
+

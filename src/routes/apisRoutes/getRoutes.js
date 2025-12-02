@@ -15,8 +15,13 @@ router.get('/courses/additional-per-category',getCoursesController.addionalPerCa
 ///// students
 router.get('/students',getStudentsController.students)
 
+///// students exams
+router.get('/students-exams',getStudentsController.studentsExams)
+
 ///// exams
-router.get('/exams/questions',getExamsController.examsQuestions)
+router.get('/exams/theoricals/questions',getExamsController.examsTheoricalsQuestions)
+router.get('/exams/practicals/questions',getExamsController.examsPracticalsQuestions)
+
 
 
 module.exports = router

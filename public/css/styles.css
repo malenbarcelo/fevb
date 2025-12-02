@@ -5,6 +5,7 @@
     --color3:#e4eef2;
     --color4:#6B7D87;
     --color5:#132a34;
+    --color6:#c7d4d9;
     --errorColor:rgb(221, 7, 7);
     --errorColorLight:rgb(202, 127, 127);
     --okColor: green;
@@ -97,6 +98,18 @@ a{
 
 .cg-10{
     column-gap: 10px;
+}
+
+.rg-5{
+    row-gap: 5px;
+}
+
+.rg-10{
+    row-gap: 10px;
+}
+
+.rg-15{
+    row-gap: 15px;
 }
 
 .rg-20{

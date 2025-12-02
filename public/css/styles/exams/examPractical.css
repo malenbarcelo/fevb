@@ -1,0 +1,58 @@
+
+.stage-container{
+    border: var(--color2) solid 1px;
+    border-radius: 5px;
+    background-color: var(--color3);
+    margin: auto;
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 20px;
+    width: 85%;
+}
+
+.stage-container-error{
+    border: var(--errorColor) solid 2px;
+}
+
+.practical-question-text{
+    line-height: 1.3;
+}
+
+.practical-question-box{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 9px 5px;
+    width: 100%;
+}
+
+.practical-question{
+    width: 60%;
+}
+
+.practical-question-options{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    column-gap: 20px;
+
+}
+
+.practical-question-option-even{
+    background-color: var(--color3);
+}
+
+.practical-question-option-odd{
+    background-color: var(--color6);
+}
+
+.practical-input-obs{
+    border: var(--color6) solid 1px;
+    width: 100%;
+    padding: 7px 3px;
+}
+
+@media (max-width:730px){
+    
+}

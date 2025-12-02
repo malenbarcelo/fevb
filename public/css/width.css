@@ -136,8 +136,14 @@
 .w-670{
     width:670px
 }
+.w-700{
+    width:700px
+}
 .w-750{
     width:750px
+}
+.w-800{
+    width:800px
 }
 .w-850{
     width:850px
@@ -148,6 +154,22 @@
 .w-950{
     width:950px
 }
+.w-1000{
+    width:1000px
+}
+.w-1100{
+    width:1100px
+}
+.w-1200{
+    width:1200px
+}
+
+/* --- max percentage--- */
+.w-100p{
+    width: 100%;
+}
+
+
 
 /* --- max widths percentage--- */
 .max-w-40p{

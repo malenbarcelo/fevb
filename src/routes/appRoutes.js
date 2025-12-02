@@ -1,6 +1,7 @@
 const express = require('express')
 const adminController = require('../controllers/adminController.js')
-const examsController = require('../controllers/examsController.js')
+const practicalController = require('../controllers/practicalController.js')
+const theoricalController = require('../controllers/theoricalController.js')
 const inscriptionsController = require('../controllers/inscriptions/inscriptionsController.js')
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
@@ -8,8 +9,10 @@ const professionalLicencesController = require('../controllers/inscriptions/prof
 const router = express.Router()
 
 ///// admin
-router.get('/',adminController.login)
+router.get('/',adminController.main)
+router.get('/login',adminController.login)
 router.post('/login',adminController.loginProcess)
+router.get('/menu',adminController.mainMenu)
 
 ///// inscriptions
 router.get('/inscripciones/gestion',adminController.inscManagement)
@@ -34,18 +37,21 @@ router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveIn
 ///// professional licences
 router.get('/professional-licences/inscriptions',professionalLicencesController.redirect) // redirect old route
 
-///// exams
-router.get('/examenes/ingresar',examsController.ingresar)
-router.get('/examenes/login',examsController.login)
-router.post('/examenes/login',examsController.setStudentData)
-router.get('/examenes/logout',examsController.logout)
-router.get('/examenes/pendientes',examsController.pendingExams)
-router.post('/examenes/set-exam',examsController.setExam)
-router.get('/examenes/resultado',examsController.examResult)
-router.get('/examenes/preguntas',examsController.exam)
-router.get('/examenes/ver-respuestas',examsController.examAnswers)
+// ///// theorical exams
+// router.get('/cuestionarios',theoricalController.ingresar)
+// router.get('/cuestionarios/login',theoricalController.login)
+// router.post('/cuestionarios/login',theoricalController.setStudentData)
+// router.get('/cuestionarios/logout',theoricalController.logout)
+// router.get('/cuestionarios/pendientes',theoricalController.pendingExams)
+// router.post('/cuestionarios/set-exam',theoricalController.setExam)
+// router.get('/cuestionarios/preguntas',theoricalController.exam)
+// router.get('/cuestionarios/resultado',theoricalController.examResult)
+// router.get('/cuestionarios/ver-respuestas',theoricalController.examAnswers)
 
-
+// //// practical exams
+// //router.get('/examenes/practicos',practicalController.practical)
+// //router.get('/examenes/teoricos',practicalController.practical)
+// router.get('/examenes/examen-practico',practicalController.completePractical)
 
 module.exports = router
 

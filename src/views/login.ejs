@@ -1,12 +1,12 @@
 <%- include('./partials/head') %>
 <%- include('./partials/header') %>
 
-<div class="txxxxl fw-b mt-35 mb-70 ta-c">INICIAR SESIÓN</div>
+<div class="fs-19 fw-b mt-35 mb-70 ta-c">INICIAR SESIÓN</div>
 
 <form action="/login" method="POST">
     <div class="inputs-column">
         <div class="div-input">
-            <label for="email" class="label-std <%= locals.errors && errors.userName ? '' : null %>">Email</label>
+            <label for="email" class="label-std <%= locals.errors && errors.userName ? '' : null %>">Usuario</label>
             <input type="text" name="email" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? '' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
             <div class="input-error">
                 <% if (locals.errors && errors.userName) { %>

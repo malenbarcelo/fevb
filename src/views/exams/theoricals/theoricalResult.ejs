@@ -1,0 +1,33 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<% if (examStatus == 'passed') { %>
+    <div class="flex-r cg-10 fs-20 fw-b fc-green ai-c jc-c mt-150-50 max-w-90p ta-c m-a">
+        <i class="fa-regular fa-circle-check"></i>
+        <div>¡FELICITACIONES! has aprobado el examen</div>
+    </div>
+    <% } else { %>
+        <div class="flex-c rg-15 fw-b fc-error ai-c jc-c mt-150-50 max-w-90p m-a">
+            <i class="fa-regular fa-circle-xmark fs-25"></i>
+            <div class="ta-c fs-19" >Lo sentimos, no has aprobado el examen</div>
+        </div>
+<% } %>
+
+<div class="fs-15 ta-c mt-25 mb-30">Respuestas correctas: <%= correctAnswers + ' / ' + questionsQty %></div>
+
+<% if (examStatus == 'not-passed') { %>
+    <div class="fs-15 ta-c mt-10">Necesitas <%= answersToPass %> respuestas correctas para aprobar</div>
+    <div class="btn-std w-200 m-a mt-50 pad-7-0">Rehacer examen</div>
+    <a href="/examenes/ver-respuestas">
+        <div class="btn-std w-200 m-a mt-10 pad-7-0">Ver examen</div>
+    </a>
+<% } %>
+
+<a href="/examenes/pendientes">
+    <div class="btn-std w-200 m-a mt-10 pad-7-0">Volver al menú</div>
+</a>
+
+
+
+
+

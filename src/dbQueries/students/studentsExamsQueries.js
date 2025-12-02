@@ -1,9 +1,10 @@
 const db = require('../../../database/models')
 const { Op } = require('sequelize') 
 const model = db.Students_exams
+const studentsModel = db.Students
 
 const studentsExamsQueries = {
-    get: async({ filters }) => {
+    get: async({ limit, offset, filters }) => {
 
         // order
         let order = ''
@@ -18,19 +19,45 @@ const studentsExamsQueries = {
             where.id = filters.id
         }
 
-        const data = await model.findAll({            
-            include: [                
+        if (filters.practicals_status) {
+            where.practicals_status = filters.practicals_status
+        }
+
+        const data = await model.findAndCountAll({            
+            include: [
+                {association:'exam_practical_data'},
                 {
-                    association: 'student_data'},
+                    association:'theoricals_answers',
+                    order:[["id","DESC"]],
+                    separate: true
+                },
                 {
-                    association: 'exam_data',
+                    association: 'practicals_answers',
+                    order:[["id","DESC"]],
+                    separate: true
+                },
+                {
+                    association:'student_data',
+                    include:[
+                        {association:'payments'},
+                        {association:'attendance'}
+
+                    ]
                 }
             ],
             where,
-            nest:true
+            limit,
+            offset,
+            nest:true,
+            order: [
+                [{ model: studentsModel, as: 'student_data' }, 'name', 'ASC']
+            ]
         })
 
-        const plainData = data.map(d => d.get({ plain: true }))
+        const plainData = {
+            ...data,
+            rows: data.rows.map(r => r.get({ plain: true }))
+        }
 
         return plainData
     },

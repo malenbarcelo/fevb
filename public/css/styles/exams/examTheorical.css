@@ -1,0 +1,22 @@
+.question-container{
+    height: 60vh;
+    margin-top: 40px;
+}
+
+.question-image-container{
+    text-align: center;
+}
+
+.question-image{
+    height: 100px;
+}
+
+@media (max-width:730px){
+    .question-image{
+        height: 80px;
+    }
+    .question-container{
+        height: 55vh;
+        margin-top: 30px;
+    }
+}

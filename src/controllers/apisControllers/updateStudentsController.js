@@ -1,8 +1,7 @@
 const studentsAnswersDetailsQueries = require("../../dbQueries/students/studentsAnswersDetailsQueries")
-const examsQuestionsQueries = require("../../dbQueries/exams/examsQuestionsQueries");
+const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries")
+const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries");
 const gf = require("../../functions/generalFunctions");
-const { compare } = require("bcryptjs");
-
 
 const updateStudentsController = {
     studentsAnswersDetails: async(req,res) =>{
@@ -12,7 +11,7 @@ const updateStudentsController = {
 
             for (let i = 0; i < data.length; i++) {
                 
-                const questionsData = await examsQuestionsQueries.get({filters:{id:data[i].idQuestions}})
+                const questionsData = await examsTheoricalsQuestionsQueries.get({filters:{id:data[i].idQuestions}})
                 
                 const correctOptions = questionsData[0].question_options
                     .filter(item => item.correct_option == 1)
@@ -28,6 +27,20 @@ const updateStudentsController = {
             }
             
             await studentsAnswersDetailsQueries.update('id',data)
+
+            res.status(200).json({response: 'ok'})
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({response: 'error', error: error})
+        }
+    },
+    studentsExams: async(req,res) =>{
+        try{
+
+            let data = req.body
+
+            await studentsExamsQueries.update('id',data)
 
             res.status(200).json({response: 'ok'})
 

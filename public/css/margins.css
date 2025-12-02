@@ -43,6 +43,9 @@
 .mt-25{
     margin-top:25px
 }
+.mt-25--5{
+    margin-top:25px
+}
 .mt-30{
     margin-top:30px
 }
@@ -87,6 +90,9 @@
 }
 .mt-150{
     margin-top:150px
+}
+.mt-150-50{
+    margin-top:150px;
 }
 .mt-160{
     margin-top:160px
@@ -169,7 +175,10 @@
 }
 
 @media (max-width:730px){
-    .mt-25{
-        margin-top: 5px;
+    .mt-25--5{
+        margin-top: -5px;
+    }
+    .mt-150-50{
+        margin-top: 50px;
     }
 }

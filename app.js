@@ -9,6 +9,7 @@ const studentLoggedMiddleware = require('./src/middlewares/studentLoggedMiddlewa
 
 //ROUTES
 const appRoutes = require('./src/routes/appRoutes.js')
+//const createRoutes = require('./src/routes/apisRoutes/createRoutes.js')
 const getRoutes = require('./src/routes/apisRoutes/getRoutes.js')
 const updateRoutes = require('./src/routes/apisRoutes/updateRoutes.js')
 const composedRoutes = require('./src/routes/apisRoutes/composedRoutes.js')
@@ -72,7 +73,8 @@ app.listen(APP_PORT,() => console.log("Servidor corriendo en puerto " + APP_PORT
 //Routes
 app.use('/',appRoutes)
 app.use('/get',getRoutes)
+//app.use('/create',createRoutes)
 app.use('/update',updateRoutes)
 app.use('/composed',composedRoutes)
 
-//console.log('malen: ' + bcrypt.hashSync('jpoblete',10))
+//console.log('malen: ' + bcrypt.hashSync('user1',10))

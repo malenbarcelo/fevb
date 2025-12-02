@@ -1,0 +1,72 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">EXÁMENES PENDIENTES</div>
+
+<div class="inputs-row mb-25">
+    <div class="div-input">
+        <label class="label-std">Semana</label>
+        <select class="input-std w-150 pad-8-0">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Tipo de curso</label>
+        <select class="input-std w-150 pad-8-0">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Alumno</label>
+        <input type="text" class="input-std w-250 pad-8-0">
+    </div>
+    <div class="div-input">
+        <label class="label-std">CUIT</label>
+        <input type="text" class="input-std w-120 pad-8-0">
+    </div>
+    <div id="unfilter" class="unfilter">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <div class="unfilter-info">Quitar filtros</div>
+    </div>        
+</div>
+
+<!--- main table --->
+<div class="div-table table-450" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="ceppInfo">Completar práctica</div>
+
+    <!--- table data --->
+    <table>
+        <thead class="fs-13">
+            <th class="th pad-6-0 w-50">ID</th>
+            <th class="th pad-6-0 w-50">TIPO</th>
+            <th class="th pad-6-0 w-300">EXAMEN</th>
+            <th class="th pad-6-0 w-100">SEMANA</th>
+            <th class="th pad-6-0 w-100">FECHA INICIO</th>            
+            <th class="th pad-6-0 w-300">ALUMNO</th>
+            <th class="th pad-6-0 w-100">CUIT</th>
+            <th class="th pad-6-0 w-50">PAGO</th>
+            <th class="th pad-6-0 w-80">CURSADA</th>
+            <th class="th pad-6-0 w-70">TEÓRICO</th>
+            <th class="th pad-3-0 w-50">
+                <i class="fa-solid fa-file-pen pointer" id="ceppIcon"></i>
+            </th>
+        </thead>
+        <tbody class=" body fs-13 body-std" id="body"></tbody>
+    </table>
+</div>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-l"></div>
+</div>
+
+<!----------POPUPS---------->
+<%- include('../../partials/resultsPopups') %>
+<%- include('./pendingExamsCEPP') %>
+
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/exams/practicals/pendingExams/pendingExams.js?v=<%= Date.now() %>"></script>
+

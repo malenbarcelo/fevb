@@ -117,11 +117,43 @@
     font-weight: bold;
 }
 
+/* user logged under header */
+.user-logged-under-header{
+    font-size: 13px;
+    position: absolute;
+    margin-top: 7px;
+    right: 1%;
+    display: flex;
+    column-gap: 5px;
+    top: 15%;
+}
+
+.under-header-name{
+    color: black;
+}
+
+.under-header-icon{
+    color: black;
+}
+
 @media (max-width:730px){
     .company-logo{
         height: 50px;
     }
-
-
-
+    .user-logged-under-header{
+        font-size: 11px;
+        top: 6%;
+        right: 3%;
+        color: var(--color3);
+    }
+    .under-header-name{
+        max-width: 120px;
+        white-space: nowrap;  /* evita que el texto baje de línea */
+        overflow: hidden;     /* oculta el texto que se pasa */
+        text-overflow: ellipsis; /* agrega los "..." */
+        color: var(--color2);
+    }
+    .under-header-icon{
+        color: var(--color2);
+    } 
 }

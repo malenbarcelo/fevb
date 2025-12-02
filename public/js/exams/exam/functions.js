@@ -38,22 +38,22 @@ const f = {
         questionNumber.innerText = 'Pregunta ' + g.questionData.question_number + ' / ' + g.questions.length
 
         // add image if applies
-        questionImages.innerHTML = ''
-        
+        questionImage.innerHTML = ''
+
         if (g.questionData.includes_images == 1) {
+            
             let html = ''
-            const questionFiles = g.examImages.files.filter( i => i.split('_')[3] == 'question' + g.questionNumber)
-            questionFiles.forEach(image => {
-                let imageOption = image.split('_')[4].split('.')[0]
-                imageOption = imageOption.at(-1) == 'U' ? '' : (imageOption.at(-1) + '.')
-                html += '<div class="question-image-container">'
-                html += imageOption == 'OU' ? '' : '<div>' + imageOption + ' </div>'
+
+            const image = g.examImages.files.find( i => i.split('_')[3] == 'question' + g.questionNumber + '.jpg')
+
+            if (image) {
+
+                html += '<div class="ta-c mt-20 mb-10">'
                 html += '<img src="/images/examsImages/' + g.examImages.folder + '/' + image + '"" alt="FEVB" class="question-image">'
                 html += '</div>'
 
-                
-            })
-            questionImages.innerHTML = html
+                questionImage.innerHTML = html
+            }
         }
 
         // complete options

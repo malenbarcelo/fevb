@@ -1,4 +1,12 @@
-
+.h-20{
+    height: 20px;
+}
+.h-25{
+    height: 25px;
+}
+.h-30{
+    height: 30px;
+}
 
 .h-35{
     height: 35px;
@@ -43,6 +51,16 @@
 }
 .h-60vh{
     height: 60vh;
+}
+
+.h-85vh{
+    height: 85vh;
+}
+.h-90vh{
+    height: 90vh;
+}
+.h-95vh{
+    height: 95vh;
 }
 
 /* max height */

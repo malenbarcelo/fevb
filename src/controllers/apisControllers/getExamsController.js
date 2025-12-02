@@ -1,7 +1,8 @@
-const examsQuestionsQueries = require("../../dbQueries/exams/examsQuestionsQueries")
+const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries")
+const examsPracticalsQuestionsQueries = require("../../dbQueries/exams/examsPracticalsQuestionsQueries")
 
 const getExamsController = {
-    examsQuestions: async(req,res) =>{
+    examsTheoricalsQuestions: async(req,res) =>{
         try{
 
             const { order, show_correct_answer } = req.query
@@ -28,6 +29,35 @@ const getExamsController = {
                     })
                 })
             }
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({error: error})
+        }
+    },
+    examsPracticalsQuestions: async(req,res) =>{
+        try{
+
+            const { order, id_exams_practicals, exam_practical_version} = req.query
+            
+            const filters = {}
+            
+            if (order) {
+                filters.order = JSON.parse(order)
+            }
+
+            if (id_exams_practicals) {
+                filters.id_exams_practicals = JSON.parse(id_exams_practicals)
+            }
+
+            if (exam_practical_version) {
+                filters.exam_practical_version = JSON.parse(exam_practical_version)
+            }
+
+            // get data
+            let data = await examsPracticalsQuestionsQueries.get({ filters })
 
             res.status(200).json(data)
 
