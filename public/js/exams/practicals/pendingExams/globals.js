@@ -1,8 +1,5 @@
 let g = {
     pendingExams: [],
-    examQuestions: [],
-    popups: [cepp],
-    stagesContainers: [ceppStageSwornDeclaration, ceppStageTeachers, ceppStageResults],
     page:0,
     pages:0,
     filters: {
@@ -10,7 +7,11 @@ let g = {
         page:'',
         enabled: 1,
         practicals_status: '["pending","not-passed"]',
-        order: '[["id","ASC"]]'
+        order: '[["id","ASC"]]',
+        courses_types_alias: '',
+        id_exams_practicals: '',
+        cuit: '',
+        name: ''
     },
     // scroll
     loadedPages: new Set(),
@@ -21,14 +22,7 @@ let g = {
             icon:ceppIcon,
             right:'5.5%',
         }
-    ],
-    // inputs
-    teachersInputs: [],
-    questionsInputsNames: [],
-    resultsInputsNames: [],
-    // data to save
-    studentsPracticalsAnswers: {}
-
+    ]
 }
 
 export default g

@@ -1,11 +1,11 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="main-title">CONFIRMAR INSCRIPCIÓN</div>
+<div class="fs-19 fw-b ta-c mt-20_0 mb-25">CONFIRMAR INSCRIPCIÓN</div>
 
 <div class="checkout-info mt-6-">
     <b>VALOR A ABONAR: </b>
-    <div class="ta-c"><%= 'AR$ ' + price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
+    <div class="ta-c"><%= 'AR$ ' + Number(price).toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
 </div>
 
 <div class="ta-c mt-10 color-red w-500 max-w-95p m-a">
@@ -17,22 +17,48 @@
 <div class="checkout-inscription-data mt-5"><%= courseName %></div>
 
 <% if (selectionText.length != '') { %>
-    <div class="tm m-a ta-c mt-10"><%= selectionText %></div>
+    <div class="tm m-a ta-c mt-10 fs-14"><%= selectionText %></div>
 <% } %>
 
-<div class="mt-20 ta-c checkout-info"><b>HORARIOS</b></div>
+<% if (alias == 'SP') { %>
 
-<div class="m-a mt-5 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= scheduleDescription %> </div>
-<div class="m-a mt-10 ta-c checkout-info max-w-95p"><span class="txt-u">PRÁCTICO:</span>El horario de la Práctica será coordinado con el instructor</div>
+    <div class="mt-20 ta-c checkout-info"><b>INFORMACIÓN ADICIONAL</b></div>    
+    <div class="ta-c mt-5 w-500 max-w-95p m-a fs-14">La cursada es 100% vitual; usted podrá gestionar su avance desde una plataforma web.</div>
+    <div class="ta-c mt-10 w-500 max-w-95p m-a fs-14">
+        Se realizará una charla informativa el día <b><i><%=  scheduleDescription %></i></b>
+    </div>
+    <% if (inscriptionType == 'particular') { %>
+        <div class="ta-c mt-10 w-500 max-w-95p m-a fs-14">Una vez que se confirme su pago, se le enviará a su mail la información necesaria para poder iniciar el curso.</div>
+        <% } else { %>
+            <div class="mt-15 ta-c"><b>CANTIDAD DE ALUMNOS INSCRIPTOS:</b> <%= quantity %> </div>
+         
+         
+    <% } %>
+    
 
-<div class="checkout-info m-a mt-20 max-w-95p">
-    <b>DOMICILIO: </b>
-    <div class="ta-c">Colón 388, entre Roca y Belgrano, Neuquén. Instituto FAENA, Piso 3.</div>
-</div>
+    <% } else { %>
+
+    <div class="mt-20 ta-c checkout-info"><b>HORARIOS</b></div>
+
+    <div class="m-a mt-5 ta-c checkout-info w-500 max-w-95p"><span class="txt-u">TEÓRICO:</span><%= scheduleDescription %> </div>
+    <div class="m-a mt-10 ta-c checkout-info max-w-95p"><span class="txt-u">PRÁCTICO:</span>El horario de la Práctica será coordinado con el instructor</div>
+
+    <div class="checkout-info m-a mt-20 max-w-95p">
+        <b>DOMICILIO: </b>
+        <div class="ta-c">Colón 388, entre Roca y Belgrano, Neuquén. Instituto FAENA, Piso 3.</div>
+    </div>
+ 
+<% } %>
 
 <div class="mt-20 ta-c checkout-info"><b>SUS DATOS</b></div>
+<% if (inscriptionType == 'company') { %>
+    <div class="mt-5 ta-c checkout-info"><b>Empresa: </b><%= company %></div>
+<% } %>
 <div class="mt-5 ta-c checkout-info"><b>Nombre: </b><%= name %></div>
-<div class="mt-5 ta-c checkout-info"><b>CUIT: </b><%= cuit %></div>
+<% if (inscriptionType == 'particular') { %>
+    <div class="mt-5 ta-c checkout-info"><b>CUIT: </b><%= cuitCuil %></div>
+<% } %>
+
 <div class="mt-5 ta-c checkout-info"><b>Email: </b><%= email %></div>
 <div class="mt-5 ta-c checkout-info"><b>Teléfono: </b><%= phoneNumber %></div>
 

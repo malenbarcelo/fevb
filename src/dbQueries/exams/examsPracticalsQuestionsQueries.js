@@ -36,7 +36,10 @@ const examsPracticalsQuestionsQueries = {
             nest:true,
         })
 
-        return data
+        const plainData = data.map(d => d.get({ plain: true }))
+
+        return plainData
+        
     },
     getLastVersion: async(idExams) => {
 
@@ -44,6 +47,7 @@ const examsPracticalsQuestionsQueries = {
             where: { id_exams_practicals: idExams },
             order: [['exam_practical_version', 'DESC']],
             attributes: ['exam_practical_version'],
+            raw:true
         });
 
         return data

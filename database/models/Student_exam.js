@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       id_exams_practicals:{
          type: DataTypes.INTEGER,
-         allowNull: false,
+         allowNull: true,
       },
       id_students_theoricals_answers:{
          type: DataTypes.INTEGER,

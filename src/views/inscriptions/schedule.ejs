@@ -9,7 +9,11 @@
     <% }) %>
 </div>
 
-<div class="sch-price"><b><%= 'PRECIO (ARS): ' %></b><%= price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
+<% if (allowsBulkInsc == 0) { %>
+    <div class="sch-price"><b><%= 'PRECIO (ARS): ' %></b><%= price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
+<% } %>
+
+
 
 <div class="fs-16 fw-b ta-c mt-25">HORARIOS DISPONIBLES</div>
 
@@ -31,12 +35,18 @@
     </div>
 
     <div class="w-700 max-w-90p m-a mt-25 ta-c">
-        <div class="mb-20 ta-c fs-16"><b>HORARIO DE CURSADA</b></div>
-        <div class="mb-5" id="selectedDates"><b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico</div>
+        <div class="mb-20 ta-c fs-16"><b><%= courseMethodology == 'sync' ? 'HORARIO DE CURSADA' : 'INICIO DE CURSADA' %></b></div>
+        
+        <div class="mb-5 lh-1-5" id="selectedDates"><b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico</div>
         <div class="sch-days" id="days"></div>
         
         <% if (hasPractical) { %>
-            <div><b>PRÁCTICO: </b>El horario de la Práctica será coordinado con el instructor</div>
+            <% if (courseMethodology == 'sync') { %>
+                <div><b>PRÁCTICO: </b>El horario de la Práctica será coordinado con el instructor</div>
+                <% } else { %>
+                    <div><b>PRÁCTICO: </b>Las prácticas son presenciales. Los horarios serán publicados en la plataforma web</div>
+            <% } %>
+            
         <% } %>
     
     </div>

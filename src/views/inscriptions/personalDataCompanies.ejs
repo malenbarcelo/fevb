@@ -1,0 +1,206 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-19 fw-b ta-c mt-10 mb-10"><%= title.toUpperCase() + ' - Alumnos' %></div>
+<div class="fs-17 ta-c mb-15"><%= company.toUpperCase() + ' - Comisión ' + commission %></div>
+
+<div class="fs-13 fw-b mb-5 fc-error ta-c mb-15 mt-2- not-visible" id="continueError">Debe ingresar al menos un alumno</div>
+
+<div class="pdc-price-box">
+    
+    <div class="pdc-price" id="personalDataPrice"></div>
+
+    <div class="pdc-price-icon" id="pricesListsDetails"><i class="fa-solid fa-circle-info"></i></div>
+
+    <div class="pdc-price-info">Ver detalle de precios</div>
+
+</div>
+
+<div class="general-error ta-c m-a mt-15 mb-15" id="personalDataError">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <div id="errorText"></div>
+</div>
+
+<div class="flex-r cg-15 jc-c mt-20 mb-20">
+    <div id="cesppAddStudent" class="btn-std w-200 fs-13 pad-6-0">INGRESAR UN ALUMNO</div>
+
+    <div id="ceppUploadList" class="btn-std w-200 fs-13 pad-6-0">SUBIR LISTA EN EXCEL</div>
+</div>
+
+<!--- main table --->
+<div class="div-table table-330" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="esppInfo">Editar</div>
+    <div class="t-tooltip" id="dsppInfo">Eliminar</div>
+
+    <!--- table data --->
+    <table>
+        <thead class="fs-13">
+            <th class="th pad-5-0 w-120">CUIT/CUIL</th>
+            <th class="th pad-5-0 w-200">NOMBRE</th>
+            <th class="th pad-5-0 w-200">APELLIDO</th>
+            <th class="th pad-5-0 w-300">EMAIL</th>
+            <th class="th pad-5-0 w-100">TELÉFONO</th>
+            <th class="th pad-5-0 w-50">
+                <i class="fa-regular fa-pen-to-square pointer" id="esppIcon"></i>
+            </th>
+            <th class="th pad-3-0 w-50">
+                <i class="fa-regular fa-trash-can pointer" id="dsppIcon"></i>
+            </th>
+        </thead>
+        <tbody class=" body fs-13 body-std" id="body"></tbody>
+    </table>
+</div>
+
+<div class="mt-10"><%- include('../partials/contactPopup') %></div>
+
+<div class="flex-r cg-20 jc-c mt-15 mb-5">
+    <button type="button" id="backButton" class="btn-std w-200 max-w-90p pad-7-0" onclick="history.back()">
+        ATRÁS
+    </button>
+
+    <button type="submit" id="continueButton" class="btn-std w-200 max-w-90p pad-7-0">
+        CONTINUAR
+    </button>
+</div>
+
+<!-------------------------- POPUS ---------------------------------------->
+<!--- create edit students popup (cespp) --->
+<div class="popup pp-std" id="cespp">
+
+    <div class="pp-content w-500 top-100" id="cesppContent">
+
+        <div class="pp-close" id="cesppClose">
+            <div class="pp-close-icon w-20 h-20">x</div>
+        </div>
+
+        <div class="ta-c fw-b fs-17" id="cesppTitle">DATOS DEL ALUMNO</div>
+
+        <!--- general error --->
+        <div class="general-error w-90p ta-c m-a mt-15 mb-15" id="cesppError">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div id="cesppErrorText"></div>
+        </div>
+
+        <!--- existing cuit error --->
+        <div id="cesppStudentError">
+            <div class="ta-c fc-error mt-10" id="cesppStudentErrorText"></div>
+            <div class="ta-c fc-error mt-5 pd-data">Si desea modificar su reserva comuníquese por WhatsApp al <br> +549 299 620-0190</div>
+        </div>
+
+        <div class="inputs-column mt-25">
+            <div class="div-input w-320 max-w-90p">
+                <label class="label-std">Nombre *</label>
+                <input type="text" id="cesppFirstName" name="firstNameInfo" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+            </div>
+            <div class="div-input mt-20 w-320 max-w-90p">
+                <label class="label-std">Apellido *</label>
+                <input type="text" id="cesppLastName" name="LastNameInfo" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+            </div>
+            <div class="div-input mt-20 w-320 max-w-90p">
+                <label class="label-std">CUIT/CUIL - Sin espacios ni guiones *</label>
+                <input type="number" id="cesppCuitCuil" name="cuitCuil" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+            </div>
+            <div class="div-input mt-20 w-320 max-w-90p">
+                <label class="label-std">Email *</label>
+                <input type="text" id="cesppEmail" name="email" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+            </div>
+            <div class="div-input mt-20 w-320 max-w-90p">
+                <label class="label-std">Teléfono - Sin espacios ni guiones *</label>
+                <input type="number" id="cesppPhone" name="phone" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="flex-r cg-20 jc-c mb-25 mt-20">
+            <div id="cesppAcceptButton" class="btn-std w-150 pad-7-0 fs-13"></div>
+        </div>
+    </div>
+</div>
+
+<!--- prices lists popup (plpp) --->
+<div class="popup pp-std" id="plpp">
+
+    <div class="pp-content w-500 top-200" id="plppContent">
+
+        <div class="pp-img-and-close">
+            <img src="/images/favicon3.jpg" alt="FEVB" class="h-35">
+            <div class="pp-close-icon w-20 h-20" id="plppClose">x</div>
+        </div>
+        
+        <div class="fs-15 fw-b ta-c mt-5- mb-10"><%= title.toUpperCase() %></div>
+
+        <div class="fs-14 fw-b ta-c mb-20">Precios</div>
+
+        <div class="w-fc m-a">
+            <% for( let i = 0; i < priceList.length; i++ ) { %>
+                <% if (i == 0) { %>
+                    <div class="mt-10"><b><%= '- De ' + priceList[i].quantity + ' a ' + priceList[i + 1].quantity  + ' alumnos: ' %></b><%= '$ ' + Number(priceList[i].price).toLocaleString('es-AR') + ' / alumno' %> </div>
+                    <% } else if ( i < priceList.length - 1) { %>
+                        <div class="mt-10"> <b><%= '- De ' + (priceList[i].quantity + 1) + ' a ' + priceList[i + 1].quantity  + ' alumnos: ' %></b><%= '$ ' + Number(priceList[i].price).toLocaleString('es-AR') + ' / alumno'  %></div>
+                        <% } else { %>
+                            <div class="mt-10 mb-30"><b><%= '- Más de ' + priceList[i].quantity + ' alumnos: ' %></b><%= '$ ' + Number(priceList[i].price).toLocaleString('es-AR') + ' / alumno' %></div>
+                <% } %>
+            <% } %>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--- ulpp (ulpp) --->
+<div class="popup pp-std" id="ulpp">
+
+    <div class="pp-content w-500 top-200" id="ulppContent">
+
+        <div class="pp-close" id="ulppClose"><div class="pp-close-icon w-20 h-20">x</div></div>
+
+        <div class="fs-15 fw-b ta-c mt-5 mb-25">SUBIR LISTA DE ALUMNOS</div>
+
+        <div class="btn-std w-250 pad-7-0 m-a mb-25" id="ulppTemplate">Descargar modelo en Excel</div>
+
+        <div class="flex-c ai-c mb-30" id="">
+            <input type="file" class="pad-9 bs" id="ulppFile" name="ulppFile">
+            <div class="input-error mt-5" id="ulppFileError"></div>
+        </div>
+
+        <div class="w-90p m-a fc-error fs-13 not-visible" id="ulppErrorsBox">
+            <div class="mb-5">Se encontraron errores en el archivo: </div>
+            <ul class="mt-5" id="ulppErrorsList"></ul>
+        </div>
+            
+        <div class="btn-std w-100 pad-5-0 fs-13 m-a mb-15" id="ulppAccept">SUBIR LISTA</div>
+
+    </div>
+
+</div>
+
+
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-m"></div>
+</div>
+
+<!--- popups --->
+<%- include('../partials/confirmPopup') %>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/inscriptions/personalDataCompanies/personalDataCompanies.js?v=<%= Date.now() %>"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

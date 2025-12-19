@@ -14,12 +14,12 @@ const getExamsController = {
             }
 
             // get data if student logged
-            filters.id_exams = req.session.studentLogged.examData.id
-            filters.exam_variant = req.session.studentLogged.lastAnswer.exam_variant
-            filters.exam_version = req.session.studentLogged.lastAnswer.exam_version
+            filters.id_exams_theoricals = req.session.studentLogged.studentExam.id_exams_theoricals
+            filters.exam_theorical_variant = req.session.studentLogged.lastAnswer.exam_theorical_variant
+            filters.exam_theorical_version = req.session.studentLogged.lastAnswer.exam_thoerical_version
 
             // get data
-            let data = await examsQuestionsQueries.get({ filters })
+            let data = await examsTheoricalsQuestionsQueries.get({ filters })
 
             // filter correct answer if !show_correct_answer --> to hide answers in front end
             if (!show_correct_answer) {

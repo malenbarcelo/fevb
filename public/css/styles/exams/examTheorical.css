@@ -1,22 +1,33 @@
 .question-container{
-    height: 60vh;
-    margin-top: 40px;
+    height: 50vh;    
+    border: red solid 1px;
+    width: 600px;
+    max-width: 80%;
+    margin: auto;
+    margin-top: 30px;
+    border: var(--color2) solid 1px;
+    border-radius: 5px;
+    background-color: var(--color3);
+    padding: 20px;
 }
 
 .question-image-container{
     text-align: center;
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 
 .question-image{
-    height: 100px;
+    height: 120px;
+    max-width: 100%;
 }
 
 @media (max-width:730px){
     .question-image{
-        height: 80px;
+        height: 85px;
     }
     .question-container{
-        height: 55vh;
-        margin-top: 30px;
+        margin-top: 20px;
+        padding: 10px;
     }
 }

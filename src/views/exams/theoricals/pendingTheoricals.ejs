@@ -1,26 +1,44 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
-<div class="fs-19 fw-b mt-25--5 mb-35 ta-c">EXÁMENES VIGENTES</div>
+<div class="fs-19 fw-b mt-25--5 mb-20 ta-c">EXÁMENES TEÓRICOS VIGENTES</div>
 
 <form action="/cuestionarios/set-exam" method="POST">
     <div class="pending-exams">
         <% pendingExams.forEach(exam => { %>
             <div class="pending-exam">
-                <div class="pending-exam-title"><%= exam.exam_data.exam_name.toUpperCase() %></div>
-                <div class="pending-exam-info">
-                    <div class="pending-exam-info-title">Teórico: </div>
-                    <div class="pending-exam-info-status <%= exam.status_css %>"><%= exam.status.toUpperCase() %></div>
+                <div class="<%= exam.theoricalsEnabled ? 'pending-exam-title-enabled' : 'pending-exam-title-unabled' %>"><%= exam.exam_theorical_data.exam_name.toUpperCase() %></div>
+                <div class="<%= exam.theoricalsEnabled ? 'pending-exam-status-enabled' : 'pending-exam-status-unabled' %>"><%= exam.theoricalsEnabled ? 'HABILITADO' : 'NO HABILITADO' %></div>
+                <div class="mt-20_15 fs-14">
+                    ESTADO DEL EXAMEN: <b><i><%= exam.theoricals_status == 'pending' ? 'PENDIENTE' : (exam.theoricals_status == 'in-progress' ? 'EN PROCESO' : 'DESAPROBADO') %></i></b>
                 </div>
-                <div class="pending-exam-info">
-                    <div class="pending-exam-info-title">Práctica: </div>
-                    <div class="pending-exam-info-status <%= exam.status_css %>">PENDIENTE</div>
+                <div class="pending-exam-row">
+                    <div class="pending-exam-box">
+                        <div class="<%= exam.payment == 'complete' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">PAGO</div>
+                        <div class="<%= exam.payment == 'complete' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.payment == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
+                        
+                    </div>
+                    <div class="pending-exam-box">
+                        <div class="<%= exam.attendance == 'complete' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">CURSADA</div>
+                        <div class="<%= exam.attendance == 'complete' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.attendance == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
+                    </div>
+                    <div class="pending-exam-box">
+                        <div class="<%= exam.practicals_status == 'passed' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">PRÁCTICA</div>
+                        <div class="<%= exam.practicals_status == 'passed' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.practicals_status == 'passed' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
+                    </div>
                 </div>
                 
-                <% if (exam.status != 'Aprobado') { %>
-                    <button class="<%= exam.button_data.class %> w-250 pad-7-0 m-a mt-15" type="<%= exam.button_data.type %>" name="<%= exam.id %>"><%= exam.button_data.text.toUpperCase() %></button>
+                <% if (exam.theoricalsEnabled) { %>
+                    <button class="pending-exam-button peb-enabled" type="submit" name="<%= exam.id %>">
+                        <%= exam.theoricals_status == 'in-progress' ? 'CONTINUAR EXAMEN TEÓRICO' : (exam.theoricals_status == 'not-passed' ? 'REHACER EXAMEN TEÓRICO' : 'HACER EXAMEN TEÓRICO') %>
+                    </button>
+                    <% } else { %>
+                        <div class="pending-exam-button peb-unabled" type="" name="<%= exam.id %>">
+                            HACER EXAMEN TEÓRICO
+                        </div>
+                     
                 <% } %>
-                
+
             </div>
         <% }) %>
     </div>

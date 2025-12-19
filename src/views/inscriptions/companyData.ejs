@@ -1,0 +1,91 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-19 fw-b ta-c mt-30_0 mb-25"><%= title.toUpperCase() %></div>
+
+<div class="fs-17 fw-b ta-c">Datos de la empresa</div>
+
+<div class="fc-error w-90p ta-c m-a mt-15 mb-15 fw-b fs-14 not-visible" id="errorText"></div>
+
+<form action="/inscripciones/empresas/empresa" method="POST">
+
+    <div class="inputs-column mt-20">
+        <div class="div-input w-320 max-w-90p">
+            <label class="label-std">Empresa</label>
+            <input type="text" id="company" name="company" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+        </div>
+        <div class="div-input w-320 max-w-90p mt-20">
+            <label class="label-std">Nombre de contacto</label>
+            <input type="text" id="firstName" name="firstName" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+        </div>
+        <div class="div-input w-320 max-w-90p mt-20">
+            <label class="label-std">Apellido de contacto</label>
+            <input type="text" id="lastName" name="lastName" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+        </div>
+        <div class="div-input w-320 max-w-90p mt-20">
+            <label class="label-std">Email de contacto</label>
+            <input type="text" id="email" name="email" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+        </div>
+        <div class="div-input w-320 max-w-90p mt-20">
+            <label class="label-std">Teléfono de contacto</label>
+            <input type="text" id="phone" name="phone" class="input-std w-100p pad-14-0-10-0" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="mt-30"><%- include('../partials/contactPopup') %></div>
+
+    <div class="buttons-column mt-25 mb-25">
+        <button type="submit" id="continueButton" class="btn-std w-320 max-w-90p pad-11-0">
+            CONTINUAR
+        </button>
+
+        <button type="button" id="backButton" class="btn-std w-320 max-w-90p pad-11-0" onclick="history.back()">
+            ATRÁS
+        </button>
+    </div>
+
+</form>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-m"></div>
+</div>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/inscriptions/companyData.js?v=<%= Date.now() %>"></script>
+
+
+<!--- existing cuit popup (ecpp) --->
+<div class="popup pp-std" id="ecpp">
+
+    <div class="pp-content w-650 max-w-90p max-h-50 top-120" id="ecppContent">
+
+        <div class="pp-close" id="ecppClose">
+            <div class="pp-close-icon w-20 h-20">x</div>
+        </div>
+
+        <div class="pd-alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div id="ecppCuit"></div>            
+        </div>
+
+        <div class="ta-c mt-15 pd-data"><b>Si desea modificar su reserva comuníquese por WhatsApp al +549 299 620-0190</b></div>
+
+        <div class="buttons-row mt-30 mb-15">
+            <div id="ecppCancel" class="btn-std w-150 pad-7-0">Aceptar</div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

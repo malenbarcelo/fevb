@@ -15,7 +15,7 @@
 
 /* popup content */
 .pp-content{    
-    padding: 7px 7px;   
+    /* padding: 7px 7px;    */
     background-color: white;
     position: relative;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
@@ -26,29 +26,41 @@
 
 /* div popup close */
 .pp-img-and-close{
-    width: 100%;
+    width: 98%;
     color: var(--color1);
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
+    margin: auto;
+    margin-top: 5px;
 }
 .pp-close{
-    width: 100%;
+    width: 98%;
     color: var(--color1);
-    cursor: pointer;
     display: flex;
     justify-content: flex-end;
+    margin: auto;
+    margin-top: 5px;
 }
 
 /* div popup close icon*/
-.pp-close-icon{
-    display: flex;
-    justify-content: center;
+.pp-close-icon{    
     background-color: var(--color1);
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .pp-close-icon:hover{
     background-color:var(--color5);
+}
+
+.pp-img-and-close-icon{
+    display: flex;
+    padding: 0px 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
 }
 

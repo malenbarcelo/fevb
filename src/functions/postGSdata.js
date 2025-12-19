@@ -57,10 +57,10 @@ async function getDataToPost(createdData,sessionData) {
   
   const dataToPost = [
       createdData.id,
-      sessionData.cuit,
-      sessionData.name.toUpperCase(),
-      sessionData.email,
-      sessionData.phone_number,
+      sessionData.personalData[0].cuit_cuil,
+      sessionData.personalData[0].first_name.toUpperCase() + ' ' + sessionData.personalData[0].last_name.toUpperCase(),
+      sessionData.personalData[0].email,
+      sessionData.personalData[0].phone_number,
       createdData.year,
       createdData.week_number,
       createdData.year_week,

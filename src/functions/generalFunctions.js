@@ -21,11 +21,10 @@ const generalFunctions = {
     getExamImages: async(req) => {
 
         const data = req.session.studentLogged
-
-        const courseType = data.examData.courses_types_alias
-        const exam = 'exam' + data.examData.id
-        const version = 'version' + data.lastAnswer.exam_version
-        const variant = 'variant' + data.lastAnswer.exam_variant            
+        const courseType = data.studentExam.exam_theorical_data.courses_types_alias
+        const exam = 'exam' + data.studentExam.exam_theorical_data.id
+        const version = 'version' + data.lastAnswer.exam_theorical_version
+        const variant = 'variant' + data.lastAnswer.exam_theorical_variant            
 
         // get folder files
         const folder = path.join(__dirname, '../..', 'public/images/examsImages', courseType)
@@ -35,6 +34,11 @@ const generalFunctions = {
         return {courseType, examFiles}
 
     },
+
+    specialChars: (value) => {
+        if (typeof value !== 'string') return value // Solo procesa si es string
+        return value.replace(/[%_]/g, char => `\\${char}`)
+    }
 
 }
 

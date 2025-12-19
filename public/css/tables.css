@@ -24,6 +24,15 @@ thead{
     height: 320px;
 }
 
+.table-350{
+    height: 350px;
+}
+
+.table-330{
+    height:330px;
+    max-height: 330px;
+}
+
 .table-430{
     height: 430px;
     max-height: 430px;

@@ -1,0 +1,36 @@
+.pdc-price-box{
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+    position: relative;
+    width: fit-content;
+    margin: auto;
+}
+
+.pdc-price{
+    border: var(--color1) solid 2px;
+    padding: 6px 15px;
+    border-radius: 5px;
+    width: fit-content;
+    font: 13px;
+}
+
+.pdc-price-icon{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pdc-price-info{
+    font-size: 12px;
+    position: absolute;
+    left: 105%;
+    width: 150px;
+    top: 30%;
+    display: none;
+}
+
+.pdc-price-icon:hover + .pdc-price-info {
+    display: block;
+}

@@ -1,12 +1,16 @@
 const domain = require("../../data/domain")
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
+const pricesQueries = require("../../dbQueries/courses/pricesQueries")
+const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const typesQueries = require("../../dbQueries/courses/typesQueries")
+const inscriptionsQueries = require("../../dbQueries/inscriptions/inscriptionsQueries")
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
 const studentsInscriptionsQueries = require("../../dbQueries/students/studentsInscriptionsQueries")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries")
-const {transporterData, sendMail} = require("../../functions/mailFunctions")
+const {transporterData, sendMail, createTemplate} = require("../../functions/mailFunctions")
 const {postData,getDataToPost} = require("../../functions/postGSdata")
 const fetch = require('node-fetch')
+const {getDevSession} = require("../../functions/getDevSession")
 
 const inscriptionsController = {
     mainMenu: async(req,res) => {
@@ -26,9 +30,10 @@ const inscriptionsController = {
         try{
 
             const urls = [
-                {idCoursesTypes: 1,url: '/inscripciones/licencias-profesionales'},
-                {idCoursesTypes: 2,url: '/inscripciones/cursos'},
-                {idCoursesTypes: 3,url: '/inscripciones/cursos'},                
+                {idCoursesTypes: 1, url: '/inscripciones/licencias-profesionales'},
+                {idCoursesTypes: 2, url: '/inscripciones/cursos'},
+                {idCoursesTypes: 3, url: '/inscripciones/cursos'},
+                {idCoursesTypes: 4, url: '/inscripciones/cursos'},                
             ]
 
             const data = req.body
@@ -37,7 +42,6 @@ const inscriptionsController = {
             const redirection = urls.find(url => url.idCoursesTypes == req.body.typeButton).url
             
             req.session.courseType = courseType[0]
-            req.session.hasPractical = 1 // by default, change it if applies in LP
 
             // redirect
             return res.redirect(redirection)
@@ -64,7 +68,12 @@ const inscriptionsController = {
                     if (path.includes('licencias-profesionales')) {
                         alias = ['LP']
                     }else{
-                        alias = [req.session.courseType.alias]
+                        if (path.includes('seguridad-privada')) {
+                            //return res.redirect('https://schemasim.com/seguridad-privada/')
+                            alias = ['SP']
+                        }else{
+                            alias = [req.session.courseType.alias]
+                        }                        
                     }
                 }
             }
@@ -72,16 +81,18 @@ const inscriptionsController = {
             const courseType = await typesQueries.get({filters:{alias:alias}})
             req.session.courseType = courseType[0]
             
+            // complete session
             req.session.types = [] // only if professional licences
             req.session.coursesData = null
             req.session.price = null
             req.session.selectionSummary = null
             req.session.schedule = null
             req.session.scheduleDescription = null
-            req.session.name = null
-            req.session.cuit = null
-            req.session.email = null
-            req.session.phone_number = null
+            req.session.hasPractical = null
+            req.session.companyData = null
+            req.session.quantity = 1 //default
+            req.session.personalData = null
+            req.session.inscriptionType = 'particular   '
 
             // get data
             const title = req.session.courseType.type
@@ -117,10 +128,19 @@ const inscriptionsController = {
                     redirection = '/inscripciones/mercancias-peligrosas/declaracion-jurada'
                 }else{
                     redirection = '/inscripciones/cronograma'
-                    const courseData = await (await fetch(`${domain}get/courses?alias=${alias}`)).json()
-                    const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${courseData[0].id}]&order=[["id","DESC"]]`)).json()
+                    const courseData = await coursesQueries.get({filters:{alias:alias}})
+                    let price = await pricesQueries.get({filters:{id_courses:courseData[0].id, order:[["id","DESC"]]}})
+
+                    // get quantity price
+                    const qtys = price.map( p => p.quantity).sort((a, b) => b - a)
+                    const sessionQty = req.session.quantity
+                    const qty = qtys.find(n => sessionQty >= n)
+                    price = price.find( p => p.quantity == qty)
+
                     req.session.coursesData = courseData
-                    req.session.price = parseFloat(price[0].price)
+                    req.session.hasPractical = courseData[0].id_exams_practicals == null ? 0 : 1
+                    req.session.price = parseFloat(price.price)
+                    
                 }   
             }else{
                 redirection = '/inscripciones/cronograma'
@@ -139,6 +159,7 @@ const inscriptionsController = {
                     })                    
                 })
                 req.session.coursesData = coursesData
+                req.session.hasPractical = coursesData[0].id_exams_practicals == null ? 0 : 1
                 req.session.price = parseFloat(data.totalPriceInput)
             }
 
@@ -160,14 +181,16 @@ const inscriptionsController = {
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
             const idCourses = [...new Set(req.session.coursesData.map( cd => cd.id))]
-            
+            const allowsBulkInsc = req.session.coursesData[0].allows_bulk_inscriptions            
             const selectionSummary = req.session.selectionSummary // only if professional licences
 
             const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${JSON.stringify(idCourses)}`)).json()
 
             const hasPractical = req.session.hasPractical
+            const courseMethodology = req.session.coursesData[0].course_methodology
 
-            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary, hasPractical})
+            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary, hasPractical,courseMethodology,allowsBulkInsc})
+
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -187,11 +210,102 @@ const inscriptionsController = {
 
             req.session.schedule = selectedOption
 
-            req.session.scheduleDescription = selectedOption.daysShifts
-                                                .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription + ' (' + d.duration + ' horas)')
-                                                .join(' Y ')
+            if (req.session.coursesData[0].course_methodology == 'sync') {
+
+                req.session.scheduleDescription = selectedOption.daysShifts
+                    .map(d => d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription + ' (' + d.duration + ' horas)')
+                    .join(' Y ')
+            }else{
+                req.session.scheduleDescription = selectedOption.daysShifts
+                    .map(d => d.day + ' ' + d.shifts[0].date_string)
+            }
+
+            // get redirection
+            let redirection = ''
+            if (req.session.coursesData[0].allows_bulk_inscriptions == 1) {
+                redirection = '/inscripciones/inscripcion-masiva/tipo-de-inscripcion'                
+            }else{
+                redirection = '/inscripciones/datos-personales'
+            }
+            
             // redirect
-            return res.redirect(`/inscripciones/datos-personales`)
+            return res.redirect(redirection)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    inscriptionType: async(req,res) => {
+        try{
+
+            return res.render('inscriptions/inscriptionType',{title:'FEVB - Inscripciones'})
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    setInscriptionType: async(req,res) => {
+        try{
+
+            const data = req.body
+            const keys = Object.keys(data)
+            const idCourses = req.session.coursesData[0].id
+            const price = await pricesQueries.get({filters:{id_courses:[idCourses]}})
+            req.session.price = Number(price.find( p => p.quantity == 1).price)
+
+            // particular
+            if (keys.includes('check_P')) {
+                req.session.inscriptionType = 'particular'
+                res.redirect('/inscripciones/datos-personales')
+            }
+
+            // company
+            if (keys.includes('check_C')) {
+                req.session.inscriptionType = 'company'
+                res.redirect('/inscripciones/empresas/empresa')
+            }
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    companyData: async(req,res) => {
+        try{
+
+            // get session if DEV
+            getDevSession(req,'sid')
+
+            // get data
+            const title = req.session.coursesData[0].course_name
+
+            return res.render('inscriptions/companyData',{title:'FEVB - Inscripciones',title})
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    setCompanyData: async(req,res) => {
+        try{
+
+            const data = req.body
+
+            req.session.companyData = {
+                company: data.company,
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
+                phone_number: data.phone
+            }
+
+            return res.redirect('/inscripciones/empresas/datos-personales')
 
         }catch(error){
             console.log(error)
@@ -206,8 +320,34 @@ const inscriptionsController = {
             const price = req.session.price
             const title = req.session.coursesData[0].course_name
             const selectionSummary = req.session.selectionSummary // only if professional licences
+            req.session.inscriptionType = 'particular'
 
             return res.render('inscriptions/personalData',{title:'FEVB - Inscripciones',title,price,selectionSummary})
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    personalDataCompanies: async(req,res) => {
+        try{
+
+            // get session if DEV
+            getDevSession(req,'sid')
+
+            // get data
+            const price = req.session.price
+            const title = req.session.coursesData[0].course_name
+            const idCourses = req.session.coursesData[0].id
+            const company = req.session.companyData.company
+            const commissionArray = req.session.schedule.shifts[0].complete_date.split('/')
+            const commission = commissionArray[2] + commissionArray[1] + commissionArray[0]
+
+            // get price list            
+            const priceList = await pricesQueries.get({filters:{id_courses: [idCourses], order:[["quantity","ASC"]]}})
+            
+            return res.render('inscriptions/personalDataCompanies',{title:'FEVB - Inscripciones',title,price, priceList, company, commission})
 
         }catch(error){
             console.log(error)
@@ -218,15 +358,22 @@ const inscriptionsController = {
     setPersonalData: async(req,res) => {
         try{
 
-            const data = req.body
+            let data = req.body
 
-            req.session.name = data.nameInfo
-            req.session.cuit = data.cuit
-            req.session.email = data.email
-            req.session.phone_number = data.phone            
-            
-            // redirect
-            return res.redirect(`/inscripciones/confirmar-inscripcion`)
+            const students = data.students ? data.students : [data]
+
+            req.session.personalData = students
+            req.session.price = data.price ? data.price : req.session.price
+            req.session.quantity = students.length
+
+            console.log(req.session)
+
+            if (data.students) {
+                res.status(200).json({response:'ok'})
+            }else{
+                // redirect
+                return res.redirect('/inscripciones/confirmar-inscripcion')
+            }
             
         }catch(error){
             console.log(error)
@@ -237,18 +384,25 @@ const inscriptionsController = {
     checkout: async(req,res) => {
         try{
 
+            // get session if DEV
+            getDevSession(req,'sid')
+
+            const inscriptionType = req.session.inscriptionType
             const courseName = req.session.coursesData[0].course_name
-            const price = req.session.price
-            const name = req.session.name
-            const cuit = req.session.cuit
-            const email = req.session.email
-            const phoneNumber = req.session.phone_number
+            const price = Number(req.session.price)
+            const company = inscriptionType == 'company' ? req.session.companyData.company : null
+            const name = inscriptionType == 'particular' ? (req.session.personalData[0].first_name + ' ' + req.session.personalData[0].last_name): (req.session.companyData.first_name + ' ' + req.session.companyData.last_name)
+            const cuitCuil = inscriptionType == 'particular' ? req.session.personalData[0].cuit_cuil : null
+            const email = inscriptionType == 'particular' ? req.session.personalData[0].email : (req.session.companyData.email)
+            const phoneNumber = inscriptionType == 'particular' ? req.session.personalData[0].phone_number : (req.session.companyData.phone_number)
             const scheduleDescription = req.session.scheduleDescription
             const selectionSummary = req.session.selectionSummary // only if professional licences
             const selectionDescriptions = selectionSummary.map( s => s.description)
             const selectionText = selectionDescriptions.join(' || ')
+            const alias = req.session.courseType.alias
+            const quantity = req.session.quantity            
 
-            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuit, email, phoneNumber,selectionText})
+            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuitCuil, email, phoneNumber,selectionText,alias, inscriptionType, company, quantity})
 
         }catch(error){
             console.log(error)
@@ -259,56 +413,129 @@ const inscriptionsController = {
     saveInscription: async(req,res) => {
         try{
 
-            const data = req.session
+            // get session if DEV
+            getDevSession(req,'sid')
 
-            // save data in students
-            const studentsData = [{
-                cuit: data.cuit,
-                name: data.name,
-                email: data.email,
-                phone_number: parseInt(data.phone_number),
-                year:data.schedule.year,
-                week_number: data.schedule.week_number,
-                year_week: data.schedule.year + '_' + data.schedule.week_number,
-                id_courses_types: data.courseType.id,
-                price: data.price,
+            const data = req.session
+            const dateArray = req.session.schedule.shifts[0].complete_date.split('/')
+            const commissionName = Number(dateArray[2] + dateArray[1] + dateArray[0])
+            const expirationDays = data.coursesData[0].expiration_time_days
+            let expirationDate = null
+            const inscriptionType = data.inscriptionType
+
+            if (expirationDays != null) {
+                const date = new Date()
+                date.setDate(date.getDate() + expirationDays)
+                expirationDate = date
+            }
+
+            // save data in inscriptions
+            const inscriptionData = [{
+                inscription_type: inscriptionType,
+                first_name: inscriptionType == 'particular' ? data.personalData[0].first_name : data.companyData.first_name,
+                last_name: inscriptionType == 'particular' ? data.personalData[0].last_name : data.companyData.last_name,
+                email: inscriptionType == 'particular' ? data.personalData[0].email : data.companyData.email,
+                phone_number: inscriptionType == 'particular' ? data.personalData[0].phone_number : data.companyData.phone_number,
+                company: inscriptionType == 'company' ? data.companyData.company : null
             }]
 
-            const createdData = await studentsQueries.create(studentsData)
+            const createdInscription = await inscriptionsQueries.create(inscriptionData)
+
+            // save data in students
+            const studentsData = []
+            data.personalData.forEach(pd => {
+                studentsData.push({
+                    cuit_cuil: pd.cuit_cuil,
+                    first_name: pd.first_name,
+                    last_name: pd.last_name,
+                    email: pd.email,
+                    phone_number: parseInt(pd.phone_number),
+                    year: data.schedule == null ? null : data.schedule.year,
+                    week_number: data.schedule == null ? null : data.schedule.week_number,
+                    year_week: data.schedule == null ? null : (data.schedule.year + '_' + data.schedule.week_number),
+                    id_courses_types: data.courseType.id,
+                    price: Number(data.price) / Number(data.quantity),
+                    commission_name: commissionName,
+                    company: inscriptionType == 'company' ? data.companyData.company : null,
+                    expiration_date: expirationDate,
+                    courses_methodology: data.coursesData[0].course_methodology,
+                    id_inscriptions: createdInscription[0].id
+
+                })
+                
+            })
+
+            const createdStudents = await studentsQueries.create(studentsData)
 
             // save students inscriptions
-            const inscription = data.coursesData.map(cd => ({
-                id_students: createdData[0].id,
-                id_courses: cd.id
-            }))
+            const inscriptions = []
+            const idCourses = data.coursesData.map( cd => cd.id)
+            
+            createdStudents.forEach(cs => {
 
-            await studentsInscriptionsQueries.create(inscription)
+                idCourses.forEach(course => {
+                    inscriptions.push({
+                        id_students: cs.id,
+                        id_courses: course
+                    })
+                })
+            })
+
+            await studentsInscriptionsQueries.create(inscriptions)
 
             // save students exams
-            // const exams = data.coursesData.map(cd => ({
-            //     id_exams: cd.id_exams,
-            //     practical: cd.practical
-            // }))
+            const exams = []
 
-            // const uniqueExams = [...new Set(exams.map(d => d.id_exams))].map(id => ({
-            //     id_students: createdData[0].id,
-            //     id_exams: id,
-            //     practical: exams.some(d => d.id_exams === id && d.practical === 1) ? 1 : 0
-            // }))
+            let idsExams = data.coursesData.map(cs => ({
+                id_exams_theoricals: cs.id_exams_theoricals,
+                id_exams_practicals: cs.id_exams_practicals,
+            }))
 
-            // await studentsExamsQueries.create(uniqueExams)
+            createdStudents.forEach(cs => {
+
+                idsExams= Object.values(
+                    idsExams.reduce((acc, item) => {
+                        const key = `${item.id_exams_theoricals}_${item.id_exams_practicals}`
+                        if (!acc[key]) {
+                            acc[key] = {
+                                ...item,
+                                id_students: cs.id,
+                                theoricals_status: 'pending',
+                                practicals_status: 'pending'
+                            }
+                        }
+                        return acc
+                    }, {})
+                )
+
+                idsExams.forEach(element => {
+                    exams.push(element)
+                })
+            })
+
+            await studentsExamsQueries.create(exams)
 
             // save data in students_attendance
-            const shifts = data.schedule.shifts.map(item => ({
-                id_students: createdData[0].id,
-                year: item.year,
-                week_number: item.week_number,
-                year_week: item.year_week,
-                date_string: item.date_string,
-                day_number: item.day_number,
-                shift_alias: item.shift_alias,
-                attended: 0
-            }))
+            let shifts = []
+
+            createdStudents.forEach(cd => {
+
+                shiftsData = data.schedule.shifts.map(item => ({
+                    id_students: cd.id,
+                    year: item.year,
+                    week_number: item.week_number,
+                    year_week: item.year_week,
+                    date_string: item.date_string,
+                    day_number: item.day_number,
+                    shift_alias: item.shift_alias,
+                    attended: 0
+                }))
+
+                shiftsData.forEach(s => {
+                    shifts.push(s)
+                })
+
+            })
 
             await studentsAttendanceQueries.create(shifts)
 
@@ -327,23 +554,33 @@ const inscriptionsController = {
 
             // send email
             const mailData = {
-                name: data.name,
-                email: data.email,
-                cuit: data.cuit,
+                name: inscriptionType == 'company' ? data.companyData.first_name + ' ' + data.companyData.last_name : data.personalData[0].first_name + data.personalData[0].last_name,
+                email: inscriptionType == 'company' ? data.companyData.email : data.personalData[0].email,
+                cuitCuil: inscriptionType == 'company' ? null : data.personalData[0].cuit_cuil,
+                company: inscriptionType == 'company' ? data.companyData.company : null,
                 price: String(data.price.toLocaleString('es-AR',{minimumFractionDigits: 0,maximumFractionDigits: 0})),
                 scheduleDescription: data.scheduleDescription,
-                selection: htmlSelection
+                selection: htmlSelection,
+                courseAlias: data.courseType.alias,
+                inscriptionType: inscriptionType,
+                quantity: data.quantity,
+                courseMethodology: data.coursesData[0].course_methodology,
+                commission: commissionName,
+                inscriptionNumber: String(createdInscription[0].id).padStart(6,'0')
             }
 
-            const td = await transporterData()
-            await sendMail(td,mailData)
+            const html = createTemplate(mailData)
 
-            // post data to google sheets
-            const dataToPost = await getDataToPost(createdData[0], data)
-            await postData(dataToPost)
+            const td = await transporterData()
+            await sendMail(td,mailData,html)
+
+            if (data.courseType.alias != "SP") {
+                // post data to google sheets
+                const dataToPost = await getDataToPost(createdStudents[0], data)
+                await postData(dataToPost)
+            }
 
             req.session.destroy()
-
             return res.render('inscriptions/confirmation',{title:'FEVB - Inscripciones'})
 
         }catch(error){

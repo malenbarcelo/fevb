@@ -7,6 +7,7 @@ const router = express.Router()
 router.post('/students/practicals-answers',createStudentsController.practicalsAnswers)
 router.post('/students/practicals-answers-details',createStudentsController.practicalsAnswersDetails)
 router.post('/students/practicals-answers-observations',createStudentsController.practicalsAnswersObservations)
+router.post('/students/payments',createStudentsController.payments)
 
 
 

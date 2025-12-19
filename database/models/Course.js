@@ -53,10 +53,26 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      enabled:{
+      expiration_time_days:{
+         type: DataTypes.INTEGER,
+         allowNull: true,
+      },
+      course_methodology:{
+         type: DataTypes.STRING,
+         allowNull: true,
+      },
+      weeks_to_show:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      allows_bulk_inscriptions:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      enabled:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      }      
    }
 
    const config = {

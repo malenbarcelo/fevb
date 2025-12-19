@@ -1,0 +1,71 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">CURSOS ASINCRÓNICOS - ALUMNOS</div>
+
+<div class="inputs-row mb-25">
+    <div class="div-input">
+        <label class="label-std">Comisión</label>
+        <input type="text" class="input-std pad-10-0" id="studentName">
+    </div>
+    <div class="div-input">
+        <label class="label-std">Empresa</label>
+        <select class="input-std w-250 pad-9-0" id="courseType">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Alumno</label>
+        <input type="text" class="input-std w-250 pad-9-0" id="studentName">
+    </div>
+    <div class="div-input">
+        <label class="label-std">CUIT/CUIL</label>
+        <input type="number" class="input-std w-150 pad-9-0" id="cuit">
+    </div>
+    <div id="unfilter" class="unfilter">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <div class="unfilter-info">Quitar filtros</div>
+    </div>        
+</div>
+
+<!--- main table --->
+<div class="div-table table-450" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="esppInfo">Editar</div>
+    <div class="t-tooltip" id="dsppInfo">Eliminar</div>    
+
+    <!--- table data --->
+    <table>
+        <thead class="fs-13">
+            <th class="th pad-6-0 w-90">CURSO</th>
+            <th class="th pad-6-0 w-100">COMISIÓN</th>
+            <th class="th pad-6-0 w-150">EMPRESA</th>
+            <th class="th pad-6-0 w-100">DNI</th>
+            <th class="th pad-6-0 w-300">NOMBRE</th>            
+            <th class="th pad-6-0 w-130">INSCRIPCIÓN</th>
+            <th class="th pad-6-0 w-100">PRECIO</th>
+            <th class="th pad-6-0 w-100">ESTADO</th>
+            <th class="th pad-6-0 w-80">PAGADO</th>
+            <th class="th pad-3-0 w-50">
+                <i class="fa-regular fa-pen-to-square pointer" id="esppIcon"></i>
+            </th>
+            <th class="th pad-3-0 w-50">
+                <i class="fa-regular fa-trash-can pointer" id="dsppIcon"></i>
+            </th>
+        </thead>
+        <tbody class=" body fs-13 body-std" id="body"></tbody>
+    </table>
+</div>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-l"></div>
+</div>
+
+<!--- popups --->
+<%- include('../../partials/confirmPopup') %>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/admin/asyncStudents/asyncStudents.js?v=<%= Date.now() %>"></script>
+

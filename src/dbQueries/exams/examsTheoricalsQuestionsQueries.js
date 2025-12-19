@@ -1,6 +1,6 @@
 const db = require('../../../database/models')
 const { Sequelize } = require('sequelize')
-const model = db.Exams_questions
+const model = db.Exams_theoricals_questions
 
 const examsQuestionsQueries = {
 
@@ -19,16 +19,16 @@ const examsQuestionsQueries = {
             where.id = filters.id
         }
 
-        if (filters.id_exams) {
-            where.id_exams = filters.id_exams
+        if (filters.id_exams_theoricals) {
+            where.id_exams_theoricals = filters.id_exams_theoricals
         }
 
-        if (filters.exam_version) {
-            where.exam_version = filters.exam_version
+        if (filters.exam_theorical_version) {
+            where.exam_theorical_version = filters.exam_theorical_version
         }
 
-        if (filters.exam_variant) {
-            where.exam_variant = filters.exam_variant
+        if (filters.exam_theorical_variant) {
+            where.exam_theorical_variant = filters.exam_theorical_variant
         }
 
         if (filters.enabled) {
@@ -58,17 +58,17 @@ const examsQuestionsQueries = {
         // where
         const where = {}
 
-        if (filters.id_exams) {
-            where.id_exams = filters.id_exams
+        if (filters.id_exams_theoricals) {
+            where.id_exams_theoricals = filters.id_exams_theoricals
         }
 
-        if (filters.exam_version) {
-            where.exam_version = filters.exam_version
+        if (filters.exam_theorical_version) {
+            where.exam_theorical_version = filters.exam_theorical_version
         }
 
         const data = await model.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('exam_variant')), 'variants']
+                [Sequelize.fn('DISTINCT', Sequelize.col('exam_theorical_variant')), 'variants']
             ],
             where,
             raw: true
@@ -77,16 +77,13 @@ const examsQuestionsQueries = {
         return data
     },
 
-    getVersion: async(idExams) => {
+    getLastVersion: async(idExams) => {
 
         const data = await model.findOne({
-            attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('exam_version')), 'version']
-            ],
-            where: { id_exams: idExams },
-            order: [['exam_version','DESC']],
-            raw:true
-        })
+            where: { id_exams_theoricals: idExams },
+            order: [['exam_theorical_version', 'DESC']],
+            attributes: ['exam_theorical_version'],
+        });
 
         return data
     },

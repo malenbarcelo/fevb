@@ -1,7 +1,7 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="main-title"><%= title.toUpperCase() %></div>
+<div class="fs-19 fw-b ta-c mt-20_0 mb-20"><%= title.toUpperCase() %></div>
 
 <div class="<%= selectionSummary.length > 0 ? 'mt-5- mb-20' : '' %>">
     <% selectionSummary.forEach(s => { %>
@@ -9,11 +9,11 @@
     <% }) %>
 </div>
 
-<div class="sch-price"><b><%= 'PRECIO (ARS): ' %></b><%= price.toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
+<div class="sch-price"><b><%= 'PRECIO (ARS): ' %></b><%= Number(price).toLocaleString('es-AR',{minimumFractionDigits: 2,maximumFractionDigits: 2}) %></div>
 
 <div class="fs-16 fw-b ta-c mt-25">DATOS PERSONALES</div>
 
-<div class="general-error ta-c m-a mt-15 mb-15" id="personalDataError">
+<div class="general-error w-90p ta-c m-a mt-15 mb-15" id="personalDataError">
     <i class="fa-solid fa-triangle-exclamation"></i>
     <div id="errorText"></div>
 </div>
@@ -21,21 +21,25 @@
 <form action="/inscripciones/datos-personales" method="POST">
 
     <div class="inputs-column mt-25">
-        <div class="div-input">
-            <label class="label-std">Nombre y apellido</label>
-            <input type="text" id="nameInfo" name="nameInfo" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
+        <div class="div-input w-320 max-w-90p">
+            <label class="label-std">Nombre</label>
+            <input type="text" id="firstName" name="first_name" class="input-std w-100p pad-12-0-8-0" autocomplete="off">
         </div>
-        <div class="div-input mt-20">
-            <label class="label-std">CUIT - Sin espacios ni guiones</label>
-            <input type="number" id="cuit" name="cuit" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
+        <div class="div-input mt-20 w-320 max-w-90p">
+            <label class="label-std">Apellido</label>
+            <input type="text" id="lastName" name="last_name" class="input-std w-100p pad-12-0-8-0" autocomplete="off">
         </div>
-        <div class="div-input mt-20">
+        <div class="div-input mt-20 w-320 max-w-90p">
+            <label class="label-std">CUIT/CUIL - Sin espacios ni guiones</label>
+            <input type="number" id="cuitCuil" name="cuit_cuil" class="input-std w-100p pad-12-0-8-0" autocomplete="off">
+        </div>
+        <div class="div-input mt-20 w-320 max-w-90p">
             <label class="label-std">Email</label>
-            <input type="text" id="email" name="email" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
+            <input type="text" id="email" name="email" class="input-std w-100p pad-12-0-8-0" autocomplete="off">
         </div>
-        <div class="div-input mt-20">
+        <div class="div-input mt-20 w-320 max-w-90p">
             <label class="label-std">Teléfono - Sin espacios ni guiones</label>
-            <input type="number" id="phone" name="phone" class="input-std w-350 max-w-90p pad-14-0-10-0" autocomplete="off">
+            <input type="number" id="phone" name="phone_number" class="input-std w-100p pad-12-0-8-0" autocomplete="off">
         </div>
     </div>
 
@@ -68,7 +72,7 @@
     <div class="pp-content w-650 max-w-90p max-h-50 top-120" id="ecppContent">
 
         <div class="pp-close" id="ecppClose">
-            <div class="pp-close-icon">x</div>
+            <div class="pp-close-icon w-20 h-20">x</div>
         </div>
 
         <div class="pd-alert">
@@ -79,7 +83,7 @@
         <div class="ta-c mt-15 pd-data"><b>Si desea modificar su reserva comuníquese por WhatsApp al +549 299 620-0190</b></div>
 
         <div class="buttons-row mt-30 mb-15">
-            <div id="ecppCancel" class="btn-std w-150 pad-9-0">Aceptar</div>
+            <div id="ecppCancel" class="btn-std w-150 pad-7-0">Aceptar</div>
         </div>
 
     </div>

@@ -1,0 +1,51 @@
+.insc-types{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: auto;
+    margin-top: 30px;
+    row-gap: 20px;
+    cursor: pointer;
+}
+
+.insc-type{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    border: var(--color1) solid 2px;
+}
+
+.insc-type:hover{
+    border: var(--color5) solid 2px;
+}
+
+.insc-type-check{
+    width: 20%;    
+    padding: 10px;
+    text-align: center;
+}
+
+.insc-type-check input[type="checkbox"] {
+  pointer-events: none;
+}
+
+.insc-type-text{
+    width: 80%;
+    background-color: var(--color1);
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.insc-type-text-selected{
+    background-color: var(--color5);
+}
+
+.insc-type:hover .insc-type-text{
+    background-color: var(--color5);
+}
+
+.selected-option{
+    background-color: var(--color2);
+    border: var(--color5) solid 2px;
+}

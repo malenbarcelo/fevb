@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       list_number:{
          type: DataTypes.INTEGER,
          allowNull: false,
+      },
+      quantity:{
+         type: DataTypes.INTEGER,
+         allowNull: true,
       }
    }
 

@@ -1,6 +1,7 @@
-const studentsAnswersDetailsQueries = require("../../dbQueries/students/studentsAnswersDetailsQueries")
+const studentsTheoricalsAnswersDetailsQueries = require("../../dbQueries/students/studentsTheoricalsAnswersDetailsQueries")
 const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries");
+const studentsQueries = require("../../dbQueries/students/studentsQueries");
 const gf = require("../../functions/generalFunctions");
 
 const updateStudentsController = {
@@ -26,7 +27,7 @@ const updateStudentsController = {
                 
             }
             
-            await studentsAnswersDetailsQueries.update('id',data)
+            await studentsTheoricalsAnswersDetailsQueries.update('id',data)
 
             res.status(200).json({response: 'ok'})
 
@@ -41,6 +42,20 @@ const updateStudentsController = {
             let data = req.body
 
             await studentsExamsQueries.update('id',data)
+
+            res.status(200).json({response: 'ok'})
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({response: 'error', error: error})
+        }
+    },
+    studentsPayments: async(req,res) =>{
+        try{
+
+            let data = req.body
+
+            await studentsQueries.update(data.condition,data.data)
 
             res.status(200).json({response: 'ok'})
 

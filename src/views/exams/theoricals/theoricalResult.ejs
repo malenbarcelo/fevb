@@ -2,30 +2,40 @@
 <%- include('../../partials/header') %>
 
 <% if (examStatus == 'passed') { %>
-    <div class="flex-r cg-10 fs-20 fw-b fc-green ai-c jc-c mt-150-50 max-w-90p ta-c m-a">
-        <i class="fa-regular fa-circle-check"></i>
-        <div>¡FELICITACIONES! has aprobado el examen</div>
-    </div>
-    <% } else { %>
-        <div class="flex-c rg-15 fw-b fc-error ai-c jc-c mt-150-50 max-w-90p m-a">
-            <i class="fa-regular fa-circle-xmark fs-25"></i>
-            <div class="ta-c fs-19" >Lo sentimos, no has aprobado el examen</div>
-        </div>
+    <div class="ta-c mt-100_50 fs-40 fc-green"><i class="fa-regular fa-circle-check"></i></div>
+    <div class="ta-c m-a mt-20 fs-25_20 fc-green max-w-90p">¡FELICITACIONES! has aprobado el examen</div>
+<% } else { %>
+    <div class="ta-c mt-100_50 fs-40 fc-error"><i class="fa-regular fa-circle-xmark"></i></div>
+    <div class="ta-c m-a mt-20 fs-25_20 fc-error max-w-90p" >Lo sentimos, no has aprobado el examen</div>
 <% } %>
 
 <div class="fs-15 ta-c mt-25 mb-30">Respuestas correctas: <%= correctAnswers + ' / ' + questionsQty %></div>
 
 <% if (examStatus == 'not-passed') { %>
     <div class="fs-15 ta-c mt-10">Necesitas <%= answersToPass %> respuestas correctas para aprobar</div>
-    <div class="btn-std w-200 m-a mt-50 pad-7-0">Rehacer examen</div>
-    <a href="/examenes/ver-respuestas">
-        <div class="btn-std w-200 m-a mt-10 pad-7-0">Ver examen</div>
-    </a>
 <% } %>
 
-<a href="/examenes/pendientes">
-    <div class="btn-std w-200 m-a mt-10 pad-7-0">Volver al menú</div>
+<a href="/cuestionarios/pendientes">
+    <div class="btn-std w-250 m-a pad-10-0 <%= examStatus == 'not-passed' ? 'mt-75' : 'mt-100' %>">Volver al menú</div>
 </a>
+
+<% if (examStatus == 'not-passed') { %>
+    
+    <a href="/cuestionarios/rehacer">
+        <div class="btn-std w-250 m-a mt-15 pad-10-0">Rehacer examen</div>
+    </a>
+    
+    <a href="/cuestionarios/ver-respuestas">
+        <div class="btn-std w-250 m-a mt-15 pad-10-0">Ver examen</div>
+    </a>
+
+<% } %>
+
+<a href="/cuestionarios">
+    <div class="btn-std w-250 m-a pad-10-0 mt-15">Salir</div>
+</a>
+
+
 
 
 

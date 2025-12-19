@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      id_inscriptions:{
+      id_courses:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },

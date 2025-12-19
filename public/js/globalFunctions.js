@@ -155,10 +155,12 @@ const gf = {
     },
 
     isInvalid: function(inputs, errorText) {
+
         inputs.forEach(input => {
             const label = document.getElementById(input.id + 'Label')
             const error = document.getElementById(input.id + 'Error')
             input.classList.add('invalid-input')
+            
             if (label) {
                 label.classList.add('invalid-label')
             }

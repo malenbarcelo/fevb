@@ -5,31 +5,31 @@
 
 <form action="/login" method="POST">
     <div class="inputs-column">
-        <div class="div-input">
-            <label for="email" class="label-std <%= locals.errors && errors.userName ? '' : null %>">Usuario</label>
-            <input type="text" name="email" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? '' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
+        <div class="div-input w-350 max-w-90p">
+            <label for="userName" class="label-std <%= locals.errors && errors.userName ? 'invalid-label' : null %>">Usuario</label>
+            <input type="text" name="userName" class="input-std w-100p pad-12-0 <%= locals.errors && errors.userName ? 'invalid-input' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
             <div class="input-error">
                 <% if (locals.errors && errors.userName) { %>
                     <%= errors.userName.msg %>
                 <% } %>
             </div>
         </div>
-        <div class="div-input mt-20">
-            <label for="password" class="label-std <%= locals.errors && errors.userName ? '' : null %>">Contraseña</label>
-            <input type="password" name="password" class="input-std w-350 pad-12-0 <%= locals.errors && errors.userName ? '' : null %>" value="<%= locals.oldData ? oldData.userName : null %>" autocomplete="off">
+        <div class="div-input mt-20 w-350 max-w-90p">
+            <label for="password" class="label-std <%= locals.errors && errors.password ? 'invalid-label' : null %>">Contraseña</label>
+            <input type="password" name="password" class="input-std w-100p pad-12-0 <%= locals.errors && errors.password ? 'invalid-input' : null %>" value="<%= locals.oldData ? oldData.password : null %>" autocomplete="off">
             <div class="input-error">
-                <% if (locals.errors && errors.userName) { %>
-                    <%= errors.userName.msg %>
+                <% if (locals.errors && errors.password) { %>
+                    <%= errors.password.msg %>
                 <% } %>
             </div>
         </div>        
     </div>
 
-    <div class="buttons-row mt-xl">
-        <button type="submit" class="btn-std mt-35 w-350 pad-12-0" id="loginBtn">Ingresar</button>
+    <div class="buttons-row mt-35">
+        <button type="submit" class="btn-std mt-35 w-350 max-w-90p pad-12-0" id="loginBtn">INGRESAR</button>
     </div>
 
-    <div class="flex jc-c"><div class="ts ta-c mt-35 txt-u pointer fc-blue" id="restorePassword">Olvidé mi contraseña</div></div>
+    <div class="flex jc-c"><div class="ts ta-c mt-45 txt-u pointer fc-blue" id="restorePassword">Olvidé mi contraseña</div></div>
     <div class="flex jc-c" ><div class="ts ta-c mt-10 txt-u pointer fc-blue">Cambiar mi contraseña</div></div>
     
     

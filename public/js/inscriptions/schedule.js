@@ -10,6 +10,8 @@ window.addEventListener('pageshow', function(event) {
 window.addEventListener('load',async()=>{
 
     const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options`)).json()
+    const session = await (await fetch(`${domain}composed/inscriptions/get-session`)).json()
+    const courseMethodology = session.coursesData[0].course_methodology
 
     // select date
     selectDate.addEventListener('change', () =>{
@@ -21,17 +23,23 @@ window.addEventListener('load',async()=>{
             const daysNumber = selectedShift.daysShifts.length
             const daysString = daysNumber == 1 ? 'día' : 'días'
             days.innerHTML = ''
-            selectedDates.innerHTML = '<b>TEÓRICO: <i>La cursada es de ' + daysNumber + ' ' + daysString + '</i></b>:'
-            selectedShift.daysShifts.forEach(d => {
-                days.innerHTML += '<div>-  ' +  d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription + ' <b>(' + d.duration + ' horas)</b></div>'
-                
-            });
+            if (courseMethodology == 'sync') {
+                selectedDates.innerHTML = '<b>TEÓRICO: <i>La cursada es de ' + daysNumber + ' ' + daysString + '</i></b>:'
+                selectedShift.daysShifts.forEach(d => {
+                    days.innerHTML += '<div>-  ' +  d.day + ' ' + d.shifts[0].date_string + ' ' + d.shiftDescription + ' <b>(' + d.duration + ' horas)</b></div>'                    
+                })
+            }else{
+                selectedDates.innerHTML = '<b>TEÓRICO: </b>La cursada es 100% vitual; usted podrá gestionar su avance desde una plataforma web.<br> Se realizará una charla informativa el día <b>' + scheduleOptions[0].shifts[0].day + ' ' + scheduleOptions[0].shifts[0].complete_date + '</b>'
+            }
             
         }else{
             selectedDates.innerHTML = '<b>TEÓRICO: </b>Seleccione una fecha de inicio para definir los horarios de cursada del Teórico'
             days.innerHTML = ''
         }
     })
+
+    // select date if back
+    selectDate.dispatchEvent(new Event('change'))
     
     // continue button
     continueButton.addEventListener('click', function(e) {

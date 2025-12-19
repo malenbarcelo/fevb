@@ -2,6 +2,7 @@ const studentsPracticalsAnswersQueries = require("../../dbQueries/students/stude
 const studentsPracticalsAnswersDetailsQueries = require("../../dbQueries/students/studentsPracticalsAnswersDetailsQueries")
 const studentsPracticalsAnswersObservationsQueries = require("../../dbQueries/students/studentsPracticalsAnswersObservationsQueries")
 const examsPracticalsOptionsQueries = require("../../dbQueries/exams/examsPracticalsOptionsQueries")
+const studentsPaymentsQueries = require("../../dbQueries/students/studentsPaymentsQueries")
 
 const createStudentsController = {
     practicalsAnswers: async(req,res) =>{
@@ -49,6 +50,20 @@ const createStudentsController = {
             const data = req.body
 
             await studentsPracticalsAnswersObservationsQueries.create(data)
+
+            res.status(200).json({response:'ok'})
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({response:'error'})
+        }
+    },
+    payments: async(req,res) =>{
+        try{
+
+            const data = req.body
+
+            await studentsPaymentsQueries.create(data)
 
             res.status(200).json({response:'ok'})
 

@@ -3,67 +3,164 @@
     flex-direction: column;
     row-gap: 20px;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .pending-exam{
-    width: 500px;
+    width: 600px;
     text-align: center;
-    border-radius: 5px;
-    padding: 10px 0px;
-    background-color: rgb(238, 236, 236);
+    border-radius: 7px;
+    background-color: rgb(225, 223, 223);
     display: flex;
     flex-direction: column;
-    row-gap: 8px;
     max-width: 90%;
 }
 
-.pending-exam-title{
+.pending-exam-title-unabled{
     font-weight: bold;
     font-size: 16px;
-    margin-bottom: 10px;
+    padding: 8px;
+    background-color:rgb(200, 110, 110);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 7px;    
 }
 
-.pending-exam-info{
-    display: flex;
-    column-gap: 5px;
-    justify-content: center;
+.pending-exam-title-enabled{
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px;
+    background-color: rgb(102, 174, 102);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 7px;    
 }
 
-.pending-exam-info-title{
-    width: 60px;
-    text-align: left;
-}
-
-.pending-exam-info-status{
-    width: 160px;
-    text-align: left;
-}
-
-.passed-exam{
+.pending-exam-status-enabled{
     color: green;
+    padding: 3px;
+    background-color: rgb(174, 197, 174);
+    font-size: 14px;
 }
 
-.not-passed-exam{
+.pending-exam-status-unabled{
     color: var(--errorColor);
+    padding: 3px;
+    background-color: rgb(237, 184, 184);
+    font-size: 14px;
 }
 
-.pending-exam-status{
-    color: rgb(163, 163, 2);
+.pending-exam-row{
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    margin-top: 25px;
 }
 
-.pending-course{
-    color: gray;
+.pending-exam-box{
+    display: flex;
+    align-items: center;
+}
+
+.pending-exam-box-title-ok{
+    width: 100px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(174, 197, 174);
+
+}
+
+.pending-exam-box-title-pending{
+    width: 100px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(237, 184, 184);
+}
+
+.pending-exam-box-status-ok{
+    width: 30px;
+    background-color: green;
+    color:rgb(238, 236, 236);
+    padding: 4px;
+    font-size: 16px;
+}
+
+.pending-exam-box-status-pending{
+    width: 30px;
+    background-color: var(--errorColor);
+    color: rgb(238, 236, 236);
+    padding: 4px;
+    font-size: 16px;
+}
+
+.pending-exam-button{
+    width: 250px;
+    padding: 8px 0px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px
+}
+
+.peb-enabled{
+    background-color: rgb(2, 108, 2);
+    cursor: pointer;
+}
+
+.peb-enabled:hover{
+    background-color: rgb(2, 77, 2);
+}
+
+.peb-unabled{
+    background-color: gray;
 }
 
 @media (max-width:730px){
-    .pending-exams{
-        margin-top: -15px;
+    .pending-exam-title-unabled{
+        font-size: 14px;
     }
-    .pending-exam-title{
-        font-size: 14px
+    .pending-exam-title-enabled{
+        font-size: 14px;
     }
-    .pending-exam-info{
+    .pending-exam-status-enabled{
         font-size: 13px;
-    
     }
+    .pending-exam-status-unabled{
+        font-size: 13px;
+    }
+    .pending-exam-box-title-pending{
+        font-size: 12px;
+        width: 60px;
+        padding: 0px 5px;
+    }
+    .pending-exam-box-title-ok{
+        font-size: 12px;
+        width: 60px;
+        padding: 0px 5px;
+    }
+    .pending-exam-row{
+        margin-top: 20px;
+        column-gap: 10px;
+    }
+    .pending-exam-box-status-ok{
+        width: 15px;
+        font-size: 13px;
+    }
+    .pending-exam-box-status-pending{
+        width: 15px;
+        font-size: 13px;
+    }
+    .pending-exam-button{
+        width: 220px;
+        padding: 8px 0px;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+
 }

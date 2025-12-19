@@ -5,24 +5,30 @@
 
 <div class="inputs-row mb-25">
     <div class="div-input">
-        <label class="label-std">Semana</label>
-        <select class="input-std w-150 pad-8-0">
+        <label class="label-std">Tipo de curso</label>
+        <select class="input-std w-120 pad-8-0" id="courseType">
             <option value=""></option>
+            <% coursesTypes.forEach(type => { %>
+                <option value="<%= type %>"><%= type %></option>
+            <% }) %>
         </select>
     </div>
     <div class="div-input">
-        <label class="label-std">Tipo de curso</label>
-        <select class="input-std w-150 pad-8-0">
+        <label class="label-std">Examen</label>
+        <select class="input-std w-200 pad-8-0" id="exam">
             <option value=""></option>
+            <% exams.forEach(exam => { %>
+                <option value="<%= exam.id %>"><%= exam.exam_name %></option>
+            <% }) %>
         </select>
     </div>
     <div class="div-input">
         <label class="label-std">Alumno</label>
-        <input type="text" class="input-std w-250 pad-8-0">
+        <input type="text" class="input-std w-250 pad-8-0" id="studentName">
     </div>
     <div class="div-input">
         <label class="label-std">CUIT</label>
-        <input type="text" class="input-std w-120 pad-8-0">
+        <input type="number" class="input-std w-120 pad-8-0" id="cuit">
     </div>
     <div id="unfilter" class="unfilter">
         <i class="fa-solid fa-filter-circle-xmark"></i>
@@ -61,11 +67,6 @@
 <div class="loader ld-std" id="loader">
     <div class="ld-content lt-l"></div>
 </div>
-
-<!----------POPUPS---------->
-<%- include('../../partials/resultsPopups') %>
-<%- include('./pendingExamsCEPP') %>
-
 
 <!----------SCRIPTS---------->
 <script type="module" src="/js/exams/practicals/pendingExams/pendingExams.js?v=<%= Date.now() %>"></script>

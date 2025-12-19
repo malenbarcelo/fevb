@@ -1,0 +1,58 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="fs-19 mt-30 fw-b ta-c">PERSONAL DE SEGURIDAD PRIVADA</div>
+
+<div class="fs-15 mt-30 ta-c">Seleccione un tipo de inscripción para continuar</div>
+
+<div class="general-error m-a mt-15" id="error">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    Debe seleccionar al menos una opción
+</div>
+
+<form action="/inscripciones/inscripcion-masiva/tipo-de-inscripcion" method="POST">
+
+    <div class="insc-types">
+        <div class="insc-type" id="option_C">
+            <div class="insc-type-check"><input type="checkbox" name="check_C" id="check_C"></div>
+            <div class="insc-type-text" id="text_C">Empresa</div>
+        </div>
+        <div class="insc-type" id="option_P">
+            <div class="insc-type-check"><input type="checkbox"  name="check_P" id="check_P"></div>
+            <div class="insc-type-text" id="text_P">Particular</div>
+        </div>
+
+    </div>
+
+    <div class="mt-60"><%- include('../partials/contactPopup') %></div>
+    
+
+    <div class="buttons-column mt-30">
+        <button type="submit" class="btn-std w-300 max-w-90p pad-11-0" id="continueButton">
+            CONTINUAR
+        </button>
+        <button type="button" id="backButton" class="btn-std w-300 max-w-90p pad-11-0" onclick="history.back()">
+            ATRÁS
+        </button>
+        
+    </div>
+
+</form>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/inscriptions/inscriptionType.js?v=<%= Date.now() %>"></script>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-m"></div>
+</div>
+
+
+
+
+
+
+
+
+
+

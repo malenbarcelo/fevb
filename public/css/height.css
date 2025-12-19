@@ -24,6 +24,10 @@
     height: 50px;
 }
 
+.h-150{
+    height: 150px;
+}
+
 /* height vw */
 .h-5vh{
     height: 5vh;

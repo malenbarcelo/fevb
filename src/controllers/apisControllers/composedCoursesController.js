@@ -1,6 +1,4 @@
-
 const df = require("../../functions/datesFuntions")
-const domain = require("../../data/domain")
 const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const datesQueries = require("../../dbQueries/courses/datesQueries")
 const ciuScheduleQueries = require("../../dbQueries/courses/ciuScheduleQueries")
@@ -28,9 +26,12 @@ const coursesController = {
             let unabledDates = await datesQueries.get({filters:{years:years,enabled:0}})
             unabledDates = unabledDates.map( ud => ud.date_string + '/' + ud.year)
 
-            // gte weeks to show
+            // get weeks to show
             const weeksToShow = df.weeksToShow()
-            const mapWeeksToShow = weeksToShow.map( wts => wts.year + '_' + wts.week_number)
+            let mapWeeksToShow = weeksToShow.map( wts => wts.year + '_' + wts.week_number)
+            const maxWeeksToShow = Math.max(...coursesData.map(cs => cs.weeks_to_show))
+            mapWeeksToShow = mapWeeksToShow.slice(0, maxWeeksToShow)
+
             const {weekNumber,dayNumber} = df.getWeekNumber(new Date())
             
             // get schedule
@@ -194,12 +195,12 @@ const coursesController = {
                 })
             })
 
-            // filter dates if applies            
-            scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || (s.week_number == weekNumber && s.shifts[0].day_number > dayNumber) )
+            // filter dates if applies
+            scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || s.year > year  || (s.week_number == weekNumber && s.shifts[0].day_number > dayNumber) )
 
             // delete unabled dates
             scheduleOptions = scheduleOptions.filter( s => s.shifts.filter( sh => sh.unabledDate == true).length == 0)
-
+            
             // eliminate duplicates
             let options = []
             scheduleOptions.forEach(option => {

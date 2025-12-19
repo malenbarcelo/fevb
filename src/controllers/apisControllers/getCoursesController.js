@@ -129,7 +129,7 @@ const getCoursesController = {
                 filters.order = JSON.parse(order)
             }
 
-            //get data
+            // get data
             const data = await pricesQueries.get({ filters })
 
             res.status(200).json(data)

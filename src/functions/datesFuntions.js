@@ -13,7 +13,7 @@ const datesFunctions = {
     getWeeksInYear: (year) => {
         
         function isLeapYear(y) {
-        return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0)
+            return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0)
         }
 
         const lastDay = new Date(year, 11, 31) // 31/12
@@ -23,7 +23,7 @@ const datesFunctions = {
         if (day === 4 || (day === 3 && isLeapYear(year))) {
             return 53
         }
-        return 52
+        return 53
     },
 
     weeksToShow: () => {        
@@ -39,12 +39,18 @@ const datesFunctions = {
         const year3 = week2 == lastWeek ? year2 + 1 : year2
         const week4 = week3 == lastWeek ? 1 : week3 + 1
         const year4 = week3 == lastWeek ? year3 + 1 : year3
+        const week5 = week4 == lastWeek ? 1 : week4 + 1
+        const year5 = week4 == lastWeek ? year4 + 1 : year4
+        const week6 = week5 == lastWeek ? 1 : week5 + 1
+        const year6 = week5 == lastWeek ? year5 + 1 : year5
 
         const weeksToShow = [
             { week_number:week1, year:year1 },
             { week_number:week2, year:year2 },
             { week_number:week3, year:year3 },
-            { week_number:week4, year:year4 }
+            { week_number:week4, year:year4 },
+            { week_number:week5, year:year5 },
+            { week_number:week6, year:year6 }
         ]
 
         return weeksToShow

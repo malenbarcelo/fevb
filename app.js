@@ -6,13 +6,17 @@ const FileStore = require('session-file-store')(session);
 const bcrypt = require('bcryptjs')
 const userLoggedMiddleware = require('./src/middlewares/userLoggedMiddleware.js')
 const studentLoggedMiddleware = require('./src/middlewares/studentLoggedMiddleware.js')
+const cron = require('node-cron')
 
-//ROUTES
+// routes
 const appRoutes = require('./src/routes/appRoutes.js')
-//const createRoutes = require('./src/routes/apisRoutes/createRoutes.js')
+const createRoutes = require('./src/routes/apisRoutes/createRoutes.js')
 const getRoutes = require('./src/routes/apisRoutes/getRoutes.js')
 const updateRoutes = require('./src/routes/apisRoutes/updateRoutes.js')
 const composedRoutes = require('./src/routes/apisRoutes/composedRoutes.js')
+
+// controllers
+const cronController = require('./src/controllers/cronController.js')
 
 const app = express()
 
@@ -66,6 +70,10 @@ app.use(session({
 app.use(userLoggedMiddleware)
 app.use(studentLoggedMiddleware)
 
+// create moodle users
+//cron.schedule('*/1 * * * *', cronController.createMoodleUsers)
+//cronController.createMoodleUsers()
+
 //Declare and listen port
 const APP_PORT = 3012
 app.listen(APP_PORT,() => console.log("Servidor corriendo en puerto " + APP_PORT))
@@ -73,8 +81,8 @@ app.listen(APP_PORT,() => console.log("Servidor corriendo en puerto " + APP_PORT
 //Routes
 app.use('/',appRoutes)
 app.use('/get',getRoutes)
-//app.use('/create',createRoutes)
+app.use('/create',createRoutes)
 app.use('/update',updateRoutes)
 app.use('/composed',composedRoutes)
 
-//console.log('malen: ' + bcrypt.hashSync('user1',10))
+//console.log('malen: ' + bcrypt.hashSync('fundacion',10))

@@ -1,8 +1,8 @@
 const db = require('../../../database/models')
 const { Op } = require('sequelize') 
-const model = db.Students_answers
+const model = db.Students_theoricals_answers
 
-const studentsAnswersQueries = {
+const studentsTheoricalsAnswersQueries = {
     get: async({ filters }) => {
 
         // order
@@ -18,15 +18,8 @@ const studentsAnswersQueries = {
             where.id_students_exams = filters.id_students_exams
         }
 
-        const data = await model.findAll({            
-            include: [                
-                {
-                    association: 'theorical_answers',
-                    include:[{association:'question_data'}],
-                    order:[["id","DESC"]],
-                    separate: true
-                }
-            ],
+        const data = await model.findAll({
+            include:[{association:'theoricals_answers_details'}],            
             where,
             order,
             nest: true
@@ -58,4 +51,4 @@ const studentsAnswersQueries = {
     },
 }
 
-module.exports = studentsAnswersQueries
+module.exports = studentsTheoricalsAnswersQueries

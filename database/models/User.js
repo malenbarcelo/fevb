@@ -13,8 +13,16 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      name:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       email:{
          type: DataTypes.STRING,
+         allowNull: false,
+      },
+      id_users_categories:{
+         type: DataTypes.INTEGER,
          allowNull: false,
       },
       password:{
@@ -28,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
    }
 
    const config = {
-      tableName : 'user_categories',
+      tableName : 'users',
       timestamps : false
    }
 

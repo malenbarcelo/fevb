@@ -6,10 +6,9 @@
         <div class="top-header-element top-header-right">
             <div class="user-logged">
                 <% if (locals.userLogged) { %>
-                    <i class="fa-solid fa-user user-logged-icon"></i>
-                    <div class="user-logged-name">
-                        <%= userLogged.first_name + ' ' + userLogged.last_name %>
-                        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></a>
+                    <div class="user-logged-under-header">
+                        <div class="under-header-name"><%= userLogged.name.toUpperCase() %></div>
+                        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket under-header-icon"></i></a>
                     </div>
                 <% } %>
                 <% if (locals.studentLogged) { %>
