@@ -61,10 +61,16 @@
 .w-100{
     width:100px
 }
+.w-100_50{
+    width:100px
+}
 .w-110{
     width:110px
 }
 .w-120{
+    width:120px
+}
+.w-120_90{
     width:120px
 }
 .w-130{
@@ -83,6 +89,12 @@
     width:170px
 }
 .w-200{
+    width:200px;
+}
+.w-200_120{
+    width:200px;
+}
+.w-200_150{
     width:200px;
 }
 .w-230{
@@ -109,6 +121,9 @@
 .w-300{
     width:300px
 }
+.w-300_120{
+    width:300px
+}
 .w-320{
     width:320px
 }
@@ -131,6 +146,12 @@
     width:450px
 }
 .w-500{
+    width:500px
+}
+.w-500_280{
+    width:280px
+}
+.w-500_300{
     width:500px
 }
 .w-550{
@@ -220,4 +241,26 @@
 /* --- max widths vw--- */
 .max-w-95vw{
     max-width: 95vw;
+}
+
+@media (max-width:730px){
+    .w-100_50{
+        width:50px
+    }
+    .w-120_90{
+        width:90px
+    }
+    .w-200_120{
+        width: 120px;
+    }
+    .w-200_150{
+        width: 150px;
+    }
+    .w-300_120{
+        width: 120px;
+    }
+    .w-500_280{
+        width: 280px;
+    }
+    
 }

@@ -42,11 +42,19 @@
 .fs-17{
     font-size: 17px;
 }
+.fs-17_14{
+    font-size: 17px;
+}
 
 .fs-19{
     font-size: 19px;
 }
-
+.fs-19_15{
+    font-size: 19px;
+}
+.fs-19_17{
+    font-size: 19px;
+}
 .fs-20{
     font-size: 20px;
 }
@@ -137,8 +145,14 @@
     .fs-17{
         font-size: 15px;
     }
+    .fs-17_14{
+        font-size: 14px;
+    }
     .fs-19{
         font-size: 16px;
+    }
+    .fs-19_15{
+        font-size: 15px;
     }
     .fs-20{
         font-size: 18px;

@@ -1,8 +1,8 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<div class="fs-19 fw-b ta-c mt-15_10- mb-20"><%= title.toUpperCase() + ' - Alumnos' %></div>
-<div class="fs-17 ta-c mb-15"><%= company.toUpperCase() + ' - Comisión ' + commission %></div>
+<div class="fs-19_15 fw-b ta-c mt-15_10- mb-20_10"><%= title.toUpperCase() + ' - Alumnos' %></div>
+<div class="fs-17_14 ta-c mb-15"><%= company.toUpperCase() + ' - Comisión ' + commission %></div>
 
 <div class="fs-13 fw-b mb-5 fc-error ta-c mb-15 mt-2- not-visible" id="continueError">Debe ingresar al menos un alumno</div>
 
@@ -22,9 +22,9 @@
 </div>
 
 <div class="flex-r cg-15 jc-c mt-20 mb-20">
-    <div id="cesppAddStudent" class="btn-std w-200 fs-13 pad-6-0">INGRESAR UN ALUMNO</div>
+    <div id="cesppAddStudent" class="btn-std w-200_150 fs-13 pad-6-0">INGRESAR UN ALUMNO</div>
 
-    <div id="ceppUploadList" class="btn-std w-200 fs-13 pad-6-0">SUBIR LISTA EN EXCEL</div>
+    <div id="ceppUploadList" class="btn-std w-200_150 fs-13 pad-6-0">SUBIR LISTA EN EXCEL</div>
 </div>
 
 <!--- main table --->
@@ -56,11 +56,11 @@
 <div class="mt-10"><%- include('../partials/contactPopup') %></div>
 
 <div class="flex-r cg-20 jc-c mt-15 mb-5">
-    <button type="button" id="backButton" class="btn-std w-200 max-w-90p pad-7-0" onclick="history.back()">
+    <button type="button" id="backButton" class="btn-std w-200_150 max-w-90p pad-7-0" onclick="history.back()">
         ATRÁS
     </button>
 
-    <button type="submit" id="continueButton" class="btn-std w-200 max-w-90p pad-7-0">
+    <button type="submit" id="continueButton" class="btn-std w-200_150 max-w-90p pad-7-0">
         CONTINUAR
     </button>
 </div>
@@ -69,7 +69,7 @@
 <!--- create edit students popup (cespp) --->
 <div class="popup pp-std" id="cespp">
 
-    <div class="pp-content w-500 top-100" id="cesppContent">
+    <div class="pp-content w-400 max-w-85p top-100" id="cesppContent">
 
         <div class="pp-close" id="cesppClose">
             <div class="pp-close-icon w-20 h-20">x</div>
@@ -121,18 +121,18 @@
 <!--- prices lists popup (plpp) --->
 <div class="popup pp-std" id="plpp">
 
-    <div class="pp-content w-500 top-200" id="plppContent">
+    <div class="pp-content top-180 w-400 max-w-85p" id="plppContent">
 
         <div class="pp-img-and-close">
             <img src="/images/favicon3.jpg" alt="FEVB" class="h-35">
             <div class="pp-close-icon w-20 h-20" id="plppClose">x</div>
         </div>
         
-        <div class="fs-15 fw-b ta-c mt-5- mb-10"><%= title.toUpperCase() %></div>
+        <div class="fs-15 fw-b ta-c mt-5-_0 mb-10"><%= title.toUpperCase() %></div>
 
         <div class="fs-14 fw-b ta-c mb-20">Precios</div>
 
-        <div class="w-fc m-a">
+        <div class="w-fc m-a fs-14">
             <% for( let i = 0; i < priceList.length; i++ ) { %>
                 <% if (i == 0) { %>
                     <div class="mt-10"><b><%= '- De ' + priceList[i].quantity + ' a ' + priceList[i + 1].quantity  + ' alumnos: ' %></b><%= '$ ' + Number(priceList[i].price).toLocaleString('es-AR') + ' / alumno' %> </div>
@@ -152,7 +152,7 @@
 <!--- ulpp (ulpp) --->
 <div class="popup pp-std" id="ulpp">
 
-    <div class="pp-content w-500 top-200" id="ulppContent">
+    <div class="pp-content w-400 max-w-85p top-200" id="ulppContent">
 
         <div class="pp-close" id="ulppClose"><div class="pp-close-icon w-20 h-20">x</div></div>
 
@@ -160,8 +160,8 @@
 
         <div class="btn-std w-250 pad-7-0 m-a mb-25" id="ulppTemplate">Descargar modelo en Excel</div>
 
-        <div class="flex-c ai-c mb-30" id="">
-            <input type="file" class="pad-9 bs" id="ulppFile" name="ulppFile">
+        <div class="flex-c ai-c mb-30 m-a" id="">
+            <input type="file" class="pad-9 bs max-w-85p" id="ulppFile" name="ulppFile">
             <div class="input-error mt-5" id="ulppFileError"></div>
         </div>
 
@@ -176,8 +176,6 @@
 
 </div>
 
-
-
 <!-- loader -->
 <div class="loader ld-std" id="loader">
     <div class="ld-content lt-m"></div>
@@ -185,6 +183,7 @@
 
 <!--- popups --->
 <%- include('../partials/confirmPopup') %>
+
 
 <!----------SCRIPTS---------->
 <script type="module" src="/js/inscriptions/personalDataCompanies/personalDataCompanies.js?v=<%= Date.now() %>"></script>

@@ -34,3 +34,9 @@
 .pdc-price-icon:hover + .pdc-price-info {
     display: block;
 }
+
+@media (max-width:730px){
+    .pdc-price-info{
+        width:70px
+    }
+}

@@ -51,6 +51,13 @@ thead{
     font-weight: lighter;
 }
 
+.td-ellipsis{
+    max-width: 100px;      
+    white-space: nowrap;   
+    overflow: hidden;      
+    text-overflow: ellipsis;
+}
+
 /* body */
 .body {
     font-weight: lighter;
