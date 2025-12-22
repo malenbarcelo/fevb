@@ -554,7 +554,7 @@ const inscriptionsController = {
 
             // send email
             const mailData = {
-                name: inscriptionType == 'company' ? data.companyData.first_name + ' ' + data.companyData.last_name : data.personalData[0].first_name + data.personalData[0].last_name,
+                name: inscriptionType == 'company' ? data.companyData.first_name + ' ' + data.companyData.last_name : data.personalData[0].first_name + ' ' + data.personalData[0].last_name,
                 email: inscriptionType == 'company' ? data.companyData.email : data.personalData[0].email,
                 cuitCuil: inscriptionType == 'company' ? null : data.personalData[0].cuit_cuil,
                 company: inscriptionType == 'company' ? data.companyData.company : null,
