@@ -31,10 +31,12 @@ const datesFunctions = {
         const year = date.getFullYear()
         const {weekNumber,dayNumber} = datesFunctions.getWeekNumber(date)
         const lastWeek = datesFunctions.getWeeksInYear(year)
+
         const week1 = weekNumber
         const year1 = year
+
         const week2 = weekNumber == lastWeek ? 1 : weekNumber + 1
-        const year2 = weekNumber == lastWeek ? year1 + 1 : year1
+        const year2 = (weekNumber == lastWeek || weekNumber == 1 && lastWeek == 53) ? year1 + 1 : year1
         const week3 = week2 == lastWeek ? 1 : week2 + 1
         const year3 = week2 == lastWeek ? year2 + 1 : year2
         const week4 = week3 == lastWeek ? 1 : week3 + 1
