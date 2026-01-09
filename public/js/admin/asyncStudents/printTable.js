@@ -9,18 +9,18 @@ async function printTable() {
 
     data.forEach((element,index) => {
 
-        const rowClass = index % 2 === 0 ? 'body pad-7-0 body-even' : 'body pad-7-0 body-odd'
+        const rowClass = index % 2 === 0 ? 'body pad-5-0 body-even' : 'body pad-5-0 body-odd'
         const dateArray = element.inscription_date.split('-')        
         const inscDate = `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`
         const checkInput = element.paymentStatus == 'complete' ? 'checked' : ''
 
         html += `
             <tr class="pointer" id="tr_${element.id}">
-                <td class="${rowClass}">${element.student_inscriptions[0].course_data.category}</td>
+                <td class="${rowClass}">${element.student_inscriptions[0] ? element.student_inscriptions[0].course_data.category : ''}</td>
                 <td class="${rowClass}">${element.commission_name}</td>
-                <td class="${rowClass}">${element.company}</td>
+                <td class="${rowClass}">${element.company == null ? 'Particular' : element.company}</td>
                 <td class="${rowClass}">${element.cuit_cuil}</td>
-                <td class="${rowClass}">${element.name}</td>
+                <td class="${rowClass}">${element.first_name + ' ' + element.last_name}</td>
                 <td class="${rowClass}">${inscDate}</td>
                 <td class="${rowClass}">${gg.formatter0.format(element.price)}</td>
                 <td class="${rowClass}">${''}</td>
@@ -59,7 +59,19 @@ function eventListeners(data) {
         })
 
         // destroy
-        destroy.addEventListener('click',async()=>{
+        destroy.addEventListener('click', async()=>{
+            
+            loader.style.display = 'block'
+
+            g.elementToDestroy = element
+
+            g.action = 'destroyElement'
+                
+            coppText.innerHTML = '¿Confirma que desea eliminar al alumno <b>' + element.first_name + ' ' + element.last_name + '</b>?'
+                
+            copp.style.display = 'block'                    
+            
+            loader.style.display = 'none'
             
         })
 
@@ -78,7 +90,7 @@ function eventListeners(data) {
 
                 g.action = 'createPayment'
                 
-                coppText.innerHTML = '¿Confirma el pago de <b>' + element.name + '</b> por un importe de <b> $ ' + gg.formatter0.format(Number(element.price)) + '</b>?'
+                coppText.innerHTML = '¿Confirma el pago de <b>' + element.first_name + ' ' + element.last_name + '</b> por un importe de <b> $' + gg.formatter0.format(Number(element.price)) + '</b>?'
                 
                 copp.style.display = 'block'                    
                     

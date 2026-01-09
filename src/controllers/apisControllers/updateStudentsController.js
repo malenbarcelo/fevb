@@ -5,6 +5,20 @@ const studentsQueries = require("../../dbQueries/students/studentsQueries");
 const gf = require("../../functions/generalFunctions");
 
 const updateStudentsController = {
+    students: async(req,res) =>{
+        try{
+
+            let data = req.body
+
+            await studentsQueries.update(data.condition,data.data)
+
+            res.status(200).json({response: 'ok'})
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({response: 'error', error: error})
+        }
+    },
     studentsAnswersDetails: async(req,res) =>{
         try{
 

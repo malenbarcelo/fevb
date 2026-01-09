@@ -9,7 +9,7 @@ let g = {
         page:'',
         enabled: 1,
         courses_methodology: 'async',
-        order: '[["commission_name","DESC"],["name","ASC"]]'
+        order: '[["commission_name","DESC"],["first_name","ASC"]]'
     },
     // scroll
     loadedPages: new Set(),
@@ -27,7 +27,9 @@ let g = {
     ],
     // elements
     action: '',
-    elementsToCreate: [],
+    elements: null,
+    elementToDestroy: null,
+    paymentToCheck: null
 }
 
 export default g

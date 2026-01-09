@@ -6,7 +6,7 @@ const getStudentsController = {
     students: async(req,res) =>{
         try{
 
-            const { size, page, cuit_cuil, year_week, id_courses_types, courses_methodology, user_name, password, order } = req.query
+            const { size, page, cuit_cuil, year_week, id_courses_types, courses_methodology, user_name, password, order, enabled } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -34,6 +34,10 @@ const getStudentsController = {
 
             if (id_courses_types) {
                 filters.id_courses_types = JSON.parse(id_courses_types)
+            }
+
+            if (enabled) {
+                filters.enabled = JSON.parse(enabled)
             }
 
             if (order) {

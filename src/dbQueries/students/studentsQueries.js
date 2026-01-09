@@ -18,6 +18,10 @@ const studentsQueries = {
             where.id = filters.id
         }
 
+        if (filters.enabled) {
+            where.enabled = filters.enabled
+        }
+
         if (filters.cuit_cuil) {
             where.cuit_cuil = filters.cuit_cuil
         }
