@@ -29,7 +29,8 @@ let g = {
     action: '',
     elements: null,
     elementToDestroy: null,
-    paymentToCheck: null
+    paymentToCheck: null,
+    elementsToCreate: []
 }
 
 export default g
