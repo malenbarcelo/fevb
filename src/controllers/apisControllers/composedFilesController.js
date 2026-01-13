@@ -1,8 +1,8 @@
 const readXlsxFile = require('read-excel-file/node')
 const path = require('path')
-const datesFunctions = require("../../functions/datesFuntions")
+const datesFunctions = require("../../utils/datesFuntions")
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
-const {getDevSession} = require("../../functions/getDevSession")
+const {getDevSession} = require("../../utils/getDevSession")
 
 const composedFilesController = {
     uploadPersonalDataList: async(req,res) =>{

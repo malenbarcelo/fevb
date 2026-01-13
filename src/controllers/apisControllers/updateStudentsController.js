@@ -2,7 +2,7 @@ const studentsTheoricalsAnswersDetailsQueries = require("../../dbQueries/student
 const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries");
 const studentsQueries = require("../../dbQueries/students/studentsQueries");
-const gf = require("../../functions/generalFunctions");
+const gf = require("../../utils/generalFunctions");
 
 const updateStudentsController = {
     students: async(req,res) =>{

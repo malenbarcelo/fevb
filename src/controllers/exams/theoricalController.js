@@ -2,9 +2,9 @@ const studentsTheoricalsAnswersQueries = require("../../dbQueries/students/stude
 const studentsTheoricalsAnswersDetailsQueries = require("../../dbQueries/students/studentsTheoricalsAnswersDetailsQueries.js")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries.js")
 const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries.js")
-const usd = require("../../functions/updateStudentData.js")
-const getStudentsExams = require("../../functions/getStudentsExams.js")
-const gf = require("../../functions/generalFunctions.js")
+const usd = require("../../utils/updateStudentData.js")
+const getStudentsExams = require("../../utils/studentsExamsUtils.js")
+const gf = require("../../utils/generalFunctions.js")
 
 const examsController = {
     // enter student

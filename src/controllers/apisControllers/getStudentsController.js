@@ -1,12 +1,11 @@
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
-const examsPracticalsQuestionsQueries = require("../../dbQueries/exams/examsPracticalsQuestionsQueries")
-const getStudentsExams = require("../../functions/getStudentsExams")
+const studentsExamsUtils = require("../../utils/studentsExamsUtils")
 
 const getStudentsController = {
     students: async(req,res) =>{
         try{
 
-            const { size, page, cuit_cuil, year_week, id_courses_types, courses_methodology, user_name, password, order, enabled } = req.query
+            const { size, page, cuit_cuil, year_week, id_courses_types, courses_methodology, user_name, password, order, commission_name, student_string, company_string, payment, status, enabled } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -14,6 +13,22 @@ const getStudentsController = {
             // add filters
             if (cuit_cuil) {
                 filters.cuit_cuil = cuit_cuil
+            }
+
+            if (commission_name) {
+                filters.commission_name = commission_name
+            }
+
+            if (payment) {
+                filters.payment = payment
+            }
+
+            if (status) {
+                filters.status = status
+            }
+
+            if (company_string) {
+                filters.company_string = company_string
             }
 
             if (user_name) {
@@ -40,20 +55,16 @@ const getStudentsController = {
                 filters.enabled = JSON.parse(enabled)
             }
 
-            if (order) {
-                filters.order = JSON.parse(order)
+            if (student_string) {
+                filters.student_string = student_string
+            }
+
+            if (payment) {
+                filters.payment = payment
             }
 
             // get data
             const data = await studentsQueries.get({limit,offset,filters })
-
-            // add payment status and attendance
-            data.rows.forEach(row => {
-                const amountPaid = row.payments.map( p => Number(p.amount)).reduce((acc, el) => acc + el, 0)
-                const attendance = row.attendance.find( a => a.attendend == 0)
-                row.paymentStatus = amountPaid >= Number(row.price) ? 'complete' : 'incomplete'
-                row.attendanceStatus = attendance ? 'incomplete' : 'complete'
-            })
 
             // get pages
             const pages = Math.ceil(data.count / limit)

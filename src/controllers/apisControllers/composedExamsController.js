@@ -1,4 +1,4 @@
-const gf = require("../../functions/generalFunctions")
+const gf = require("../../utils/generalFunctions")
 
 const examsController = {
     

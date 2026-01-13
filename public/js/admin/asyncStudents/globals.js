@@ -9,7 +9,13 @@ let g = {
         page:'',
         enabled: 1,
         courses_methodology: 'async',
-        order: '[["commission_name","DESC"],["first_name","ASC"]]'
+        order: '[["commission_name","DESC"],["first_name","ASC"]]',
+        commission_name:'',
+        student_string:'',
+        company_string:'',
+        payment:'',
+        status:'',
+        cuit_cuil:''
     },
     // scroll
     loadedPages: new Set(),

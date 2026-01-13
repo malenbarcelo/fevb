@@ -38,7 +38,38 @@ const generalFunctions = {
     specialChars: (value) => {
         if (typeof value !== 'string') return value // Solo procesa si es string
         return value.replace(/[%_]/g, char => `\\${char}`)
-    }
+    },
+
+    randomString: (length) => {
+        const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        const lower = 'abcdefghijklmnopqrstuvwxyz'
+        const numbers = '0123456789'
+        const specials = '!?-$%&'
+
+        const allChars = upper + lower + numbers + specials
+
+        let result = ''
+  
+        // mandatory
+        result += upper.charAt(Math.floor(Math.random() * upper.length))
+        result += lower.charAt(Math.floor(Math.random() * lower.length))
+        result += specials.charAt(Math.floor(Math.random() * specials.length))
+
+        // rest random
+        for (let i = 3; i < length; i++) {
+            result += allChars.charAt(Math.floor(Math.random() * allChars.length))
+        }
+
+        // mix
+        result = result
+            .split('')
+            .sort(() => Math.random() - 0.5)
+            .join('')
+
+        return result
+    },
+
+
 
 }
 

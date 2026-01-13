@@ -49,9 +49,47 @@ window.addEventListener('load',async()=>{
         g.previousScrollTop = table.scrollTop
     })
 
+    // filters event listeners
+    const filters = [commission, company, student, cuitCuil, paymentStatus ]
+    for (const filter of filters) {
+        filter.addEventListener("change", async () => {
+            
+            // show loader
+            loader.style.display = 'block'
 
-    
+            //complete filters
+            g.filters.commission_name = commission.value
+            g.filters.company_string = company.value
+            g.filters.student_string = student.value
+            g.filters.cuit_cuil = cuitCuil.value
+            g.filters.payment = paymentStatus.value
 
+            await f.resetData()
+
+            // hide loader
+            loader.style.display = 'none'
+        })
+    }
+
+    // unfilter event listener
+    unfilter.addEventListener("click", async() => {        
+        
+        // show loader
+        loader.style.display = 'block'
+        
+        // reset filters
+        gf.clearInputs(filters)
+        g.filters.commission_name = ''
+        g.filters.company_string = ''
+        g.filters.student_string = ''
+        g.filters.cuit_cuil = ''
+        g.filters.payment = ''
+
+        await f.resetData()
+        
+        // hide loader
+        loader.style.display = 'none'
+    })
 
     loader.style.display = 'none'
 

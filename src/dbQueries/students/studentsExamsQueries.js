@@ -1,6 +1,6 @@
 const db = require('../../../database/models')
 const { Op } = require('sequelize') 
-const gf = require('../../functions/generalFunctions')
+const gf = require('../../utils/generalFunctions')
 const model = db.Students_exams
 
 const studentsExamsQueries = {

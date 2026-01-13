@@ -1,5 +1,6 @@
 const db = require('../../../database/models')
-const { Op, Association } = require('sequelize') 
+const gf = require("../../utils/generalFunctions")
+const { Op } = require('sequelize') 
 const model = db.Students
 
 const studentsQueries = {
@@ -23,15 +24,27 @@ const studentsQueries = {
         }
 
         if (filters.cuit_cuil) {
-            where.cuit_cuil = filters.cuit_cuil
+            where.cuit_cuil = {[Op.like]: `%${gf.specialChars(filters.cuit_cuil)}%`}
         }
 
-        if (filters.user_name) {
-            where.user_name = filters.user_name
+        if (filters.user_name && filters.user_name == 'null') {
+            where.user_name = {[Op.is]: null}
         }
 
         if (filters.password) {
             where.password = filters.password
+        }
+
+        if (filters.commission_name) {
+            where.commission_name = {[Op.like]: `%${gf.specialChars(filters.commission_name)}%`}
+        }
+
+        if (filters.company_string) {
+            where.company = {[Op.like]: `%${gf.specialChars(filters.company_string)}%`}
+        }
+
+        if (filters.student_string) {
+            where.first_name = {[Op.like]: `%${gf.specialChars(filters.student_string)}%`}
         }
 
         if (filters.created_user) {
@@ -91,6 +104,25 @@ const studentsQueries = {
         const plainData = {
             ...data,
             rows: data.rows.map(r => r.get({ plain: true }))
+        }
+
+        // add payment status, attendance, and full name
+        plainData.rows.forEach(row => {
+            const amountPaid = row.payments.map( p => Number(p.amount)).reduce((acc, el) => acc + el, 0)
+            const attendance = row.attendance.find( a => a.attendend == 0)
+            row.payment_status = amountPaid >= Number(row.price) ? 'complete' : 'incomplete'
+            row.attendance_status = attendance ? 'incomplete' : 'complete'
+            row.full_name = row.first_name + ' ' + row.last_name
+        })
+
+        // filter name
+        if (filters.student_string) {
+            plainData.rows = plainData.rows.filter( d => d.full_name.toLowerCase().includes(filters.student_string.toLowerCase()))
+        }
+
+        // filter status
+        if (filters.payment_status) {
+            plainData.rows = plainData.rows.filter( d => d.payment_status == filters.payment_status)
         }
 
         return plainData

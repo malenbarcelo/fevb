@@ -7,10 +7,10 @@ const inscriptionsQueries = require("../../dbQueries/inscriptions/inscriptionsQu
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
 const studentsInscriptionsQueries = require("../../dbQueries/students/studentsInscriptionsQueries")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries")
-const {transporterData, sendMail, createTemplate} = require("../../functions/mailFunctions")
-const {postData,getDataToPost} = require("../../functions/postGSdata")
+const {transporterData, sendMail, createTemplate} = require("../../utils/mailFunctions")
+const {postData,getDataToPost} = require("../../utils/postGSdata")
 const fetch = require('node-fetch')
-const {getDevSession} = require("../../functions/getDevSession")
+const {getDevSession} = require("../../utils/getDevSession")
 
 const inscriptionsController = {
     mainMenu: async(req,res) => {
@@ -587,7 +587,20 @@ const inscriptionsController = {
             console.log(error)
             return res.send('Ha ocurrido un error')
         }
-    }
+    },
+    // not available course
+    notAvailableCourse: async(req,res) => {
+        try{
+
+                
+
+            return res.render('inscriptions/notAvaliableCourse',{title:'FEVB - Inscripciones'})
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
 }
 module.exports = inscriptionsController
 

@@ -85,4 +85,4 @@ app.use('/create',createRoutes)
 app.use('/update',updateRoutes)
 app.use('/composed',composedRoutes)
 
-console.log('malen: ' + bcrypt.hashSync('fevbadm',10))
+//console.log('malen: ' + bcrypt.hashSync('fevbadm',10))

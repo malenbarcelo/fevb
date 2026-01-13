@@ -1,4 +1,4 @@
-const df = require("../functions/datesFuntions")
+const df = require("./datesFuntions.js")
 const studentsQueries = require("../dbQueries/students/studentsQueries.js")
 const studentsTheoricalsAnswersQueries = require("../dbQueries/students/studentsTheoricalsAnswersQueries.js")
 const studentsTheoricalsAnswersDetailsQueries = require("../dbQueries/students/studentsTheoricalsAnswersDetailsQueries.js")

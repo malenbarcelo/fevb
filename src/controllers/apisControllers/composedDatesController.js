@@ -1,4 +1,4 @@
-const datesFunctions = require("../../functions/datesFuntions")
+const datesFunctions = require("../../utils/datesFuntions")
 
 const datesController = {
     

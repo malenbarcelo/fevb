@@ -1,4 +1,4 @@
-const df = require("../../functions/datesFuntions")
+const df = require("../../utils/datesFuntions")
 const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const datesQueries = require("../../dbQueries/courses/datesQueries")
 const ciuScheduleQueries = require("../../dbQueries/courses/ciuScheduleQueries")

@@ -1,26 +1,42 @@
 <%- include('../../partials/head') %>
 <%- include('../../partials/header') %>
 
-<div class="fs-19 fw-b mt-25 mb-35 ta-c">CURSOS ASINCRÓNICOS - ALUMNOS</div>
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">CURSOS ASINCRÓNICOS - INSCRIPCIONES</div>
 
 <div class="inputs-row mb-25">
     <div class="div-input">
         <label class="label-std">Comisión</label>
-        <input type="text" class="input-std pad-10-0" id="studentName">
+        <input type="text" class="input-std w-130 pad-8-0 fs-13" id="commission">
     </div>
     <div class="div-input">
         <label class="label-std">Empresa</label>
-        <select class="input-std w-250 pad-9-0" id="courseType">
-            <option value=""></option>
-        </select>
+        <input type="text" class="input-std w-250 pad-8-0 fs-13" id="company">
     </div>
     <div class="div-input">
         <label class="label-std">Alumno</label>
-        <input type="text" class="input-std w-250 pad-9-0" id="studentName">
+        <input type="text" class="input-std w-250 pad-8-0 fs-13" id="student">
     </div>
     <div class="div-input">
         <label class="label-std">CUIT/CUIL</label>
-        <input type="number" class="input-std w-150 pad-9-0" id="cuit">
+        <input type="number" class="input-std w-130 pad-8-0 fs-13" id="cuitCuil">
+    </div>
+    <div class="div-input">
+        <label class="label-std">Pago</label>
+        <select class="input-std w-130 pad-8-0 fs-13" id="paymentStatus">
+            <option value=""></option>
+            <option value="complete">Pagado</option>
+            <option value="incomplete">Pendiente</option>
+            
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Estado</label>
+        <select class="input-std w-130 pad-8-0 fs-13" id="status">
+            <option value=""></option>
+            <option value="complete">Pagado</option>
+            <option value="incomplete">Pendiente</option>
+            
+        </select>
     </div>
     <div id="unfilter" class="unfilter">
         <i class="fa-solid fa-filter-circle-xmark"></i>
@@ -42,7 +58,7 @@
             <th class="th pad-6-0 w-100">COMISIÓN</th>
             <th class="th pad-6-0 w-150">EMPRESA</th>
             <th class="th pad-6-0 w-100">CUIT/CUIL</th>
-            <th class="th pad-6-0 w-300">NOMBRE</th>            
+            <th class="th pad-6-0 w-300">NOMBRE Y APELLIDO</th>            
             <th class="th pad-6-0 w-130">INSCRIPCIÓN</th>
             <th class="th pad-6-0 w-100">PRECIO</th>
             <th class="th pad-6-0 w-100">ESTADO</th>

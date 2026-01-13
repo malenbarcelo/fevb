@@ -12,7 +12,7 @@ async function printTable() {
         const rowClass = index % 2 === 0 ? 'body pad-5-0 body-even' : 'body pad-5-0 body-odd'
         const dateArray = element.inscription_date.split('-')        
         const inscDate = `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`
-        const checkInput = element.paymentStatus == 'complete' ? 'checked' : ''
+        const checkInput = element.payment_status == 'complete' ? 'checked' : ''
 
         html += `
             <tr class="pointer" id="tr_${element.id}">
@@ -20,7 +20,7 @@ async function printTable() {
                 <td class="${rowClass}">${element.commission_name}</td>
                 <td class="${rowClass}">${element.company == null ? 'Particular' : element.company}</td>
                 <td class="${rowClass}">${element.cuit_cuil}</td>
-                <td class="${rowClass}">${element.first_name + ' ' + element.last_name}</td>
+                <td class="${rowClass}">${element.full_name}</td>
                 <td class="${rowClass}">${inscDate}</td>
                 <td class="${rowClass}">${gg.formatter0.format(element.price)}</td>
                 <td class="${rowClass}">${''}</td>
