@@ -41,6 +41,7 @@ const generalFunctions = {
     },
 
     randomString: (length) => {
+        
         const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         const lower = 'abcdefghijklmnopqrstuvwxyz'
         const numbers = '0123456789'

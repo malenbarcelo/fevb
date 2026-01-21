@@ -10,9 +10,7 @@
 <form action="/inscripciones/tipos-de-cursos" method="POST">
     <div class="flex flex-c rg-20 ai-c mt-30">
         <% coursesTypes.forEach(ct => { %>
-            <% if (ct.id != 4) { %> <!---SP unavailable-->
-                <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-80p pad-17-0"><%= ct.type %></button>
-            <% } %>
+            <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-80p pad-17-0"><%= ct.type %></button>
         <% }) %>
     </div>
 </form>
