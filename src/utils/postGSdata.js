@@ -10,6 +10,7 @@ async function postData(dataToPost) {
         const range = 'inscriptos!A2'
 
         const sheets = await getSheets()
+
         const res = await sheets.spreadsheets.values.append({
             spreadsheetId,
             range,
@@ -114,4 +115,27 @@ async function getDataToPost(createdData,sessionData) {
     return dataToPost
 }
 
-module.exports = { postData, getDataToPost }
+async function getInscriptionsData() {
+
+    try {
+
+        const spreadsheetId = '1PwmOCrSuWzZ5S7gWnBlx6fxW1plcCRkUhBuroQhOJzg'
+        const range = 'alumnos!A2:H'
+
+        const sheets = await getSheets()
+        
+        const res = await sheets.spreadsheets.values.get({
+            spreadsheetId,
+            range
+        })
+
+        const rows = res.data.values || []
+
+        return rows
+            
+    } catch (error) {
+        console.error('Error al enviar datos:', error)
+    }
+}
+
+module.exports = { postData, getDataToPost, getInscriptionsData }

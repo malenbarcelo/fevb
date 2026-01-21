@@ -63,7 +63,7 @@ const createStudentsController = {
 
             const data = req.body
 
-            await studentsPaymentsQueries.create(data)
+            await studentsPaymentsQueries.create(data,true)
 
             res.status(200).json({response:'ok'})
 

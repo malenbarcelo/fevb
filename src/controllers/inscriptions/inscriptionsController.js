@@ -8,7 +8,7 @@ const studentsAttendanceQueries = require("../../dbQueries/students/studentsAtte
 const studentsInscriptionsQueries = require("../../dbQueries/students/studentsInscriptionsQueries")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries")
 const {transporterData, sendMail, createTemplate} = require("../../utils/mailFunctions")
-const {postData,getDataToPost} = require("../../utils/postGSdata")
+const {postData, getDataToPost} = require("../../utils/postGSdata")
 const fetch = require('node-fetch')
 const {getDevSession} = require("../../utils/getDevSession")
 

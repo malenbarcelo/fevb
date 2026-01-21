@@ -70,6 +70,26 @@ const studentsAttendanceQueries = {
         const createdData = await model.bulkCreate(data)
         return createdData
     },
+    update: async (condition, data) => {
+
+        for (const d of data) {
+
+            let whereCondition = {}
+
+            if (condition == 'id') {
+                whereCondition = { id: d.id }
+            }
+
+            if (condition == 'id_students') {
+                whereCondition = { id_students: d.id_students }
+            }
+
+            await model.update(
+                d.dataToUpdate,
+                { where: whereCondition }
+            )
+        }
+    },
 }
 
 module.exports = studentsAttendanceQueries

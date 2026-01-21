@@ -1,6 +1,9 @@
 
 const studentsQueries = require("../dbQueries/students/studentsQueries")
+const studentsAttendanceQueries = require("../dbQueries/students/studentsAttendanceQueries")
+const studentsPaymentsQueries = require("../dbQueries/students/studentsPaymentsQueries")
 const gf = require("../utils/generalFunctions")
+const { getInscriptionsData } = require("../utils/postGSdata")
 
 const cronController = {
 
@@ -75,6 +78,66 @@ const cronController = {
 
             
 
+                
+
+        }catch (error) {
+             console.log(error)
+        }
+    },
+
+    updateStudents: async(req,res) => {
+        try {
+
+            const data = await getInscriptionsData()
+
+            const elementsToDisable = data.filter( d => d[5] == 'si')
+            const elementsToEnable = data.filter( d => d[5] == 'si')
+            const examsToEnable = data.filter( d => d[6] == 'si')            
+
+            // disable elements to delete
+            const studentsToDisable = []
+            elementsToDisable.forEach(e => {
+                studentsToDisable.push({
+                    id: Number(e[0]),
+                    dataToUpdate:{enabled:0}
+                })
+            })
+
+            await studentsQueries.update('id',studentsToDisable)
+
+            // enable student
+            const studentsToEnable = []
+            elementsToEnable.forEach(e => {
+                studentsToEnable.push({
+                    id: Number(e[0]),
+                    dataToUpdate:{enabled:1}
+                })
+            })
+
+            await studentsQueries.update('id',studentsToEnable)
+
+            ////// enable exams
+            // attendance
+            const attendanceToUpdate = []
+            examsToEnable.forEach(e => {
+                attendanceToUpdate.push({
+                    id_students: Number(e[0]),
+                    dataToUpdate: { attended: 1 }
+                })                
+            })
+            
+            await studentsAttendanceQueries.update('id_students',attendanceToUpdate)
+
+            // payment
+            const paymentsToCreate = []
+            examsToEnable.forEach(e => {
+                paymentsToCreate.push({
+                    id_students: Number(e[0]),
+                    amount: Number(e[7])
+                })                
+            })
+            
+            await studentsPaymentsQueries.create(paymentsToCreate, false)
                 
 
         }catch (error) {

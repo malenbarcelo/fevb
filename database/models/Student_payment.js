@@ -25,7 +25,13 @@ module.exports = (sequelize, DataTypes) => {
 
    const config = {
       tableName : 'students_payments',
-      timestamps : false
+      timestamps : false,
+      indexes: [
+         {
+            unique: true,
+            fields: ['id_students', 'amount']
+         }
+      ]
    }
 
    const Student_payment = sequelize.define(alias, cols, config)

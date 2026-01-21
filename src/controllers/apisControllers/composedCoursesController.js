@@ -196,7 +196,7 @@ const coursesController = {
             })
 
             // filter dates if applies
-            scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || s.year > year  || (s.week_number == weekNumber && s.shifts[0].day_number > dayNumber) )
+            scheduleOptions = scheduleOptions.filter( s => s.week_number > weekNumber || s.year > year  || (s.week_number == weekNumber && s.shifts[0].day_number >= dayNumber) )
 
             // delete unabled dates
             scheduleOptions = scheduleOptions.filter( s => s.shifts.filter( sh => sh.unabledDate == true).length == 0)
