@@ -1,5 +1,6 @@
 const express = require('express')
 const coursesController = require('../../controllers/apisControllers/composedCoursesController')
+const inscriptionsController = require('../../controllers/apisControllers/composedInscriptionsController')
 const datesController = require('../../controllers/apisControllers/composedDatesController')
 const studentSessionController = require('../../controllers/apisControllers/composedStudentSessionController')
 const examsController = require('../../controllers/apisControllers/composedExamsController')
@@ -42,6 +43,9 @@ router.get('/get-session-data',studentSessionController.getSessionData)
 ///// exams
 router.get('/exams/theoricals/get-exam-images',examsController.getExamImages)
 router.get('/exams/theoricals/get-exam-action',examsController.getExamAction)
+
+///// inscriptions
+router.post('/sync-bulk-inscriptions',inscriptionsController.syncBulkCreate)
 
 
 

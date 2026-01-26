@@ -1,0 +1,17 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">CURSOS SINCRÓNICOS - INSCRIPCIONES</div>
+
+<div class="btn-std w-200 pad-8-0 m-a" id="bulkInscriptions">Carga masiva</div>
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content lt-l"></div>
+</div>
+
+<!--- popups --->
+<%- include('../../partials/resultsPopups') %>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/admin/syncStudents/syncStudents.js?v=<%= Date.now() %>"></script>

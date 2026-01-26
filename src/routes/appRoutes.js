@@ -20,6 +20,7 @@ router.get('/menu',mainController.mainMenu)
 ///// administracion
 router.get('/administracion/menu',adminController.menu)
 router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
+router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
 
 ///// inscriptions
 router.get('/inscripciones',inscriptionsController.mainMenu)

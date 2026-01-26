@@ -1,5 +1,5 @@
 const db = require('../../../database/models')
-const model = db.Exams
+const model = db.Exams_theoricals
 
 const examsQueries = {
     get: async({ filters }) => {

@@ -19,6 +19,16 @@ const mainController = {
             return res.send('Ha ocurrido un error')
         }
     },
+
+    // sync students
+    syncStudents: (req,res) => {
+        try{
+            return res.render('admin/syncStudents/syncStudents',{title:'FEVB - Administración'})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
 }
 module.exports = mainController
 
