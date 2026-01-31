@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      index:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      hierarchy:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

@@ -36,7 +36,7 @@ const studentsInscriptionsQueries = {
     },
     create: async(data) => {
         const createdData = await model.bulkCreate(data)
-        return createdData
+        return createdData.map(item => item.get({ plain: true }))
     },
 }
 
