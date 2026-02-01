@@ -105,8 +105,6 @@ window.addEventListener('load',async()=>{
 
         const responseData = await response.json()
 
-        console.log(responseData)
-
         if (responseData.response == 'ok') {
             okText.innerText = 'Alumnos registrados con éxito'
             gf.showResultPopup(okPopup)                

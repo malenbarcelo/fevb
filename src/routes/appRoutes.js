@@ -52,23 +52,23 @@ router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveIn
 router.get('/professional-licences/inscriptions',professionalLicencesController.redirect) // redirect old route
 
 ///// theorical exams
-router.get('/cuestionarios',theoricalController.ingresar)
-router.get('/cuestionarios/login',theoricalController.login)
-router.post('/cuestionarios/login',theoricalController.setStudentData)
-router.get('/cuestionarios/logout',theoricalController.logout)
-router.get('/cuestionarios/pendientes',theoricalController.pendingExams)
-router.post('/cuestionarios/set-exam',theoricalController.setExam)
-router.get('/cuestionarios/preguntas',theoricalController.exam)
-router.get('/cuestionarios/resultado',theoricalController.examResult)
-router.get('/cuestionarios/ver-respuestas',theoricalController.examAnswers)
-router.get('/cuestionarios/rehacer',theoricalController.retakeExam)
+router.get('/examenes',theoricalController.ingresar)
+router.get('/examenes/login',theoricalController.login)
+router.post('/examenes/login',theoricalController.setStudentData)
+router.get('/examenes/logout',theoricalController.logout)
+router.get('/examenes/pendientes',theoricalController.pendingExams)
+router.post('/examenes/set-exam',theoricalController.setExam)
+router.get('/examenes/preguntas',theoricalController.exam)
+router.get('/examenes/resultado',theoricalController.examResult)
+router.get('/examenes/ver-respuestas',theoricalController.examAnswers)
+router.get('/examenes/rehacer',theoricalController.retakeExam)
 
 //// practical exams
 //router.get('/examenes/practicos',practicalController.practical)
 //router.get('/examenes/teoricos',practicalController.practical)
-router.get('/examenes/examen-practico',practicalController.completePractical)
-router.get('/examenes/examen-practico/:idStudentsExams',practicalController.studentPractical)
-router.post('/examenes/examen-practico/:idStudentsExams',practicalController.studentPracticalProcess)
+// router.get('/examenes/examen-practico',practicalController.completePractical)
+// router.get('/examenes/examen-practico/:idStudentsExams',practicalController.studentPractical)
+// router.post('/examenes/examen-practico/:idStudentsExams',practicalController.studentPracticalProcess)
 
 module.exports = router
 

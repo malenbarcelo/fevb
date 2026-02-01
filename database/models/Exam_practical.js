@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      index:{
+      exam_index:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },

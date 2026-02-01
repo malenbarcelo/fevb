@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-   const alias = "Students_inscriptions"
+   const alias = "Students_courses_exams"
 
    const cols = {
       id:{
@@ -17,25 +17,33 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      id_students_exams:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
    }
 
    const config = {
-      tableName : 'students_inscriptions',
+      tableName : 'students_courses_exams',
       timestamps : false
    }
 
-   const Student_inscription = sequelize.define(alias, cols, config)
+   const Student_course_exam = sequelize.define(alias, cols, config)
 
-   Student_inscription.associate = (models) => {
-      Student_inscription.belongsTo(models.Students,{
+   Student_course_exam.associate = (models) => {
+      Student_course_exam.belongsTo(models.Students,{
          as:'student_data',
          foreignKey: 'id_students'
       }),
-      Student_inscription.belongsTo(models.Courses,{
+      Student_course_exam.belongsTo(models.Courses,{
          as:'course_data',
          foreignKey: 'id_courses'
+      }),
+      Student_course_exam.belongsTo(models.Students_exams,{
+         as:'exam_data',
+         foreignKey: 'id_students_exams'
       })
    }
    
-   return Student_inscription
+   return Student_course_exam
 }

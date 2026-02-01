@@ -5,12 +5,11 @@ const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const typesQueries = require("../../dbQueries/courses/typesQueries")
 const inscriptionsQueries = require("../../dbQueries/inscriptions/inscriptionsQueries")
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
-const studentsInscriptionsQueries = require("../../dbQueries/students/studentsInscriptionsQueries")
-const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries")
 const {transporterData, sendMail, createTemplate} = require("../../utils/mailFunctions")
 const {postData, getDataToPost} = require("../../utils/postGSdata")
 const fetch = require('node-fetch')
 const {getDevSession} = require("../../utils/getDevSession")
+const {createStudentsCoursesExamsAnswers} = require("../../utils/createStudentsCoursesExamsAnswers")
 
 const inscriptionsController = {
     mainMenu: async(req,res) => {
@@ -467,53 +466,24 @@ const inscriptionsController = {
 
             const createdStudents = await studentsQueries.create(studentsData)
 
-            // save students inscriptions
-            const inscriptions = []
+            // get students courses
+            const studentsCourses = []
             const idCourses = data.coursesData.map( cd => cd.id)
             
             createdStudents.forEach(cs => {
 
                 idCourses.forEach(course => {
-                    inscriptions.push({
+                    studentsCourses.push({
                         id_students: cs.id,
-                        id_courses: course
+                        id_courses: course,
+                        id_exams_theoricals: data.coursesData.find( c => c.id == course).id_exams_theoricals,
+                        id_exams_practicals: data.coursesData.find( c => c.id == course).id_exams_practicals,
                     })
                 })
             })
 
-            await studentsInscriptionsQueries.create(inscriptions)
-
-            // save students exams
-            const exams = []
-
-            let idsExams = data.coursesData.map(cs => ({
-                id_exams_theoricals: cs.id_exams_theoricals,
-                id_exams_practicals: cs.id_exams_practicals,
-            }))
-
-            createdStudents.forEach(cs => {
-
-                idsExams= Object.values(
-                    idsExams.reduce((acc, item) => {
-                        const key = `${item.id_exams_theoricals}_${item.id_exams_practicals}`
-                        if (!acc[key]) {
-                            acc[key] = {
-                                ...item,
-                                id_students: cs.id,
-                                theoricals_status: 'pending',
-                                practicals_status: 'pending'
-                            }
-                        }
-                        return acc
-                    }, {})
-                )
-
-                idsExams.forEach(element => {
-                    exams.push(element)
-                })
-            })
-
-            await studentsExamsQueries.create(exams)
+            // create students_exams and studenst_courses_exams
+            await createStudentsCoursesExamsAnswers(studentsCourses)
 
             // save data in students_attendance
             let shifts = []

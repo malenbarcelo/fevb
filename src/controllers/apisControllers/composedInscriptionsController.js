@@ -2,9 +2,8 @@ const studentsQueries = require("../../dbQueries/students/studentsQueries")
 const inscriptionsQueries = require("../../dbQueries/inscriptions/inscriptionsQueries")
 const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
-const studentsInscriptionsQueries = require("../../dbQueries/students/studentsInscriptionsQueries")
 const { getBulkInscriptionsData, getBulkDataToPost, postData, deleteBulkData } = require("../../utils/postGSdata")
-const { getExams } = require("../../utils/getExams")
+const { createStudentsCoursesExamsAnswers } = require("../../utils/createStudentsCoursesExamsAnswers")
 
 const inscriptionsController = {
     
@@ -77,67 +76,30 @@ const inscriptionsController = {
 
             await studentsAttendanceQueries.create(attendance)
 
-            // get students inscription (only id students/id courses)
-            const studentsInscriptions = []
+            // get students courses
+            const studentsCourses = []
             data.forEach((d,index) => {
                 const idsCourses = d[110].split(',').map( id => Number(id))
                 idsCourses.forEach(id => {
-                    studentsInscriptions.push({
+                    studentsCourses.push({
                         id_students: createdStudents[index].id,
-                        id_courses: id
+                        id_courses: id,
+                        id_exams_theoricals: courses.find( c => c.id == id).id_exams_theoricals,
+                        id_exams_practicals: courses.find( c => c.id == id).id_exams_practicals,
+
                     })
                 })
             })
 
-            const createdStudentsInscritpions = await studentsInscriptionsQueries.create(studentsInscriptions)
+            // create students_exams, studenst_courses_exams, exams_theoricals_answers and exams_practicals_answers
+            await createStudentsCoursesExamsAnswers(studentsCourses)
 
-            createdStudentsInscritpions.forEach(csi => {
-                csi.id_exams_theoricals = courses.find(c => c.id == csi.id_courses).id_exams_theoricals,
-                csi.id_exams_practicals = courses.find(c => c.id == csi.id_courses).id_exams_practicals
-                
-            })
+            // post data to google sheets
+            //const dataToPost = await getBulkDataToPost(createdStudents, data)
+            //await postData(dataToPost)
 
-            const studensExams =  await getExams(createdStudentsInscritpions)
-
-            // // students_exams
-            // const studentsCourses = Object.values(
-            //   studentsInscriptions.reduce((acc, { id_students, id_courses }) => {
-            //         if (!acc[id_students]) {
-            //         acc[id_students] = {
-            //             id_students,
-            //             id_courses: []
-            //         }
-            //         }
-
-            //         acc[id_students].id_courses.push(id_courses)
-            //         return acc
-            //     }, {})
-            // )
-
-            // const theoricals =  await getTheoricals(studentsCourses)
-
-            // console.log(theoricals)
-
-            // students_inscriptions
-            // const studentsInscriptions = []
-            // data.forEach((d,index) => {
-            //     const idsCourses = d[110].split(',').map( id => Number(id))
-            //     idsCourses.forEach(id => {
-            //         studentsInscriptions.push({
-            //             id_students: createdStudents[index].id,
-            //             id_courses: id
-            //         })
-            //     })
-            // })
-
-            // // post data to google sheets
-            // const dataToPost = await getBulkDataToPost(createdStudents, data)
-            // await postData(dataToPost)
-
-            // // delete data
-            // await deleteBulkData()
-
-            // await studentsInscriptionsQueries.create(studentsInscriptions)
+            // delete data
+            //await deleteBulkData()
 
             res.status(200).json({response:'ok'})
             

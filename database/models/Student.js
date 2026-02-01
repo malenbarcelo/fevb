@@ -107,8 +107,8 @@ module.exports = (sequelize, DataTypes) => {
          as:'inscription_data',
          foreignKey: 'id_inscriptions'
       }),
-      Student.hasMany(models.Students_inscriptions,{
-         as:'student_inscriptions',
+      Student.hasMany(models.Students_courses_exams,{
+         as:'student_courses_exams',
          foreignKey: 'id_students',
          sourceKey:'id'
       }),

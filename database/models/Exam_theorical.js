@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      index:{
+      exam_index:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },
@@ -41,6 +41,14 @@ module.exports = (sequelize, DataTypes) => {
    }
 
    const Exam_theorical = sequelize.define(alias, cols, config)
+
+   Exam_theorical.associate = (models) => {
+      Exam_theorical.hasMany(models.Exams_theoricals_questions,{
+         as:'questions',
+         foreignKey: 'id_exams_theoricals',
+         sourceKey:'id'
+      })
+   }
 
    return Exam_theorical
 }

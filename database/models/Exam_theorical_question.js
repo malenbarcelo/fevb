@@ -36,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       includes_images:{
          type: DataTypes.INTEGER,
          allowNull: false,
-      },
-      enabled:{
-         type: DataTypes.INTEGER,
-         allowNull: false,
       }
    }
 

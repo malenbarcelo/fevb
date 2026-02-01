@@ -69,15 +69,6 @@ const studentsQueries = {
             include:[
                 {association: 'course_type_data'},
                 {
-                    association: 'student_inscriptions',
-                    include: [
-                        {
-                            association:'course_data',
-                        }
-                    ]
-                },
-
-                {
                     association: 'student_exams',
                     // include: [
                     //     { 

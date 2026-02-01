@@ -101,7 +101,8 @@ const studentsExamsQueries = {
     },
     create: async(data) => {
         const createdData = await model.bulkCreate(data)
-        return createdData
+        const plainData = createdData.map(d => d.get({ plain: true }))
+        return plainData
     },
     update: async (condition, data) => {
 

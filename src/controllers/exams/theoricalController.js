@@ -11,7 +11,7 @@ const examsController = {
     ingresar: (req,res) => {
         try{
             req.session.destroy()
-            return res.redirect('/cuestionarios/login')
+            return res.redirect('/examenes/login')
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -21,7 +21,7 @@ const examsController = {
     logout: (req,res) => {
         try{
             req.session.destroy()
-            return res.redirect('/cuestionarios/login')
+            return res.redirect('/examenes/login')
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -50,7 +50,7 @@ const examsController = {
             // req.session.studentLogged
             req.session.studentLogged.studentData = {cuitCuil: cuitCuil, first_name: studentData[0].first_name, last_name: studentData[0].last_name, name: studentData[0].first_name + ' ' + studentData[0].last_name}
 
-            return res.redirect('/cuestionarios/pendientes')
+            return res.redirect('/examenes/pendientes')
 
         }catch(error){
             console.log(error)
@@ -70,8 +70,6 @@ const examsController = {
             pendingExams = pendingExams.rows
             
             pendingExams.sort((a, b) => a.id - b.id)
-
-            console.log(pendingExams)
             
             return res.render('exams/theoricals/pendingTheoricals',{title:'FEVB - Exámenes', pendingExams})
 
@@ -96,7 +94,7 @@ const examsController = {
             // add last answers to session
             await usd.updateSessionData(req)
             
-            res.redirect('/cuestionarios/preguntas')
+            res.redirect('/examenes/preguntas')
 
         }catch(error){
             console.log(error)
@@ -118,7 +116,7 @@ const examsController = {
             // add last answers to session
             await usd.updateSessionData(req)
             
-            res.redirect('/cuestionarios/preguntas')
+            res.redirect('/examenes/preguntas')
 
         }catch(error){
             console.log(error)
