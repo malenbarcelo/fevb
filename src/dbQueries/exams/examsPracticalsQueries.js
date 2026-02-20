@@ -20,10 +20,12 @@ const examsPracticalsQueries = {
         const data = await model.findAll({
             where,
             order,
-            raw:true,
+            include:[{association:'questions'}]
         })
 
-        return data
+        const plainData = data.map(d => d.get({ plain: true }))
+
+        return plainData
     }
 }
 

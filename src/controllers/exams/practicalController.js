@@ -1,7 +1,5 @@
 const examsPracticalsTeachersQueries = require("../../dbQueries/exams/examsPracticalsTeachersQueries.js")
-const studentsPracticalsAnswersQueries = require("../../dbQueries/students/studentsPracticalsAnswersQueries.js")
 const studentsPracticalsAnswersObservationsQueries = require("../../dbQueries/students/studentsPracticalsAnswersObservationsQueries.js")
-const studentsPracticalsAnswersDetailsQueries = require("../../dbQueries/students/studentsPracticalsAnswersDetailsQueries.js")
 const examsPracticalsQueries = require("../../dbQueries/exams/examsPracticalsQueries.js")
 const examsPracticalsQuestionsQueries = require("../../dbQueries/exams/examsPracticalsQuestionsQueries.js")
 const examsPracticalsOptionsQueries = require("../../dbQueries/exams/examsPracticalsOptionsQueries.js")

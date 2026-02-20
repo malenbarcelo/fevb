@@ -17,10 +17,22 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      exam_theorical_version:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      exam_theorical_variant:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       id_exams_practicals:{
          type: DataTypes.INTEGER,
          allowNull: true,
-      }
+      },
+      exam_practical_version:{
+         type: DataTypes.INTEGER,
+         allowNull: true,
+      },
    }
 
    const config = {
@@ -42,6 +54,16 @@ module.exports = (sequelize, DataTypes) => {
       Student_exam.belongsTo(models.Exams_practicals,{
          as:'exam_practical_data',
          foreignKey: 'id_exams_practicals'
+      }),
+      Student_exam.hasMany(models.Students_exams_theoricals_answers,{
+         as:'theoricals_answers',
+         foreignKey: 'id_students_exams',
+         sourceKey:'id'
+      }),
+      Student_exam.hasMany(models.Students_exams_practicals_answers,{
+         as:'practicals_answers',
+         foreignKey: 'id_students_exams',
+         sourceKey:'id'
       })
    }
    

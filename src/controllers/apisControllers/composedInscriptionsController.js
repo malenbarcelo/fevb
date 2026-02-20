@@ -3,7 +3,7 @@ const inscriptionsQueries = require("../../dbQueries/inscriptions/inscriptionsQu
 const coursesQueries = require("../../dbQueries/courses/coursesQueries")
 const studentsAttendanceQueries = require("../../dbQueries/students/studentsAttendanceQueries")
 const { getBulkInscriptionsData, getBulkDataToPost, postData, deleteBulkData } = require("../../utils/postGSdata")
-const { createStudentsCoursesExamsAnswers } = require("../../utils/createStudentsCoursesExamsAnswers")
+const { createExamsData } = require("../../utils/createExamsData")
 
 const inscriptionsController = {
     
@@ -92,7 +92,7 @@ const inscriptionsController = {
             })
 
             // create students_exams, studenst_courses_exams, exams_theoricals_answers and exams_practicals_answers
-            await createStudentsCoursesExamsAnswers(studentsCourses)
+            await createExamsData(studentsCourses)
 
             // post data to google sheets
             //const dataToPost = await getBulkDataToPost(createdStudents, data)

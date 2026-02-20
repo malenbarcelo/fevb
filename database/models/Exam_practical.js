@@ -38,5 +38,13 @@ module.exports = (sequelize, DataTypes) => {
 
    const Exam_practical = sequelize.define(alias, cols, config)
 
+   Exam_practical.associate = (models) => {
+      Exam_practical.hasMany(models.Exams_practicals_questions,{
+         as:'questions',
+         foreignKey: 'id_exams_practicals',
+         sourceKey:'id'
+      })
+   }
+
    return Exam_practical
 }

@@ -58,10 +58,10 @@ router.post('/examenes/login',theoricalController.setStudentData)
 router.get('/examenes/logout',theoricalController.logout)
 router.get('/examenes/pendientes',theoricalController.pendingExams)
 router.post('/examenes/set-exam',theoricalController.setExam)
+router.get('/examenes/rehacer',theoricalController.retakeExam)
 router.get('/examenes/preguntas',theoricalController.exam)
 router.get('/examenes/resultado',theoricalController.examResult)
-router.get('/examenes/ver-respuestas',theoricalController.examAnswers)
-router.get('/examenes/rehacer',theoricalController.retakeExam)
+router.get('/examenes/ver-respuestas',theoricalController.viewExamAnswers)
 
 //// practical exams
 //router.get('/examenes/practicos',practicalController.practical)

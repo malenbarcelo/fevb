@@ -1,5 +1,3 @@
-const studentsPracticalsAnswersQueries = require("../../dbQueries/students/studentsPracticalsAnswersQueries")
-const studentsPracticalsAnswersDetailsQueries = require("../../dbQueries/students/studentsPracticalsAnswersDetailsQueries")
 const studentsPracticalsAnswersObservationsQueries = require("../../dbQueries/students/studentsPracticalsAnswersObservationsQueries")
 const examsPracticalsOptionsQueries = require("../../dbQueries/exams/examsPracticalsOptionsQueries")
 const studentsPaymentsQueries = require("../../dbQueries/students/studentsPaymentsQueries")

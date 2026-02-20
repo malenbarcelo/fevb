@@ -1,8 +1,8 @@
-const studentsTheoricalsAnswersQueries = require("../../dbQueries/students/studentsTheoricalsAnswersQueries.js")
-const studentsTheoricalsAnswersDetailsQueries = require("../../dbQueries/students/studentsTheoricalsAnswersDetailsQueries.js")
+const studentsQueries = require("../../dbQueries/students/studentsQueries.js")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries.js")
 const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries.js")
-const usd = require("../../utils/updateStudentData.js")
+const studentsExamsTheoricalsAnswersQueries = require("../../dbQueries/students/studentsExamsTheoricalsAnswersQueries.js")
+
 const getStudentsExams = require("../../utils/studentsExamsUtils.js")
 const gf = require("../../utils/generalFunctions.js")
 
@@ -45,10 +45,13 @@ const examsController = {
             const cuitCuil = Number(req.body.cuitCuil)
 
             // student data
-            const studentData = await usd.studentData(cuitCuil,req)
+            let studentData = await studentsQueries.get({filters:{cuit_cuil:cuitCuil}})
+            studentData = studentData.rows
+            const firstName = studentData[studentData.length - 1].first_name
+            const lastName = studentData[studentData.length - 1].last_name
 
             // req.session.studentLogged
-            req.session.studentLogged.studentData = {cuitCuil: cuitCuil, first_name: studentData[0].first_name, last_name: studentData[0].last_name, name: studentData[0].first_name + ' ' + studentData[0].last_name}
+            req.session.studentLogged.studentData = {cuitCuil: cuitCuil, firstName: firstName, lastName: lastName, name: firstName + ' ' + lastName}
 
             return res.redirect('/examenes/pendientes')
 
@@ -65,12 +68,10 @@ const examsController = {
             const cuitCuil = req.session.studentLogged.studentData.cuitCuil
 
             // pending exams
-            let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil, theoricals_status:['pending','in-progress','not-passed']}})
+            let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil,theoricals_status:['pending','in-progress','not-passed']}})
             
             pendingExams = pendingExams.rows
-            
-            pendingExams.sort((a, b) => a.id - b.id)
-            
+
             return res.render('exams/theoricals/pendingTheoricals',{title:'FEVB - Exámenes', pendingExams})
 
         }catch(error){
@@ -85,15 +86,26 @@ const examsController = {
 
             const keys = Object.keys(req.body)
             const idStudentsExams = Number(keys[0])
-            
+
             // get student exam data
-            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+
+            // if not-passed exam, delete answers
+            if (studentExam.rows[0].theorical_status == 'not-passed') {
+                const data = [{
+                    id_students_exams: studentExam.rows[0].id,
+                    dataToUpdate: {
+                        ids_selected_options: null,
+                        date: null,
+                    }
+                }]
+
+                await studentsExamsTheoricalsAnswersQueries.update('id_students_exams',data)
+                studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            }
 
             req.session.studentLogged.studentExam = studentExam.rows[0]
 
-            // add last answers to session
-            await usd.updateSessionData(req)
-            
             res.redirect('/examenes/preguntas')
 
         }catch(error){
@@ -106,16 +118,26 @@ const examsController = {
     retakeExam: async(req,res) => {
         try{
 
-            const idStudentsExams = req.session.studentLogged.studentExam.id
-            
             // get student exam data
-            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            const idStudentsExams = req.session.studentLogged.studentExam.id
+            studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+
+            // if not-passed exam, delete answers
+            if (studentExam.rows[0].theorical_status == 'not-passed') {
+                const data = [{
+                    id_students_exams: studentExam.rows[0].id,
+                    dataToUpdate: {
+                        ids_selected_options: null,
+                        date: null,
+                    }
+                }]
+
+                await studentsExamsTheoricalsAnswersQueries.update('id_students_exams',data)
+                studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            }
 
             req.session.studentLogged.studentExam = studentExam.rows[0]
 
-            // add last answers to session
-            await usd.updateSessionData(req)
-            
             res.redirect('/examenes/preguntas')
 
         }catch(error){
@@ -143,62 +165,49 @@ const examsController = {
     examResult: async(req,res) => {
         try{
 
-            const data = req.session.studentLogged.studentExam
-            const passGrade = Number(data.exam_theorical_data.pass_grade)
-            const idStudentsExams = data.id
-            const answers = await studentsTheoricalsAnswersQueries.get({filters:{id_students_exams:idStudentsExams, order:[["id","DESC"]]}})
-            const answersDetails = answers[0].theoricals_answers_details
-            const questionsQty = answersDetails.length
-            const correctAnswers =  answersDetails.filter( d => d.correct_answer == 1).length
-            const grade = correctAnswers / questionsQty
-            const examStatus = grade >= passGrade ? 'passed' : 'not-passed'
-            const answersToPass = Math.ceil(passGrade * questionsQty)
+            // get student exam data
+            const idStudentsExams = req.session.studentLogged.studentExam.id
 
-            // get date
-            const date = new Date()
-            const argDate = date.toLocaleString('es-AR', {timeZone: 'America/Argentina/Buenos_Aires'})
-            const day = String(argDate.split(',')[0].split('/')[0])
-            const month = String(argDate.split(',')[0].split('/')[1])
-            const year = String(argDate.split(',')[0].split('/')[2])
-            const dateString = day.padStart(2,'0') + '/' + month.padStart(2,'0') + '/' + year
+            // update exam data
+            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            req.session.studentLogged.action = 'viewTheoricalExam'
+            const data = studentExam.rows[0]
+            const passGrade = Number(data.pass_grade)
+            const grade = Number(data.grade)
             
-            // update students theoricals answers
-            const dataToUpdate1 = [{id:answers[0].id,dataToUpdate:{status:examStatus,end_date:dateString,grade:grade}}]
-            await studentsTheoricalsAnswersQueries.update('id',dataToUpdate1)
+            const examStatus = grade >= passGrade ? 'passed' : 'not-passed'
+            const questionsQty = data.theorical_questions
+            const correctAnswers = data.correct_answers
+            const answersToPass = data.answers_to_pass
 
-            // update students exams
-            const dataToUpdate2 = [{id:idStudentsExams,dataToUpdate:{theoricals_status:examStatus}}]
-            await studentsExamsQueries.update('id',dataToUpdate2)
-
-            return res.render('exams/theoricals/theoricalResult',{title:'FEVB - Exámenes',examStatus, questionsQty, correctAnswers, answersToPass})
+            return res.render('exams/theoricals/theoricalResult',{title:'FEVB - Exámenes',examStatus, questionsQty,correctAnswers, grade, passGrade, answersToPass})
 
         }catch(error){ 
             console.log(error)
             return res.send('Ha ocurrido un error')
         }
     },
-    // exam answers
-    examAnswers: async(req,res) => {
+    // view exam answers
+    viewExamAnswers: async(req,res) => {
         try{
 
-            const idLastAnswer = req.session.studentLogged.lastAnswer.id
-            const examName = req.session.studentLogged.studentExam.exam_theorical_data.exam_name
-            const courseType = req.session.studentLogged.studentExam.exam_theorical_data.courses_types_alias
-            const idExams = req.session.studentLogged.studentExam.exam_theorical_data.id
-            const version = req.session.studentLogged.lastAnswer.exam_theorical_version
-            const variant = req.session.studentLogged.lastAnswer.exam_theorical_variant
-
-            const answerDetails = await studentsTheoricalsAnswersDetailsQueries.get({filters:{id_students_theoricals_answers:idLastAnswer}})
-            const examQuestions = await examsTheoricalsQuestionsQueries.get({filters:{id_exams:idExams,exam_theorical_version:version,exam_theorical_variant:variant}})
-            const examImages = await gf.getExamImages(req)
+            // update student exam data
+            const session = req.session.studentLogged.studentExam
+            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:session.id}})
+            req.session.studentLogged.studentExam = studentExam.rows[0]
+            const data = req.session.studentLogged.studentExam
+            console.log(data)
+            const examName = data.exam_theorical_data.exam_name
+            const answerDetails = data.theoricals_answers
+            const examQuestions = data.exam_theorical_questions
+            //const examImages = await gf.getExamImages(req)
 
             const questionData = examQuestions.map(q => ({
                 id: q.id,
-                course_type: courseType,
                 question: q.question,
                 question_number: q.question_number,
                 question_options: q.question_options,
-                question_image : examImages.examFiles.filter( f => f.split('_')[3].split('.')[0] == 'question' + q.question_number)
+                //question_image : examImages.examFiles.filter( f => f.split('_')[3].split('.')[0] == 'question' + q.question_number)
             }))
 
             questionData.forEach(qd => {

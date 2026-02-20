@@ -1,5 +1,5 @@
 import g from "./globals.js"
-import { f } from "./functions.js"
+import { utils } from "./utils.js"
 import { domain } from "../../domain.js"
 
 window.addEventListener('load',async()=>{
@@ -8,13 +8,12 @@ window.addEventListener('load',async()=>{
 
     // get data
     const sessionData = await (await fetch(`${domain}composed/get-session-data`)).json()
-    g.lastAnswer = sessionData.lastAnswer
-    g.lastAnswerDetails = sessionData.lastAnswerDetails    
-    g.questions = await (await fetch(`${domain}get/exams/theoricals/questions?order:[["question_number","ASC"]]`)).json()
-    g.examImages = await (await fetch(`${domain}composed/exams/theoricals/get-exam-images`)).json()
+    g.answers = sessionData.studentExam.theoricals_answers  
+    g.questions = sessionData.studentExam.exam_theorical_questions
+    //g.examImages = await (await fetch(`${domain}composed/exams/theoricals/get-exam-images`)).json()
 
     // update question
-    f.updateQuestion()
+    utils.updateQuestion()
 
     // continue button
     continueBtn.addEventListener('click',async()=>{
@@ -33,15 +32,18 @@ window.addEventListener('load',async()=>{
             const selectedOptions = checkedOptions.map(ch => ch.id)
             const mapSelectedOptions = selectedOptions.map( so => so.split('_')[1]).join(',')
             
-            const data = [{
-                id: g.lastAnswerDetails.find( a => a.id_exams_theoricals_questions == g.questionData.id).id,
-                idQuestions: g.questionData.id,
-                dataToUpdate: {
-                    ids_selected_options: mapSelectedOptions
-                }
-            }]
+            const data = {
+                condition: 'id',
+                data: [{
+                    id:g.answers.find( a => a.id_exams_theoricals_questions == g.questionData.id).id,
+                    dataToUpdate: {
+                        ids_selected_options: mapSelectedOptions,
+                        date: new Date()
+                    }
+                }]
+            }
 
-            const response = await fetch(domain + 'update/students-answers-details',{
+            const response = await fetch(domain + 'update/students-exams-theoricals-answers',{
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
@@ -52,14 +54,14 @@ window.addEventListener('load',async()=>{
             if (responseData.response == 'ok') {
 
                 // update g.lasAttempt
-                const answer = g.lastAnswerDetails.find( a => a.id_exams_theoricals_questions == g.questionData.id)
+                const answer = g.answers.find( a => a.id_exams_theoricals_questions == g.questionData.id)
                 answer.ids_selected_options = mapSelectedOptions
                 
                 if (g.buttonAction == 'continue') {
                     // get next question
-                    f.updateQuestion()
+                    utils.updateQuestion()
                 }else{
-                    window.location.href = '/cuestionarios/resultado'
+                    window.location.href = '/examenes/resultado'
                 }
                 
             }else{
@@ -71,7 +73,7 @@ window.addEventListener('load',async()=>{
     // back button
     backBtn.addEventListener('click',async()=>{
         if (g.questionNumber > 1) g.questionNumber--
-        f.updateQuestion()
+        utils.updateQuestion()
     })
     
 

@@ -15,23 +15,23 @@
     <div class="fs-15 ta-c mt-10">Necesitas <%= answersToPass %> respuestas correctas para aprobar</div>
 <% } %>
 
-<a href="/cuestionarios/pendientes">
+<a href="/examenes/pendientes">
     <div class="btn-std w-250 m-a pad-10-0 <%= examStatus == 'not-passed' ? 'mt-75' : 'mt-100' %>">Volver al menú</div>
 </a>
 
 <% if (examStatus == 'not-passed') { %>
     
-    <a href="/cuestionarios/rehacer">
+    <a href="/examenes/rehacer">
         <div class="btn-std w-250 m-a mt-15 pad-10-0">Rehacer examen</div>
     </a>
     
-    <a href="/cuestionarios/ver-respuestas">
+    <a href="/examenes/ver-respuestas">
         <div class="btn-std w-250 m-a mt-15 pad-10-0">Ver examen</div>
     </a>
 
 <% } %>
 
-<a href="/cuestionarios">
+<a href="/examenes">
     <div class="btn-std w-250 m-a pad-10-0 mt-15">Salir</div>
 </a>
 

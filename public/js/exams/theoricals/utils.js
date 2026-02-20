@@ -1,11 +1,11 @@
 import { domain } from "../../domain.js"
 import g from "./globals.js"
 
-const f = {
+const utils = {
 
     updateQuestion: async function() {
 
-        g.questionData = g.questions.find( q => q.question_number == g.questionNumber)
+        g.questionData = g.questions.find( q => q.question_number == g.questionNumber)        
         const options = g.questionData.question_options
 
         // hide error
@@ -40,19 +40,19 @@ const f = {
         // add image if applies
         questionImage.innerHTML = ''
 
-        if (g.questionData.includes_images == 1) {
+        // if (g.questionData.includes_images == 1) {
             
-            let html = ''
+        //     let html = ''
 
-            const image = g.examImages.files.find( i => i.split('_')[3] == 'question' + g.questionNumber + '.jpg')
+        //     const image = g.examImages.files.find( i => i.split('_')[3] == 'question' + g.questionNumber + '.jpg')
             
-            if (image) {
+        //     if (image) {
 
-                html += '<img src="/images/examsImages/' + g.examImages.folder + '/' + image + '"" alt="FEVB" class="question-image">'
+        //         html += '<img src="/images/examsImages/' + g.examImages.folder + '/' + image + '"" alt="FEVB" class="question-image">'
                 
-                questionImage.innerHTML = html
-            }
-        }
+        //         questionImage.innerHTML = html
+        //     }
+        // }
 
         // complete options
         questionOptions.innerHTML = options
@@ -65,7 +65,7 @@ const f = {
             .join('')
 
         // check input if applies
-        const answer = g.lastAnswerDetails.find( a => a.id_exams_theoricals_questions == g.questionData.id)
+        const answer = g.answers.find( a => a.id_exams_theoricals_questions == g.questionData.id)
         const selectedOptions = answer.ids_selected_options == null ? [] : answer.ids_selected_options.split(',')
         
         selectedOptions.forEach(option => {
@@ -87,4 +87,4 @@ const f = {
     }
 }
 
-export { f }
+export { utils }

@@ -1,12 +1,8 @@
 let g = {
     questions: [], //ok
-    examImages: {}, //ok
-    lastAnswer: {}, //ok
-    lastAnswerDetails: [], //ok
+    examImages: {}, 
+    answers: [], 
     questionNumber:1,
-    filters: {
-        order:'[["question_number","ASC"]]',        
-    },
     questionData:{},
     questionOptions:[],
     action: '',

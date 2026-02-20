@@ -9,7 +9,7 @@ const {transporterData, sendMail, createTemplate} = require("../../utils/mailFun
 const {postData, getDataToPost} = require("../../utils/postGSdata")
 const fetch = require('node-fetch')
 const {getDevSession} = require("../../utils/getDevSession")
-const {createStudentsCoursesExamsAnswers} = require("../../utils/createStudentsCoursesExamsAnswers")
+const { createExamsData } = require("../../utils/createExamsData")
 
 const inscriptionsController = {
     mainMenu: async(req,res) => {
@@ -483,7 +483,7 @@ const inscriptionsController = {
             })
 
             // create students_exams and studenst_courses_exams
-            await createStudentsCoursesExamsAnswers(studentsCourses)
+            await createExamsData(studentsCourses)
 
             // save data in students_attendance
             let shifts = []

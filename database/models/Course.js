@@ -69,6 +69,18 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      print_certificate:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      print_credentail:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      print_attendance_proof:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,
