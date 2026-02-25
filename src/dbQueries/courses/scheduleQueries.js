@@ -21,6 +21,10 @@ const scheduleQueries = {
             where.year_week = filters.year_week
         }
 
+        if (filters.id_branches) {
+            where.id_branches = filters.id_branches
+        }
+
         if (filters.enabled) {
             where.enabled = filters.enabled
         }

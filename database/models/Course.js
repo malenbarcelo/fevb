@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      print_credentail:{
+      print_credential:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },

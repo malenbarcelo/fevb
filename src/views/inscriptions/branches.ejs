@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="main-title">INSCRIPCIONES</div>
+
+<div class="subtitle">Seleccione una sede</div>
+
+<div class="mt-20"><%- include('../partials/contactPopup') %></div>
+
+<form action="/inscripciones/branches" method="POST">
+    <div class="flex flex-c rg-20 ai-c mt-30">
+        <% branches.forEach(branch => { %>
+            <button type="submit" name="branchButton" value="<%= branch.id %>" class="btn-std fs-16 w-300 max-w-80p pt-15 pb-15"><%= branch.branch.toUpperCase() %></button>
+        <% }) %>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

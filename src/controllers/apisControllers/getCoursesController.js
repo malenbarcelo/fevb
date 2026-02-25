@@ -87,7 +87,7 @@ const getCoursesController = {
     schedule: async(req,res) =>{
         try{
 
-            const { id_courses, year_week,enabled, order } = req.query
+            const { id_courses, year_week,enabled, order, id_branches } = req.query
             const filters = {}
             
             // add filters
@@ -96,6 +96,9 @@ const getCoursesController = {
             }
             if (year_week) {
                 filters.year_week = JSON.parse(year_week)
+            }
+            if (id_branches) {
+                filters.id_branches = id_branches
             }
             if (enabled) {
                 filters.enabled = enabled

@@ -5,17 +5,9 @@ const hazardousMaterialsController = {
 
     hmSwornDeclaration: (req,res) => {
         try{
-            return res.render('inscriptions/hmSwornDeclaration',{title:'FEVB - Inscripciones'})
+            const branchAlias = req.session.branch.branch_alias
 
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
-
-    hmSwornDeclaration: (req,res) => {
-        try{
-            return res.render('inscriptions/hmSwornDeclaration',{title:'FEVB - Inscripciones'})
+            return res.render('inscriptions/hmSwornDeclaration',{title:'FEVB - Inscripciones', branchAlias})
 
         }catch(error){
             console.log(error)
@@ -27,6 +19,7 @@ const hazardousMaterialsController = {
         try{
 
             const data = req.body
+            const branchAlias = req.session.branch.branch_alias
             const keys = Object.keys(data)
             const idCourses = keys.includes('check_cde') ? 1 : 2
             const price = await (await fetch(`${domain}get/courses/prices?id_courses=[${idCourses}]&order=[["id","DESC"]]`)).json()
@@ -36,7 +29,7 @@ const hazardousMaterialsController = {
             req.session.price = parseFloat(price[0].price)
 
             // redirect
-            return res.redirect(`/inscripciones/cronograma`)
+            return res.redirect(`/inscripciones/${branchAlias}/cronograma`)
 
         }catch(error){
             console.log(error)

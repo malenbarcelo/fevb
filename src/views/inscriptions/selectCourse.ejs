@@ -7,13 +7,13 @@
 
 <div class="mt-20"><%- include('../partials/contactPopup') %></div>
 
-<form action="/inscripciones/cursos" method="POST">
+<form action="/inscripciones/<%= branchAlias %>/cursos" method="POST">
     <div class="flex flex-c rg-20 ai-c mt-35">
         <% coursesToShow.forEach(c => { %>
-            <button type="submit" name="courseButton" value="<%= c.alias %>" class="btn-std fs-16 w-600 max-w-90p pad-17-0"><%= c.courseName.toUpperCase() %></button> 
+            <button type="submit" name="courseButton" value="<%= c.alias %>" class="btn-std fs-16 w-600 max-w-90p pad-17-0"><%= c.courseName.toUpperCase() %></button>
         <% }) %>
-        <button type="button" id="backButton" class="mt-50 btn-std fs-16 w-250 max-w-90p pad-9-0"  onclick="location.href='/inscripciones'">
-            IR AL MENÚ INICIAL
+        <button type="button" id="backButton" class="mt-50 btn-std fs-16 w-250 max-w-90p pad-9-0"  onclick="location.href='/inscripciones/<%= branchAlias %>/tipos-de-cursos'">
+            VOLVER
         </button>
     </div>
 </form>

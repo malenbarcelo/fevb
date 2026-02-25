@@ -64,7 +64,7 @@
 
 <div class="mt-15"><%- include('../partials/contactPopup') %></div>
 
-<form action="/inscripciones/confirmar-inscripcion" method="POST">
+<form action="/inscripciones/<%= branchAlias %>/confirmar-inscripcion" method="POST">
     <div class="buttons-column mt-20 mb-25">
         <button type="submit" id="continueButton" class="btn-std w-400 max-w-90p pad-11-0">
             CONFIRMAR INSCRIPCIÓN

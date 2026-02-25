@@ -7,14 +7,16 @@ const scheduleQueries = require("../../dbQueries/courses/scheduleQueries")
 const shiftsDescriptionsQueries = require("../../dbQueries/courses/shiftsDescriptionsQueries")
 
 const coursesController = {
+    
     getScheduleOptions: async(req,res) =>{
         try{
 
-            const { id_courses } = req.query
+            const { id_courses, id_branches } = req.query
 
             const shiftsDescriptions = await shiftsDescriptionsQueries.get({filters:{}})
 
-            const idCourses = id_courses ? JSON.parse(id_courses) : [...new Set(req.session.coursesData.map( cd => cd.id))] // from backend I cant get req.session
+            const idCourses = id_courses ? JSON.parse(id_courses) : [...new Set(req.session.coursesData.map( cd => cd.id))] // from backend I can't get req.session
+            const idBranches = id_branches ? Number(id_branches) : req.session.branch.id // from backend I can't get req.session
 
             // get courses data
             const coursesData = await coursesQueries.get({filters:{id:idCourses}})
@@ -37,6 +39,7 @@ const coursesController = {
             // get schedule
             const filters = {
                 id_courses: idCourses,
+                id_branches: idBranches,
                 year_week: mapWeeksToShow,
                 enabled: 1,
                 order: [["day_number","ASC"],["shift_alias","ASC"]]
@@ -80,7 +83,7 @@ const coursesController = {
 
             if (includesCIU) {
 
-                let ciuSchedule = await ciuScheduleQueries.get({filters:{year_week:mapWeeksToShow}})
+                let ciuSchedule = await ciuScheduleQueries.get({filters:{year_week:mapWeeksToShow,id_branches:idBranches, enabled:1}})
                 
                 // show only shifts data
                 const exclude = ['id', 'enabled','day_hours']

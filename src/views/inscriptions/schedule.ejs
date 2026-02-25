@@ -17,7 +17,7 @@
 
 <div class="fs-16 fw-b ta-c mt-25">HORARIOS DISPONIBLES</div>
 
-<form action="/inscripciones/cronograma" method="POST">
+<form action="/inscripciones/<%= branchAlias %>/cronograma" method="POST">
     <div class="inputs-column mt-20">
         <div class="div-input">
             <select  class="input-std w-350 max-w-90p pad-12-0 schedule-data" name="selectDate" id="selectDate">

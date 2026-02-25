@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
          autoIncrement : true,
          allowNull: false
       },
+      id_branches:{
+         type : DataTypes.INTEGER,
+         allowNull: false
+      },
       day_number:{
          type: DataTypes.INTEGER,
          allowNull: false,

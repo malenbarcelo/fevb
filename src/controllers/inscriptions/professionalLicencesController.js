@@ -4,27 +4,17 @@ const plCategoriesQueries = require("../../dbQueries/courses/plCategoriesQueries
 
 const professionalLicencesController = {
 
-    redirect: async(req,res) => {
-        try{
-
-            return res.redirect(`/inscripciones/licencias-profesionales`)
-
-        }catch(error){
-            console.log(error)
-            return res.send('Ha ocurrido un error')
-        }
-    },
-
     types: async(req,res) => {
         try{
 
             // define course type
             const alias = ['LP']
+            const branchAlias = req.session.branch.branch_alias
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
             req.session.courseType = courseType[0]
             req.session.hasPractical = 1 // by default, change it if applies in LP
 
-            return res.render('inscriptions/plTypes',{title:'FEVB - Inscripciones'})
+            return res.render('inscriptions/plTypes',{title:'FEVB - Inscripciones',branchAlias})
 
         }catch(error){
             console.log(error)
@@ -37,12 +27,13 @@ const professionalLicencesController = {
 
             const data = req.body
             const types = Object.keys(data)
+            const branchAlias = req.session.branch.branch_alias
             
             req.session.types = types
             req.session.hasPractical = (types.includes('O') || types.includes('A')) ? 1 : 0
 
             // redirect
-            return res.redirect(`/inscripciones/licencias-profesionales/cursos`)
+            return res.redirect(`/inscripciones/${branchAlias}/licencias-profesionales/cursos`)
             
 
         }catch(error){
@@ -55,6 +46,7 @@ const professionalLicencesController = {
 
             const types = req.session.types
             const idCoursesTypes = req.session.courseType.id
+            const branchAlias = req.session.branch.branch_alias
             const courses = []
 
             const coursesData = await (await fetch(`${domain}get/courses?type_alias=${JSON.stringify(types)}&id_courses_types=${JSON.stringify(idCoursesTypes)}&enabled=1`)).json()
@@ -72,7 +64,7 @@ const professionalLicencesController = {
 
             const hasPractical = req.session.hasPractical
 
-            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories,hasPractical})
+            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories,hasPractical,branchAlias})
 
         }catch(error){
             console.log(error)

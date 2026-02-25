@@ -1,5 +1,6 @@
 const express = require('express')
 const mainController = require('../controllers/mainController.js')
+const redirectController = require('../controllers/redirectController.js')
 const adminController = require('../controllers/adminController.js')
 const practicalController = require('../controllers/exams/practicalController.js')
 const theoricalController = require('../controllers/exams/theoricalController.js')
@@ -23,33 +24,41 @@ router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
 router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
 
 ///// inscriptions
-router.get('/inscripciones',inscriptionsController.mainMenu)
-router.post('/inscripciones/tipos-de-cursos',inscriptionsController.setCourseType)
-router.get('/inscripciones/manejo-defensivo',inscriptionsController.selectCourse)
-router.get('/inscripciones/mercancias-peligrosas',inscriptionsController.selectCourse)
-router.get('/inscripciones/seguridad-privada',inscriptionsController.selectCourse)
-//router.get('/inscripciones/seguridad-privada',inscriptionsController.notAvailableCourse)
-router.get('/inscripciones/cursos',inscriptionsController.selectCourse)
-router.post('/inscripciones/cursos',inscriptionsController.setCourses)
-router.get('/inscripciones/licencias-profesionales',professionalLicencesController.types)
-router.post('/inscripciones/licencias-profesionales/tipos',professionalLicencesController.setTypes)
-router.get('/inscripciones/licencias-profesionales/cursos',professionalLicencesController.courses)
-router.get('/inscripciones/mercancias-peligrosas/declaracion-jurada',hazardousMaterialsController.hmSwornDeclaration)
-router.post('/inscripciones/mercancias-peligrosas/declaracion-jurada',hazardousMaterialsController.setSwornDeclaration)
-router.get('/inscripciones/cronograma',inscriptionsController.schedule)
-router.post('/inscripciones/cronograma',inscriptionsController.setSchedule)
-router.get('/inscripciones/inscripcion-masiva/tipo-de-inscripcion',inscriptionsController.inscriptionType)
-router.post('/inscripciones/inscripcion-masiva/tipo-de-inscripcion',inscriptionsController.setInscriptionType)
-router.get('/inscripciones/datos-personales',inscriptionsController.personalData)
-router.get('/inscripciones/empresas/empresa',inscriptionsController.companyData)
-router.post('/inscripciones/empresas/empresa',inscriptionsController.setCompanyData)
-router.get('/inscripciones/empresas/datos-personales',inscriptionsController.personalDataCompanies)
-router.post('/inscripciones/datos-personales',inscriptionsController.setPersonalData)
-router.get('/inscripciones/confirmar-inscripcion',inscriptionsController.checkout)
-router.post('/inscripciones/confirmar-inscripcion',inscriptionsController.saveInscription)
+router.get('/inscripciones',inscriptionsController.branches)
+router.post('/inscripciones/branches',inscriptionsController.setBranch)
+router.get('/inscripciones/:branchAlias/tipos-de-cursos',inscriptionsController.coursesTypes)
+router.post('/inscripciones/:branchAlias/tipos-de-cursos',inscriptionsController.setCourseType)
+router.get('/inscripciones/:branchAlias/manejo-defensivo',inscriptionsController.selectCourse)
+router.get('/inscripciones/:branchAlias/mercancias-peligrosas',inscriptionsController.selectCourse)
+//router.get('/inscripciones/:branchAlias/seguridad-privada',inscriptionsController.selectCourse)
+router.get('/inscripciones/:branchAlias/seguridad-privada',inscriptionsController.notAvailableCourse)
+router.get('/inscripciones/:branchAlias/cursos',inscriptionsController.selectCourse)
+router.post('/inscripciones/:branchAlias/cursos',inscriptionsController.setCourses)
 
-///// professional licences
-router.get('/professional-licences/inscriptions',professionalLicencesController.redirect) // redirect old route
+
+
+router.get('/inscripciones/:branchAlias/licencias-profesionales',professionalLicencesController.types)
+router.post('/inscripciones/:branchAlias/licencias-profesionales/tipos',professionalLicencesController.setTypes)
+router.get('/inscripciones/:branchAlias/licencias-profesionales/cursos',professionalLicencesController.courses)
+router.get('/inscripciones/:branchAlias/mercancias-peligrosas/declaracion-jurada',hazardousMaterialsController.hmSwornDeclaration)
+router.post('/inscripciones/:branchAlias/mercancias-peligrosas/declaracion-jurada',hazardousMaterialsController.setSwornDeclaration)
+router.get('/inscripciones/:branchAlias/cronograma',inscriptionsController.schedule)
+router.post('/inscripciones/:branchAlias/cronograma',inscriptionsController.setSchedule)
+router.get('/inscripciones/:branchAlias/inscripcion-masiva/tipo-de-inscripcion',inscriptionsController.inscriptionType)
+router.post('/inscripciones/:branchAlias/inscripcion-masiva/tipo-de-inscripcion',inscriptionsController.setInscriptionType)
+router.get('/inscripciones/:branchAlias/datos-personales',inscriptionsController.personalData)
+router.get('/inscripciones/:branchAlias/empresas/empresa',inscriptionsController.companyData)
+router.post('/inscripciones/:branchAlias/empresas/empresa',inscriptionsController.setCompanyData)
+router.get('/inscripciones/:branchAlias/empresas/datos-personales',inscriptionsController.personalDataCompanies)
+router.post('/inscripciones/:branchAlias/datos-personales',inscriptionsController.setPersonalData)
+router.get('/inscripciones/:branchAlias/confirmar-inscripcion',inscriptionsController.checkout)
+router.post('/inscripciones/:branchAlias/confirmar-inscripcion',inscriptionsController.saveInscription)
+
+///// redirections
+router.get('/professional-licences/inscriptions',redirectController.plRedirect) // redirect old route
+// router.get('/inscripciones/manejo-defensivo',redirectController.mdRedirect) // redirect old route
+// router.get('/inscripciones/mercancias-peligrosas',redirectController.mpRedirect) // redirect old route
+// router.get('/inscripciones/licencias-profesionales',redirectController.plRedirect) // redirect old route
 
 ///// theorical exams
 router.get('/examenes',theoricalController.ingresar)

@@ -7,11 +7,16 @@
 
 <div class="mt-20"><%- include('../partials/contactPopup') %></div>
 
-<form action="/inscripciones/tipos-de-cursos" method="POST">
+<form action="/inscripciones/neuquen/tipos-de-cursos" method="POST">
     <div class="flex flex-c rg-20 ai-c mt-30">
         <% coursesTypes.forEach(ct => { %>
-            <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-80p pad-17-0"><%= ct.type %></button>
+            <% if (ct.id != 4) { %> <!-- hide private security course -->
+                <button type="submit" name="typeButton" value="<%= ct.id %>" class="btn-std fs-16 w-600 max-w-80p pad-17-0"><%= ct.type %></button>
+            <% } %>
         <% }) %>
+        <button type="button" id="backButton" class="mt-50 btn-std fs-16 w-250 max-w-90p pad-9-0"  onclick="location.href='/inscripciones'">
+            CAMBIAR SEDE
+        </button>
     </div>
 </form>
 

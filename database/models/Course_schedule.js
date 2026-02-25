@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      classroom_alias:{
-         type: DataTypes.STRING,
+      id_branches:{
+         type: DataTypes.INTEGER,
          allowNull: false,
       },
       day_number:{
