@@ -11,6 +11,8 @@ window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
 
+    const branches = await (await fetch(`${domain}get/branches`)).json()
+
     // // get data
     // g.filters.page = 1
     // g.filters.size = 25
@@ -93,31 +95,33 @@ window.addEventListener('load',async()=>{
     // })
 
     // bulk create from google sheets
-    bulkInscriptions.addEventListener("click", async() => {
+    for (const branch of branches) {
+        
+        const button = document.getElementById('branch_' + branch.id)
+        
+        button.addEventListener("click", async() => {
 
-        loader.style.display = 'block'
+            loader.style.display = 'block'
 
-        // register payment
-        const response = await fetch(domain + 'composed/sync-bulk-inscriptions',{
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
+            const response = await fetch(domain + 'composed/' + branch.branch_url + '/sync-bulk-inscriptions',{
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+            })
+
+            const responseData = await response.json()
+
+            if (responseData.response == 'ok') {
+                okText.innerText = 'Alumnos registrados con éxito'
+                gf.showResultPopup(okPopup)                
+            }else{
+                errorText.innerText = 'Error al registrar alumnos'
+                gf.showResultPopup(errorPopup) 
+            }
+
+            loader.style.display = 'none'
         })
-
-        const responseData = await response.json()
-
-        if (responseData.response == 'ok') {
-            okText.innerText = 'Alumnos registrados con éxito'
-            gf.showResultPopup(okPopup)                
-        }else{
-            errorText.innerText = 'Error al registrar alumnos'
-            gf.showResultPopup(errorPopup) 
-        }
-
-        loader.style.display = 'none    '
-    })
+    }
 
     loader.style.display = 'none'
-
-    
 
 })

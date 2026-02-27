@@ -13,6 +13,28 @@ const redirectController = {
             return res.send('Ha ocurrido un error')
         }
     },
+
+    mdRedirect: async(req,res) => {
+        try{
+
+            return res.redirect(`/inscripciones/neuquen/manejo-defensivo`)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    mpRedirect: async(req,res) => {
+        try{
+
+            return res.redirect(`/inscripciones/neuquen/mercancias-peligrosas`)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
 }
 module.exports = redirectController
 

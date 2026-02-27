@@ -45,7 +45,7 @@
 
     <div class="checkout-info m-a mt-20 max-w-95p">
         <b>DOMICILIO: </b>
-        <div class="ta-c">Colón 388, entre Roca y Belgrano, Neuquén. Instituto FAENA, Piso 3.</div>
+        <div class="ta-c"><%= address %></div>
     </div>
  
 <% } %>
@@ -64,7 +64,7 @@
 
 <div class="mt-15"><%- include('../partials/contactPopup') %></div>
 
-<form action="/inscripciones/<%= branchAlias %>/confirmar-inscripcion" method="POST">
+<form action="/inscripciones/<%= branchUrl %>/confirmar-inscripcion" method="POST">
     <div class="buttons-column mt-20 mb-25">
         <button type="submit" id="continueButton" class="btn-std w-400 max-w-90p pad-11-0">
             CONFIRMAR INSCRIPCIÓN

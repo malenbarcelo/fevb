@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      branch_alias:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       address_line_1:{
          type: DataTypes.STRING,
          allowNull: false,
@@ -25,11 +29,15 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      branch_alias:{
+      branch_url:{
          type: DataTypes.STRING,
          allowNull: false,
       },
       phone_number:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      spreadsheet_id:{
          type: DataTypes.STRING,
          allowNull: false,
       },

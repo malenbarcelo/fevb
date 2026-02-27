@@ -45,7 +45,9 @@ router.get('/exams/theoricals/get-exam-images',examsController.getExamImages)
 router.get('/exams/theoricals/get-exam-action',examsController.getExamAction)
 
 ///// inscriptions
-router.post('/sync-bulk-inscriptions',inscriptionsController.syncBulkCreate)
+router.post('/:branchUrl/sync-bulk-inscriptions',inscriptionsController.syncBulkCreate) // external route, not used in frontend
+
+
 
 
 

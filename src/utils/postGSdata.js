@@ -2,14 +2,12 @@ const { google } = require('googleapis')
 const credentials = require('../data/googleSheetsCredentials.json')
 const dateQueries = require("../dbQueries/courses/datesQueries")
 
-async function postData(dataToPost) {
+async function postData(dataToPost,spreadsheetId) {
 
     try {
 
-        const spreadsheetId = '1PwmOCrSuWzZ5S7gWnBlx6fxW1plcCRkUhBuroQhOJzg'
-        const range = 'inscriptos!A2'
-
         const sheets = await getSheets()
+        const range = 'inscriptos!A2'
 
         const res = await sheets.spreadsheets.values.append({
             spreadsheetId,
@@ -34,6 +32,7 @@ async function getSheets() {
   })
 
   const client = await auth.getClient()
+  
   return google.sheets({ version: 'v4', auth: client })
 }
 
@@ -140,11 +139,11 @@ async function getInscriptionsData() {
     }
 }
 
-async function getBulkInscriptionsData() {
+async function getBulkInscriptionsData(spreadsheetId) {
 
     try {
 
-        const spreadsheetId = '1PwmOCrSuWzZ5S7gWnBlx6fxW1plcCRkUhBuroQhOJzg'
+        //const spreadsheetId = '1PwmOCrSuWzZ5S7gWnBlx6fxW1plcCRkUhBuroQhOJzg'
         const range = 'inscribir!A2:DJ'
 
         const sheets = await getSheets()

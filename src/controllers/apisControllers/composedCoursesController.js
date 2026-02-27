@@ -16,6 +16,7 @@ const coursesController = {
             const shiftsDescriptions = await shiftsDescriptionsQueries.get({filters:{}})
 
             const idCourses = id_courses ? JSON.parse(id_courses) : [...new Set(req.session.coursesData.map( cd => cd.id))] // from backend I can't get req.session
+            
             const idBranches = id_branches ? Number(id_branches) : req.session.branch.id // from backend I can't get req.session
 
             // get courses data

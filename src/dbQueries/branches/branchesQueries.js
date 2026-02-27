@@ -18,6 +18,10 @@ const branchesQueries = {
             where.id = filters.id
         }
 
+        if (filters.branch_url) {
+            where.branch_url = filters.branch_url
+        }
+
         const data = await model.findAll({
             include:[{
                 association: 'branches_courses_types',

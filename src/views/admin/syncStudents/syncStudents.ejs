@@ -3,11 +3,16 @@
 
 <div class="fs-19 fw-b mt-25 mb-35 ta-c">CURSOS SINCRÓNICOS - INSCRIPCIONES</div>
 
-<div class="btn-std w-200 pad-8-0 m-a" id="bulkInscriptions">Carga masiva</div>
+
+<div class="flex-c rg-20">
+    <% branches.forEach(branch => { %>
+        <div class="btn-std w-200 pad-8-0 m-a" id="<%= 'branch_' + branch.id %>"><%= 'Traer datos ' + branch.branch %></div>
+    <% }) %>
+</div>
 
 <!-- loader -->
 <div class="loader ld-std" id="loader">
-    <div class="ld-content lt-l"></div>
+    <div class="ld-content top-40p"></div>
 </div>
 
 <!--- popups --->

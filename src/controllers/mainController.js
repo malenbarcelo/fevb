@@ -41,8 +41,6 @@ const mainController = {
             req.session.userLogged = userToLogin[0]
             delete req.session.userLogged.password
 
-            console.log(req.session.userLogged)
-
             return res.redirect('/menu')
         }catch(error){
             console.log(error)

@@ -11,7 +11,6 @@ const {postData, getDataToPost} = require("../../utils/postGSdata")
 const fetch = require('node-fetch')
 const {getDevSession} = require("../../utils/getDevSession")
 const { createExamsData } = require("../../utils/createExamsData")
-const { courses } = require("./professionalLicencesController")
 
 const inscriptionsController = {
 
@@ -36,7 +35,7 @@ const inscriptionsController = {
             const data = req.body.branchButton
             const branchData = await branchesQueries.get({filters:{id:data}})
             req.session.branch = branchData[0]
-            const redirection = '/inscripciones/' + branchData[0].branch_alias + '/tipos-de-cursos'
+            const redirection = '/inscripciones/' + branchData[0].branch_url + '/tipos-de-cursos'
 
 
             // redirect
@@ -68,13 +67,13 @@ const inscriptionsController = {
     setCourseType: async(req,res) => {
         try{
 
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
 
             const urls = [
-                {idCoursesTypes: 1, url: '/inscripciones/' + branchAlias + '/licencias-profesionales'},
-                {idCoursesTypes: 2, url: '/inscripciones/' + branchAlias + '/cursos'},
-                {idCoursesTypes: 3, url: '/inscripciones/' + branchAlias + '/cursos'},
-                {idCoursesTypes: 4, url: '/inscripciones/' + branchAlias + '/cursos'},                
+                {idCoursesTypes: 1, url: '/inscripciones/' + branchUrl + '/licencias-profesionales'},
+                {idCoursesTypes: 2, url: '/inscripciones/' + branchUrl + '/cursos'},
+                {idCoursesTypes: 3, url: '/inscripciones/' + branchUrl + '/cursos'},
+                {idCoursesTypes: 4, url: '/inscripciones/' + branchUrl + '/cursos'},                
             ]
 
             const data = req.body
@@ -99,7 +98,8 @@ const inscriptionsController = {
             let alias
 
             const path = req.path
-            const branchAlias = req.params.branchAlias
+            const branchUrl = req.params.branchUrl
+            const branchData = await branchesQueries.get({filters:{branch_url:branchUrl}})
 
             if (path.includes('mercancias-peligrosas')) {
                 alias = ['MP']
@@ -124,6 +124,7 @@ const inscriptionsController = {
             req.session.courseType = courseType[0]
             
             // complete session
+            req.session.branch = branchData[0]
             req.session.types = [] // only if professional licences
             req.session.coursesData = null
             req.session.price = null
@@ -149,7 +150,7 @@ const inscriptionsController = {
                 })
             })
 
-            return res.render('inscriptions/selectCourse',{title:'FEVB - Inscriptiones',title,coursesToShow,branchAlias})
+            return res.render('inscriptions/selectCourse',{title:'FEVB - Inscriptiones',title,coursesToShow,branchUrl})
 
         }catch(error){
             console.log(error)
@@ -164,14 +165,14 @@ const inscriptionsController = {
             const alias = data.courseButton
             const summary = [] // only if professional licences
             let redirection = ''
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
 
             if (alias) {
                 // define redirection according to course type
                 if (alias == 'mercancias_peligrosas_obtencion') {
-                    redirection = '/inscripciones/' + branchAlias + '/mercancias-peligrosas/declaracion-jurada'
+                    redirection = '/inscripciones/' + branchUrl + '/mercancias-peligrosas/declaracion-jurada'
                 }else{
-                    redirection = '/inscripciones/' + branchAlias + '/cronograma'
+                    redirection = '/inscripciones/' + branchUrl + '/cronograma'
                     const courseData = await coursesQueries.get({filters:{alias:alias}})
                     let price = await pricesQueries.get({filters:{id_courses:courseData[0].id, order:[["id","DESC"]]}})
 
@@ -187,7 +188,7 @@ const inscriptionsController = {
                     
                 }   
             }else{
-                redirection = '/inscripciones/' + branchAlias + '/cronograma'
+                redirection = '/inscripciones/' + branchUrl + '/cronograma'
                 const keys = (Object.keys(data)).filter( key => key.split('_')[0] == 'check')
                 const coursesIds = keys.map(key => parseInt(key.split('_')[1]))
                 const coursesData = await (await fetch(`${domain}get/courses?id=${JSON.stringify(coursesIds)}`)).json()
@@ -223,7 +224,7 @@ const inscriptionsController = {
 
             // get data
             const price = req.session.price
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
             const idBranches = req.session.branch.id
             const title = req.session.coursesData[0].course_name
             const idCourses = [...new Set(req.session.coursesData.map( cd => cd.id))]
@@ -236,7 +237,7 @@ const inscriptionsController = {
             const hasPractical = req.session.hasPractical
             const courseMethodology = req.session.coursesData[0].course_methodology
 
-            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary, hasPractical,courseMethodology,allowsBulkInsc,branchAlias})
+            return res.render('inscriptions/schedule',{title:'FEVB - Inscriptiones',scheduleOptions,title,price, selectionSummary, hasPractical,courseMethodology,allowsBulkInsc,branchUrl})
 
         }catch(error){
             console.log(error)
@@ -248,11 +249,12 @@ const inscriptionsController = {
         try{
 
             const data = req.body
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
+            const idBranches = req.session.branch.id
 
             const idCourses = [...new Set(req.session.coursesData.map( cd => cd.id))]
 
-            const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_courses=${JSON.stringify(idCourses)}`)).json()
+            const scheduleOptions = await (await fetch(`${domain}composed/courses/get-schedule-options?id_branches=${idBranches}&id_courses=${JSON.stringify(idCourses)}`)).json()
 
             const selectedOption = scheduleOptions.find( s => s.id == data.selectDate)
 
@@ -271,9 +273,9 @@ const inscriptionsController = {
             // get redirection
             let redirection = ''
             if (req.session.coursesData[0].allows_bulk_inscriptions == 1) {
-                redirection = '/inscripciones/' + branchAlias + '/inscripcion-masiva/tipo-de-inscripcion'                
+                redirection = '/inscripciones/' + branchUrl + '/inscripcion-masiva/tipo-de-inscripcion'                
             }else{
-                redirection = '/inscripciones/' + branchAlias + '/datos-personales'
+                redirection = '/inscripciones/' + branchUrl + '/datos-personales'
             }
             
             // redirect
@@ -366,12 +368,12 @@ const inscriptionsController = {
 
             // get data
             const price = req.session.price
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
             const title = req.session.coursesData[0].course_name
             const selectionSummary = req.session.selectionSummary // only if professional licences
             req.session.inscriptionType = 'particular'
 
-            return res.render('inscriptions/personalData',{title:'FEVB - Inscripciones',title,price,selectionSummary, branchAlias})
+            return res.render('inscriptions/personalData',{title:'FEVB - Inscripciones',title,price,selectionSummary, branchUrl})
 
         }catch(error){
             console.log(error)
@@ -408,7 +410,7 @@ const inscriptionsController = {
         try{
 
             let data = req.body
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
 
             const students = data.students ? data.students : [data]
 
@@ -420,7 +422,7 @@ const inscriptionsController = {
                 res.status(200).json({response:'ok'})
             }else{
                 // redirect
-                return res.redirect('/inscripciones/' + branchAlias + '/confirmar-inscripcion')
+                return res.redirect('/inscripciones/' + branchUrl + '/confirmar-inscripcion')
             }
             
         }catch(error){
@@ -436,7 +438,8 @@ const inscriptionsController = {
             getDevSession(req,'sid')
 
             const inscriptionType = req.session.inscriptionType
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
+            const address = req.session.branch.address_line_1 + '. ' + req.session.branch.address_line_2
             const courseName = req.session.coursesData[0].course_name
             const price = Number(req.session.price)
             const company = inscriptionType == 'company' ? req.session.companyData.company : null
@@ -451,7 +454,7 @@ const inscriptionsController = {
             const alias = req.session.courseType.alias
             const quantity = req.session.quantity            
 
-            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuitCuil, email, phoneNumber,selectionText,alias, inscriptionType, company, quantity, branchAlias})
+            return res.render('inscriptions/checkout',{title:'FEVB - Inscripciones',price, scheduleDescription, courseName, name, cuitCuil, email, phoneNumber,selectionText,alias, inscriptionType, company, quantity, branchUrl, address})
 
         }catch(error){
             console.log(error)
@@ -466,7 +469,8 @@ const inscriptionsController = {
             getDevSession(req,'sid')
 
             const data = req.session
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
+            const spreadsheetId = req.session.branch.spreadsheet_id
             const dateArray = req.session.schedule.shifts[0].complete_date.split('/')
             const commissionName = Number(dateArray[2] + dateArray[1] + dateArray[0])
             const expirationDays = data.coursesData[0].expiration_time_days
@@ -587,7 +591,9 @@ const inscriptionsController = {
                 quantity: data.quantity,
                 courseMethodology: data.coursesData[0].course_methodology,
                 commission: commissionName,
-                inscriptionNumber: String(createdInscription[0].id).padStart(6,'0')
+                inscriptionNumber: String(createdInscription[0].id).padStart(6,'0'),
+                addressLine1: data.branch.address_line_1,
+                addressLines2: data.branch.address_line_2
             }
 
             const html = createTemplate(mailData)
@@ -598,11 +604,11 @@ const inscriptionsController = {
             if (data.courseType.alias != "SP") {
                 // post data to google sheets
                 const dataToPost = await getDataToPost(createdStudents[0], data)
-                await postData(dataToPost)
+                await postData(dataToPost,spreadsheetId)
             }
 
             req.session.destroy()
-            return res.render('inscriptions/confirmation',{title:'FEVB - Inscripciones',branchAlias})
+            return res.render('inscriptions/confirmation',{title:'FEVB - Inscripciones',branchUrl})
 
         }catch(error){
             console.log(error)

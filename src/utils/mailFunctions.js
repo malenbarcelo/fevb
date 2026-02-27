@@ -122,7 +122,7 @@ function createTemplate(mailData) {
                 <p style="color:red;"><b>Para reservar tu cupo, por favor transferí $ ${mailData.price} al alias "farola.burla.caucho"<br>y enviá el comprobante a comprobantes@elvientoblanco.org.ar<br>dentro de las próximas 24 hs.</b></p>
                 <p style="color:black;"><b>CURSO:</b>${mailData.selection}</p>                
                 <p style="color:black;"><b>HORARIO:</b><br>${mailData.scheduleDescription}</p>
-                <p style="color:black;"><b>DOMICILIO:</b><br>Colón 388, entre Roca y Belgrano, Neuquén.<br>Instituto FAENA, Piso 3.</p>                
+                <p style="color:black;"><b>DOMICILIO:</b><br>${mailData.addressLine1}<br>${mailData.addressLines2}</p>                
                 <p style="color:black;"><b>DATOS DE LA INSCRIPCIÓN:</b><br>Comisión: ${mailData.commission}<br>Número de inscripción: ${mailData.inscriptionNumber}</p>
                 <p style="color:black;"><b>TUS DATOS:</b><br>Nombre: ${mailData.name}<br>CUIT/CUIL: ${mailData.cuitCuil}</p>
                 <p style="color:black;">Muchas gracias,<br><b>Fundación El Viento Blanco</b></p>                

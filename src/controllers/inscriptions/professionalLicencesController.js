@@ -1,6 +1,7 @@
 const domain = require("../../data/domain")
 const fetch = require('node-fetch')
 const plCategoriesQueries = require("../../dbQueries/courses/plCategoriesQueries")
+const branchesQueries = require("../../dbQueries/branches/branchesQueries")
 
 const professionalLicencesController = {
 
@@ -9,12 +10,14 @@ const professionalLicencesController = {
 
             // define course type
             const alias = ['LP']
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.params.branchUrl
+            const branchData = await branchesQueries.get({filters:{branch_url:branchUrl}})
             const courseType =  await (await fetch(`${domain}get/courses/types?alias=${JSON.stringify(alias)}`)).json()
+            req.session.branch = branchData[0]
             req.session.courseType = courseType[0]
             req.session.hasPractical = 1 // by default, change it if applies in LP
 
-            return res.render('inscriptions/plTypes',{title:'FEVB - Inscripciones',branchAlias})
+            return res.render('inscriptions/plTypes',{title:'FEVB - Inscripciones',branchUrl})
 
         }catch(error){
             console.log(error)
@@ -27,13 +30,13 @@ const professionalLicencesController = {
 
             const data = req.body
             const types = Object.keys(data)
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
             
             req.session.types = types
             req.session.hasPractical = (types.includes('O') || types.includes('A')) ? 1 : 0
 
             // redirect
-            return res.redirect(`/inscripciones/${branchAlias}/licencias-profesionales/cursos`)
+            return res.redirect(`/inscripciones/${branchUrl}/licencias-profesionales/cursos`)
             
 
         }catch(error){
@@ -46,7 +49,7 @@ const professionalLicencesController = {
 
             const types = req.session.types
             const idCoursesTypes = req.session.courseType.id
-            const branchAlias = req.session.branch.branch_alias
+            const branchUrl = req.session.branch.branch_url
             const courses = []
 
             const coursesData = await (await fetch(`${domain}get/courses?type_alias=${JSON.stringify(types)}&id_courses_types=${JSON.stringify(idCoursesTypes)}&enabled=1`)).json()
@@ -64,7 +67,7 @@ const professionalLicencesController = {
 
             const hasPractical = req.session.hasPractical
 
-            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories,hasPractical,branchAlias})
+            return res.render('inscriptions/plSelectCourses',{title:'FEVB - Inscripciones',courses,categories,hasPractical,branchUrl})
 
         }catch(error){
             console.log(error)
