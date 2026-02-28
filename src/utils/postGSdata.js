@@ -1,6 +1,8 @@
 const { google } = require('googleapis')
 const credentials = require('../data/googleSheetsCredentials.json')
 const dateQueries = require("../dbQueries/courses/datesQueries")
+const typesQueries = require("../dbQueries/courses/typesQueries")
+
 
 async function postData(dataToPost,spreadsheetId) {
 
@@ -164,17 +166,31 @@ async function getBulkInscriptionsData(spreadsheetId) {
     }
 }
 
-async function getBulkDataToPost(students, data) {
+async function getBulkDataToPost(students, data, dates) {
 
     let dataToPost = []
+    const coursesTypes = await typesQueries.get({filters:{}})
+    
 
     students.forEach((student,i) => {
 
-        const courseTypeAlias = student.id_courses_types == 1 ? 'LP' : (student.id_courses_types == 2 ? 'MP' : 'MD')
-        const dateNumber = Number(student.year + data[i][84].split('/')[1] + data[i][84].split('/')[0])
-        const dateString = `'${String(data[i][84])}/${student.year}`
-        const sheet = `'Lunes ${String(data[i][84])}/${student.year} - ${courseTypeAlias}`
+        // course type alias
+        const courseTypeAlias = coursesTypes.find( c => c.id == student.id_courses_types).alias
+        
+        // dates and sheets
+        const weekMondayDate = dates.find(d => d.year == student.year && d.week_number == student.week_number && d.day_number == 1).date_string
+        const dateString = `'${String(weekMondayDate)}/${student.year}`
+        const sheet = `'Lunes ${String(weekMondayDate)}/${student.year} - ${courseTypeAlias}`
+        const day = weekMondayDate.split('/')[0]
+        const month = weekMondayDate.split('/')[1]
+        const dateNumber = Number(student.year + month + day)
 
+        // inscription
+        const coursesData = data[i].coursesData
+        const inscription = courseTypeAlias != 'LP' 
+                            ? courseTypeAlias + ': ' + coursesData[0].category
+                            : getInscription(coursesData)
+        
         dataToPost.push([
             student.id,
             student.cuit_cuil,
@@ -186,7 +202,7 @@ async function getBulkDataToPost(students, data) {
             student.year_week,
             student.price,
             courseTypeAlias,
-            '',
+            inscription,
             sheet,
             dateString,
             dateNumber,
@@ -204,50 +220,39 @@ async function getBulkDataToPost(students, data) {
             data[i][16] == '' ? 0 : 1,
             0,
             0,
-            data[i][20] == '' ? 'no' : 'si',
-            data[i][21] == '' ? 'no' : 'si',
-            data[i][22] == '' ? 'no' : 'si',
-            data[i][23] == '' ? 'no' : 'si',
-            data[i][24] == '' ? 'no' : 'si',
-            data[i][25] == '' ? 'no' : 'si',
-            data[i][26] == '' ? 'no' : 'si',
-            data[i][27] == '' ? 'no' : 'si',
-            data[i][28] == '' ? 'no' : 'si',
-            data[i][29] == '' ? 'no' : 'si',
-            data[i][30] == '' ? 'no' : 'si',
-            data[i][31] == '' ? 'no' : 'si',
-            data[i][32] == '' ? 'no' : 'si',
-            data[i][33] == '' ? 'no' : 'si',
-            data[i][34] == '' ? 'no' : 'si',
-            data[i][35] == '' ? 'no' : 'si',
-            data[i][36] == '' ? 'no' : 'si',
-            data[i][37] == '' ? 'no' : 'si',
-            data[i][38] == '' ? 'no' : 'si',
-            data[i][39] == '' ? 'no' : 'si',
-            data[i][40] == '' ? 'no' : 'si',
-            data[i][41] == '' ? 'no' : 'si',
-            data[i][42] == '' ? 'no' : 'si',
-            data[i][43] == '' ? 'no' : 'si',
-
         ])
     })
 
     return dataToPost
 }
 
-async function deleteBulkData() {
-    const spreadsheetId = '1PwmOCrSuWzZ5S7gWnBlx6fxW1plcCRkUhBuroQhOJzg'
+async function deleteBulkData(spreadsheetId) {
     const sheets = await getSheets()
 
     await sheets.spreadsheets.values.clear({
         spreadsheetId,
-        range: 'inscribir!A2:S'
+        range: 'inscribir!A2:AQ'
+    })
+}
+
+function getInscription(courses) {
+    
+    const groups = {}
+
+    courses.forEach(course => {
+        if (!groups[course.type_alias]) {
+            groups[course.type_alias] = []
+        }
+
+        groups[course.type_alias].push(course.category)
     })
 
-    await sheets.spreadsheets.values.clear({
-        spreadsheetId,
-        range: 'inscribir!U2:AR'
-    })
+    const inscription = Object.entries(groups)
+        .map(([type, categories]) => `${type}: ${categories.join(', ')}`)
+        .join(' | ')
+        
+    return inscription
+
 }
 
 module.exports = { postData, getDataToPost, getInscriptionsData, getBulkInscriptionsData, getBulkDataToPost, deleteBulkData }

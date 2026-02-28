@@ -18,7 +18,8 @@ const inscriptionsController = {
             const branchesData = await branchesQueries.get({filters:{enabled:1}})
             const spreadsheetId = branchesData.find( b => b.branch_url == branchUrl).spreadsheet_id
 
-            const data = await getBulkInscriptionsData(spreadsheetId)
+            // get spreadsheet data
+            let data = await getBulkInscriptionsData(spreadsheetId)
 
             // get data
             const date = new Date()
@@ -27,6 +28,31 @@ const inscriptionsController = {
             const courses = await coursesQueries.get({filters:{enabled:1}})
             const dates = await datesQueries.get({filters:{years:years}})
             const prices = await pricesQueries.get({filters:{}})
+
+            // function to get data from spreadsheet
+            function getData(d) {
+
+                // dates
+                const firstDate = d.slice(5, 16).find(el => el !== '')
+                const year = d[17]
+                const day = firstDate.split('/')[0]
+                const month = firstDate.split('/')[1]
+                const weekNumber = dates.find(d => d.date_string == firstDate && d.year == year).week_number
+
+                // courses
+                const selectedCourses = d[18] == 'LP' ? d.slice(19, 42).filter( el => el != '') : [d[18]]                
+                const coursesData = courses.filter(c => selectedCourses.includes(c.type_alias + '_' + c.category))
+                const idsCourses = coursesData.map( cd => cd.id)
+
+                return {day,month,year,weekNumber,idsCourses, coursesData}
+                
+            }
+
+            // add courses to data
+            data.forEach(d => {
+                const { coursesData } = getData(d)
+                d.coursesData = coursesData                
+            })
 
             // inscriptions
             const inscriptions = []
@@ -42,27 +68,22 @@ const inscriptionsController = {
             
             const createdInscriptions = await inscriptionsQueries.create(inscriptions)
 
+            
+
             // complete data
             const students = []
+
             data.forEach((d,index) => {
 
-                // get commission name
-                const firstDate = d.slice(5, 16).find(el => el !== '')
-                const year = d[17]
-                const day = firstDate.split('/')[0]
-                const month = firstDate.split('/')[1]
-                const commissionName = Number(year + month + day)
-
-                // get week number
-                const weekNumber = dates.find(d => d.date_string == firstDate && d.year == year).week_number
-
-                // get course type
-                const selectedCourses = d[18] == 'LP' ? d.slice(19, 42).filter( el => el != '') : [d[18]]                
-                const coursesData = courses.filter(c => selectedCourses.includes(c.type_alias + '_' + c.category))
-                const idCourses = coursesData.map( cd => cd.id)
-                const selectedCoursesPrices = prices.filter( p => idCourses.includes(p.id_courses))
-                const maxPrice = Math.max(...selectedCoursesPrices.map(p => Number(p.price)))
+                // get dates data
+                const { day, month, year, weekNumber, idsCourses, coursesData } = getData(d)
                 
+                const commissionName = Number(year + month + day)
+                
+                // get courses data
+                const selectedCoursesPrices = prices.filter( p => idsCourses.includes(p.id_courses))
+                const maxPrice = Math.max(...selectedCoursesPrices.map(p => Number(p.price)))
+
                 students.push({
                     id_inscriptions: createdInscriptions[index].id,
                     commission_name: commissionName,
@@ -78,15 +99,18 @@ const inscriptionsController = {
                     courses_methodology: 'sync',
                     price: maxPrice
                 })
+
             })
             
-            const createdStudents = await studentsQueries.create(students)
+            let createdStudents = await studentsQueries.create(students)
 
             // attendance
             let attendance = []
-            console.log(weekNumber)
-            console.log(year)
-            data.forEach((d,index,weekNumber,year) => {
+
+            data.forEach((d,index) => {
+
+                // get dates data
+                const { year, weekNumber } = getData(d)
                 
                 let dayNumber = 1
                 
@@ -109,34 +133,35 @@ const inscriptionsController = {
 
             attendance = attendance.filter( a => a.date_string != '')
 
-            console.log(attendance)
+            await studentsAttendanceQueries.create(attendance)
 
-            //await studentsAttendanceQueries.create(attendance)
+            // get students courses exams
+            const studentsCoursesExams = []
+            
+            data.forEach((d,index) => {
 
-            // // get students courses
-            // const studentsCourses = []
-            // data.forEach((d,index) => {
-            //     const idsCourses = d[110].split(',').map( id => Number(id))
-            //     idsCourses.forEach(id => {
-            //         studentsCourses.push({
-            //             id_students: createdStudents[index].id,
-            //             id_courses: id,
-            //             id_exams_theoricals: courses.find( c => c.id == id).id_exams_theoricals,
-            //             id_exams_practicals: courses.find( c => c.id == id).id_exams_practicals,
+                const { idsCourses } = getData(d)
+                
+                idsCourses.forEach(id => {
+                    studentsCoursesExams.push({
+                        id_students: createdStudents[index].id,
+                        id_courses: id,
+                        id_exams_theoricals: courses.find( c => c.id == id).id_exams_theoricals,
+                        id_exams_practicals: courses.find( c => c.id == id).id_exams_practicals,
 
-            //         })
-            //     })
-            // })
+                    })
+                })
+            })
 
-            // // create students_exams, studenst_courses_exams, exams_theoricals_answers and exams_practicals_answers
-            // await createExamsData(studentsCourses)
+            // create students_exams, studenst_courses_exams, exams_theoricals_answers and exams_practicals_answers
+            await createExamsData(studentsCoursesExams)
 
-            // // post data to google sheets
-            // //const dataToPost = await getBulkDataToPost(createdStudents, data)
-            // //await postData(dataToPost)
+            // post data to google sheets
+            const dataToPost = await getBulkDataToPost(createdStudents, data, dates)
+            await postData(dataToPost, spreadsheetId)
 
-            // // delete data
-            // //await deleteBulkData()
+            // delete data
+            await deleteBulkData(spreadsheetId)
 
             res.status(200).json({response:'ok'})
             
@@ -146,5 +171,6 @@ const inscriptionsController = {
         }
     }
 }
+
 module.exports = inscriptionsController
 

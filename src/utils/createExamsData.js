@@ -124,9 +124,8 @@ async function addVersionAndVariant(studentsExams) {
 
     for (const s of studentsExams) {
 
-        console.log(studentsExams)
-
         const lastTheoricalVersion = await examsTheoricalsQuestionsQueries.getLastVersion(s.id_exams_theoricals)
+
         let lastPracticalVersion
         
         if (s.id_exams_practicals != null) {
