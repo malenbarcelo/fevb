@@ -4,7 +4,7 @@ const examsPracticalsQuestionsQueries = require("../dbQueries/exams/examsPractic
 const examsTheoricalsQuestionsQueries = require("../dbQueries/exams/examsTheoricalsQuestionsQueries.js")
 
 async function getStudentsExams({limit,offset,filters}) {
-    
+
     // get students exams
     const data = await studentsExamsQueries.get({limit,offset,filters})
 
@@ -55,8 +55,8 @@ async function getStudentsExams({limit,offset,filters}) {
                 const grade = correctAnswers / theoricalAnswersQty
                 row.grade = grade
                 row.theorical_questions = theoricalAnswersQty
-                row.correct_answers = correctAnswers
-                row.theorical_status = grade >= row.pass_grade ? 'passed' : 'not-passed' 
+                row.correct_answers = correctAnswers                
+                row.theorical_status = grade >= Number(row.pass_grade) ? 'passed' : 'not-passed' 
                 row.answers_to_pass = answersToPass
             }
         }
@@ -78,6 +78,11 @@ async function getStudentsExams({limit,offset,filters}) {
     // add practical status if applies
 
     // filter data
+    console.log(filters)
+    console.log(data)
+    if (filters.theoricals_status) {
+        data.rows = data.rows.filter(d => filters.theoricals_status.includes(d.theorical_status))
+    }
 
     // get pages
     const pages = Math.ceil(data.count / limit)

@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       id_selected_option:{
          type: DataTypes.INTEGER,
          allowNull: true,
+      },
+      date:{
+         type: DataTypes.DATE,
+         allowNull: true
       }
    }
 

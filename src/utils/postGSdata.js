@@ -118,11 +118,10 @@ async function getDataToPost(createdData,sessionData) {
     return datasToPost
 }
 
-async function getInscriptionsData() {
+async function getInscriptionsData(spreadsheetId) {
 
     try {
 
-        const spreadsheetId = '1PwmOCrSuWzZ5S7gWnBlx6fxW1plcCRkUhBuroQhOJzg'
         const range = 'alumnos!A2:H'
 
         const sheets = await getSheets()

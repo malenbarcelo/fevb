@@ -20,31 +20,33 @@
     font-weight: bold;
     font-size: 16px;
     padding: 8px;
-    background-color:rgb(200, 110, 110);
+    background-color:var(--color1);
     border-top-left-radius: 5px;
-    border-top-right-radius: 7px;    
+    border-top-right-radius: 7px;
+    color: var(--color2);    
 }
 
 .pending-exam-title-enabled{
     font-weight: bold;
     font-size: 16px;
     padding: 8px;
-    background-color: rgb(102, 174, 102);
+    background-color:var(--color1);
     border-top-left-radius: 5px;
-    border-top-right-radius: 7px;    
+    border-top-right-radius: 7px;
+    color: var(--color2);     
 }
 
 .pending-exam-status-enabled{
-    color: green;
+    color: white;
     padding: 3px;
-    background-color: rgb(174, 197, 174);
+    background-color:var(--color4);
     font-size: 14px;
 }
 
 .pending-exam-status-unabled{
-    color: var(--errorColor);
+    color: white;
     padding: 3px;
-    background-color: rgb(237, 184, 184);
+    background-color:var(--color4);
     font-size: 14px;
 }
 
@@ -107,16 +109,16 @@
 }
 
 .peb-enabled{
-    background-color: rgb(2, 108, 2);
+    background-color: var(--color1);
     cursor: pointer;
 }
 
 .peb-enabled:hover{
-    background-color: rgb(2, 77, 2);
+    background-color: var(--color5);
 }
 
 .peb-unabled{
-    background-color: gray;
+    background-color: rgb(152, 150, 150);
 }
 
 @media (max-width:730px){

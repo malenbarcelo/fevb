@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
          autoIncrement : true,
          allowNull: false
       },
+      id_branches:{
+         type : DataTypes.INTEGER,
+         allowNull: false
+      },
       id_inscriptions:{
          type : DataTypes.INTEGER,
          allowNull: false
@@ -64,6 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       inscription_date:{
          type: DataTypes.DATE,
          allowNull: false,
+         defaultValue: DataTypes.NOW
       },
       expiration_date:{
          type: DataTypes.DATE,
@@ -106,6 +111,10 @@ module.exports = (sequelize, DataTypes) => {
       Student.belongsTo(models.Inscriptions,{
          as:'inscription_data',
          foreignKey: 'id_inscriptions'
+      }),
+      Student.belongsTo(models.Branches,{
+         as:'branch_data',
+         foreignKey: 'id_branches'
       }),
       Student.hasMany(models.Students_courses_exams,{
          as:'student_courses_exams',

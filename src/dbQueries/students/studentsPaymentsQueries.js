@@ -54,6 +54,21 @@ const studentsPaymentsQueries = {
             )
         }
     },
+
+    destroy: async (condition, data) => {
+
+        let where = {}
+
+        if (condition === 'id') {
+            where = { id: { [Op.in]: data } }
+        }
+
+        if (condition === 'id_students') {
+            where = { id_students: { [Op.in]: data } }
+        }
+
+        await model.destroy({ where })
+    }
 }
 
 module.exports = studentsPaymentsQueries

@@ -470,6 +470,7 @@ const inscriptionsController = {
 
             const data = req.session
             const branchUrl = req.session.branch.branch_url
+            const idBranches = req.session.branch.id
             const spreadsheetId = req.session.branch.spreadsheet_id
             const dateArray = req.session.schedule.shifts[0].complete_date.split('/')
             const commissionName = Number(dateArray[2] + dateArray[1] + dateArray[0])
@@ -499,6 +500,7 @@ const inscriptionsController = {
             const studentsData = []
             data.personalData.forEach(pd => {
                 studentsData.push({
+                    id_branches: idBranches,
                     cuit_cuil: pd.cuit_cuil,
                     first_name: pd.first_name,
                     last_name: pd.last_name,

@@ -49,17 +49,17 @@ app.use(express.static(publicPath, {
   }
 }))
 
-//get forms info as objects
+// get forms info as objects
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
-//set views folder in src/views
+// set views folder in src/views
 app.set('views', path.join(__dirname, 'src/views'));
 
-//set templates extension (ejs)
+// set templates extension (ejs)
 app.set('view engine','ejs')
 
-//configure session
+// configure session
 app.use(session({
     secret:'secret',
     resave: false,
@@ -73,8 +73,11 @@ app.use(studentLoggedMiddleware)
 // create moodle users
 //cron.schedule('*/1 * * * *', cronController.createMoodleUsers)
 //cronController.createMoodleUsers()
+
+
+// update students data
 //cron.schedule('*/5 * * * *', cronController.updateStudents)
-//cronController.updateStudents()
+cronController.updateStudents()
 
 //Declare and listen port
 const APP_PORT = 3012
@@ -87,4 +90,4 @@ app.use('/create',createRoutes)
 app.use('/update',updateRoutes)
 app.use('/composed',composedRoutes)
 
-//console.log('malen: ' + bcrypt.hashSync('fevbadm',10))
+//console.log('malen: ' + bcrypt.hashSync('aesa',10))

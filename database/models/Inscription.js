@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       inscription_date:{
          type: DataTypes.DATE,
          allowNull: false,
+         defaultValue: DataTypes.NOW
       },
    }
 

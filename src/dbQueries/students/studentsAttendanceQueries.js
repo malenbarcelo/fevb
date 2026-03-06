@@ -90,6 +90,23 @@ const studentsAttendanceQueries = {
             )
         }
     },
+    bulkUpdate: async (condition, dataToUpdate, ids) => {
+
+        let where = {}
+
+        if (condition == 'id') {
+            where = { id: ids }
+        }
+
+        if (condition == 'id_students') {
+            where = { id_students: ids }
+        }
+
+        await model.update(
+            dataToUpdate,
+            { where }
+        )
+    }
 }
 
 module.exports = studentsAttendanceQueries

@@ -4,6 +4,7 @@ const studentsAttendanceQueries = require("../dbQueries/students/studentsAttenda
 const studentsPaymentsQueries = require("../dbQueries/students/studentsPaymentsQueries")
 const gf = require("../utils/generalFunctions")
 const { getInscriptionsData } = require("../utils/postGSdata")
+const branchesQueries = require("../dbQueries/branches/branchesQueries")
 
 const cronController = {
 
@@ -88,56 +89,65 @@ const cronController = {
     updateStudents: async(req,res) => {
         try {
 
-            const data = await getInscriptionsData()
+            const branches = await branchesQueries.get({filters:{enabled:1}})
+            const spreadsheets = branches.map( b => b.spreadsheet_id)
+            const data = []
 
-            const elementsToDisable = data.filter( d => d[5] == 'si')
-            const elementsToEnable = data.filter( d => d[5] == 'si')
-            const examsToEnable = data.filter( d => d[6] == 'si')            
+            for (const ss of spreadsheets) {
 
-            // disable elements to delete
+                const ssData = await getInscriptionsData(ss)
+                data.push(...ssData)
+            }
+
+            const disabledStudents = data.filter( d => d[5] == 'si')
+            const enabledStudents = data.filter( d => d[5] != 'si')
+            const paid = data.filter( d => d[3] == 'si' && d[5] != 'si')       
+
+            // disable students
             const studentsToDisable = []
-            elementsToDisable.forEach(e => {
+            disabledStudents.forEach(s => {
                 studentsToDisable.push({
-                    id: Number(e[0]),
+                    id: Number(s[0]),
                     dataToUpdate:{enabled:0}
                 })
             })
 
-            await studentsQueries.update('id',studentsToDisable)
+            await studentsQueries.update('id',studentsToDisable)            
 
             // enable student
             const studentsToEnable = []
-            elementsToEnable.forEach(e => {
+            enabledStudents.forEach(s => {
                 studentsToEnable.push({
-                    id: Number(e[0]),
+                    id: Number(s[0]),
                     dataToUpdate:{enabled:1}
                 })
             })
 
             await studentsQueries.update('id',studentsToEnable)
 
-            ////// enable exams
-            // attendance
-            const attendanceToUpdate = []
-            examsToEnable.forEach(e => {
-                attendanceToUpdate.push({
-                    id_students: Number(e[0]),
-                    dataToUpdate: { attended: 1 }
-                })                
-            })
-            
-            await studentsAttendanceQueries.update('id_students',attendanceToUpdate)
+            // update attendance
+            const idsToAttend = data
+                .filter(d => d[4] == 'si' && d[5] != 'si')
+                .map(d => Number(d[0]))
 
-            // payment
-            const paymentsToCreate = []
-            examsToEnable.forEach(e => {
-                paymentsToCreate.push({
-                    id_students: Number(e[0]),
-                    amount: Number(e[7])
-                })                
-            })
-            
+            const idsToUnattend = data
+                .filter(d => d[4] != 'si' || d[5] == 'si')
+                .map(d => Number(d[0]))            
+
+            await studentsAttendanceQueries.bulkUpdate('id_students',{attended:1},idsToAttend)
+            await studentsAttendanceQueries.bulkUpdate('id_students',{attended:0},idsToUnattend)
+
+            // create payments
+            const paymentsToCreate = paid.map(d => ({
+                id_students: d[0],
+                amount: Number(d[6].replace(/,/g, ''))
+            }))
+
             await studentsPaymentsQueries.create(paymentsToCreate, false)
+
+            // delete payments
+            const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
+            await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)
                 
 
         }catch (error) {
