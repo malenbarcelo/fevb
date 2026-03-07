@@ -18,6 +18,10 @@ const branchesQueries = {
             where.id = filters.id
         }
 
+        if (filters.enabled) {
+            where.enabled = filters.enabled
+        }
+
         if (filters.branch_url) {
             where.branch_url = filters.branch_url
         }

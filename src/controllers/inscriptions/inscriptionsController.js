@@ -21,6 +21,8 @@ const inscriptionsController = {
 
             const branches = await branchesQueries.get({filters})
 
+            console.log(branches)
+
             return res.render('inscriptions/branches',{title:'FEVB - Inscripciones',branches})
 
         }catch(error){
