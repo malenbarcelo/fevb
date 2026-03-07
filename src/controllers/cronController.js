@@ -147,8 +147,7 @@ const cronController = {
 
             // delete payments
             const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
-            await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)
-                
+            await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)                
 
         }catch (error) {
              console.log(error)
