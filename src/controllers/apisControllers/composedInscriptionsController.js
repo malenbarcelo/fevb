@@ -17,6 +17,7 @@ const inscriptionsController = {
             const branchUrl = req.path.split('/')[1]
             const branchesData = await branchesQueries.get({filters:{enabled:1}})
             const spreadsheetId = branchesData.find( b => b.branch_url == branchUrl).spreadsheet_id
+            const branchId = branchesData.find( b => b.branch_url == branchUrl).id
 
             // get spreadsheet data
             let data = await getBulkInscriptionsData(spreadsheetId)
@@ -68,8 +69,6 @@ const inscriptionsController = {
             
             const createdInscriptions = await inscriptionsQueries.create(inscriptions)
 
-            
-
             // complete data
             const students = []
 
@@ -84,8 +83,11 @@ const inscriptionsController = {
                 const selectedCoursesPrices = prices.filter( p => idsCourses.includes(p.id_courses))
                 const maxPrice = Math.max(...selectedCoursesPrices.map(p => Number(p.price)))
 
+                console.log(coursesData)
+
                 students.push({
                     id_inscriptions: createdInscriptions[index].id,
+                    id_branches: branchId,
                     commission_name: commissionName,
                     cuit_cuil: Number(d[0]),
                     first_name: d[1],

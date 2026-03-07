@@ -11,7 +11,7 @@ window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
 
-    const branches = await (await fetch(`${domain}get/branches`)).json()
+    const branches = await (await fetch(`${domain}get/branches?enabled=1`)).json()
 
     // // get data
     // g.filters.page = 1
