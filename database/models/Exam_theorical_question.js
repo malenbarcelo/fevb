@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      includes_images:{
+      image:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,
       }

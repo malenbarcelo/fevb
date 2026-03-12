@@ -14,9 +14,10 @@
             <div class="fw-b fs-14"><%= d.question_number + '. ' + d.question %></div>
 
             <!--- images --->
-            <% if (d.question_image != '') { %>
+            <% if (d.image != null) { %>
+                
                 <div class="question-image-container">
-                    <img src="/images/examsImages/<%= d.course_type + '/' + d.question_image %>" alt="FEVB" class="question-image">
+                    <img src="/images/examsImages/<%= d.image %>" alt="FEVB" class="question-image">
                 </div>                
             <% } %>
 

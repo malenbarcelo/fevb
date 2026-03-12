@@ -41,7 +41,6 @@ router.get('/get-last-n-weeks',datesController.getLastNweeks)
 router.get('/get-session-data',studentSessionController.getSessionData)
 
 ///// exams
-router.get('/exams/theoricals/get-exam-images',examsController.getExamImages)
 router.get('/exams/theoricals/get-exam-action',examsController.getExamAction)
 
 ///// inscriptions

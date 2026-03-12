@@ -83,14 +83,38 @@
     padding: 17px 0px
 }
 
+/* padding */
+.pad-5{
+    padding: 5px
+}
+
 /* padding top */
+.pt-5{
+    padding-top: 5px
+}
 .pt-15{
     padding-top: 15px
 }
 
 /* padding bottom */
+.pb-5{
+    padding-bottom: 5px
+}
 .pb-15{
     padding-bottom: 15px
+}
+.pb-20{
+    padding-bottom: 20px
+}
+
+/* padding left */
+.pl-7{
+    padding-left: 7px
+}
+
+/* padding right */
+.pr-7{
+    padding-right: 7px
 }
 
 

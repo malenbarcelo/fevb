@@ -81,6 +81,18 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      repre_course_code:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      repre_school_code:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      repre_class:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

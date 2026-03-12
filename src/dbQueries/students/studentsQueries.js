@@ -23,8 +23,12 @@ const studentsQueries = {
             where.enabled = filters.enabled
         }
 
+        // if (filters.cuit_cuil) {
+        //     where.cuit_cuil = {[Op.like]: `%${gf.specialChars(filters.cuit_cuil)}%`}
+        // }
+
         if (filters.cuit_cuil) {
-            where.cuit_cuil = {[Op.like]: `%${gf.specialChars(filters.cuit_cuil)}%`}
+            where.cuit_cuil = filters.cuit_cuil
         }
 
         if (filters.user_name && filters.user_name == 'null') {

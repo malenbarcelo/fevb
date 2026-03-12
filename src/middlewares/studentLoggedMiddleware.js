@@ -8,6 +8,7 @@ function studentLoggedMiddleware(req,res,next){
         res.locals.studentLogged = req.session.studentLogged
     }
 
+
     return next()
 }
 module.exports=studentLoggedMiddleware

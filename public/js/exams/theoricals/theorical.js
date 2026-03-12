@@ -6,11 +6,12 @@ window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
 
+    console.log('holaa')
+
     // get data
     const sessionData = await (await fetch(`${domain}composed/get-session-data`)).json()
     g.answers = sessionData.studentExam.theoricals_answers  
     g.questions = sessionData.studentExam.exam_theorical_questions
-    //g.examImages = await (await fetch(`${domain}composed/exams/theoricals/get-exam-images`)).json()
 
     // update question
     utils.updateQuestion()

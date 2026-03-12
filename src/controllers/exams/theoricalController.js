@@ -1,10 +1,6 @@
 const studentsQueries = require("../../dbQueries/students/studentsQueries.js")
-const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries.js")
-const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries.js")
 const studentsExamsTheoricalsAnswersQueries = require("../../dbQueries/students/studentsExamsTheoricalsAnswersQueries.js")
-
 const getStudentsExams = require("../../utils/studentsExamsUtils.js")
-const gf = require("../../utils/generalFunctions.js")
 
 const examsController = {
     // enter student
@@ -196,18 +192,16 @@ const examsController = {
             const studentExam = await getStudentsExams({undefined,undefined,filters:{id:session.id}})
             req.session.studentLogged.studentExam = studentExam.rows[0]
             const data = req.session.studentLogged.studentExam
-            console.log(data)
             const examName = data.exam_theorical_data.exam_name
             const answerDetails = data.theoricals_answers
             const examQuestions = data.exam_theorical_questions
-            //const examImages = await gf.getExamImages(req)
 
             const questionData = examQuestions.map(q => ({
                 id: q.id,
                 question: q.question,
                 question_number: q.question_number,
                 question_options: q.question_options,
-                //question_image : examImages.examFiles.filter( f => f.split('_')[3].split('.')[0] == 'question' + q.question_number)
+                image : q.image
             }))
 
             questionData.forEach(qd => {

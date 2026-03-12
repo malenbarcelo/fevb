@@ -17,11 +17,15 @@ const inscriptionsController = {
     branches: async(req,res) => {
         try{
 
+            // delete sesiones
+            delete req.session.studentLogged
+            delete req.session.userLogged
+            res.locals.studentLogged = null
+            res.locals.userLogged = null
+
             const filters = {enabled:1, order:[["branch","ASC"]]}
 
             const branches = await branchesQueries.get({filters})
-
-            console.log(branches)
 
             return res.render('inscriptions/branches',{title:'FEVB - Inscripciones',branches})
 

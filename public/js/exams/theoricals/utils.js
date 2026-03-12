@@ -40,19 +40,17 @@ const utils = {
         // add image if applies
         questionImage.innerHTML = ''
 
-        // if (g.questionData.includes_images == 1) {
+        if (g.questionData.image != null) {
             
-        //     let html = ''
+            let html = ''
 
-        //     const image = g.examImages.files.find( i => i.split('_')[3] == 'question' + g.questionNumber + '.jpg')
+            const image = g.questionData.image
             
-        //     if (image) {
+            html += '<img src="/images/examsImages/' + image + '"' + ' alt="FEVB" class="question-image">'
 
-        //         html += '<img src="/images/examsImages/' + g.examImages.folder + '/' + image + '"" alt="FEVB" class="question-image">'
-                
-        //         questionImage.innerHTML = html
-        //     }
-        // }
+            questionImage.innerHTML = html
+            
+        }
 
         // complete options
         questionOptions.innerHTML = options
@@ -65,6 +63,7 @@ const utils = {
             .join('')
 
         // check input if applies
+        console.log(g.answers)
         const answer = g.answers.find( a => a.id_exams_theoricals_questions == g.questionData.id)
         const selectedOptions = answer.ids_selected_options == null ? [] : answer.ids_selected_options.split(',')
         

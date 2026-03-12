@@ -190,6 +190,15 @@ a{
     color: red;
 }
 
+/* position */
+.absolute{
+    position: absolute;
+}
+
+.relative{
+    position: relative;
+}
+
 @media (max-width:730px){
     .general-error{
         font-size: 13px;

@@ -78,8 +78,6 @@ async function getStudentsExams({limit,offset,filters}) {
     // add practical status if applies
 
     // filter data
-    console.log(filters)
-    console.log(data)
     if (filters.theoricals_status) {
         data.rows = data.rows.filter(d => filters.theoricals_status.includes(d.theorical_status))
     }

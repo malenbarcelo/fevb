@@ -18,8 +18,7 @@ router.get('/courses/additional-per-category',getCoursesController.addionalPerCa
 
 ///// students
 router.get('/students',getStudentsController.students)
-
-///// students exams
+router.get('/students-courses-exams',getStudentsController.studentsCoursesExams)
 router.get('/students-exams',getStudentsController.studentsExams)
 
 ///// exams

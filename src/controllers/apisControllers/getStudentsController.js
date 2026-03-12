@@ -1,5 +1,6 @@
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
-const studentsExamsUtils = require("../../utils/studentsExamsUtils")
+const studentsCoursesExamsQueries = require("../../dbQueries/students/studentsCoursesExamsQueries")
+const getStudentsExams = require("../../utils/studentsExamsUtils")
 
 const getStudentsController = {
     students: async(req,res) =>{
@@ -108,6 +109,62 @@ const getStudentsController = {
 
             // get data
             const data = await getStudentsExams({limit,offset,filters})
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+    studentsCoursesExams: async(req,res) =>{
+        try{
+
+            const { size, page, order, enabled, student_string} = req.query
+            const limit = size ? parseInt(size) : undefined
+            const offset = page ? (parseInt(page) - 1) * limit : undefined
+            const filters = {}
+
+            // add filters
+            // if (practicals_status) {
+            //     filters.practicals_status = JSON.parse(practicals_status)
+            // }
+
+
+
+            if (order) {
+                filters.order = JSON.parse(order)
+            }
+
+            // get students courses exams
+            const data = await studentsCoursesExamsQueries.get({limit,offset,filters})
+
+            // get students exams
+            const idsStudents = [...new Set(data.rows.map(d => d.id_students))]
+            const studentsExams = await getStudentsExams({undefined,undefined,filters:{id_students:idsStudents}})
+
+            const examsMap = new Map(
+                studentsExams.rows.map(e => {
+                    const {
+                    exam_theorical_questions,
+                    theoricals_answers,
+                    practicals_answers,
+                    student_data,
+                    ...cleanExam
+                    } = e
+
+                    return [e.id, cleanExam]
+                })
+            )
+
+            data.rows = data.rows.map(d => ({
+                ...d,
+                exams_results: examsMap.get(d.id_students_exams) || null
+            }))
+
+            // get pages
+            const pages = Math.ceil(data.count / limit)
+            data.pages = pages
 
             res.status(200).json(data)
 

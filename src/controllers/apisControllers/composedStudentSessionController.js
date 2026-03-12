@@ -1,13 +1,9 @@
-
-// const studentLoggedDev = require("../../data/studentLoggedDev")
-// const domain = require("../../data/domain.js")
-
 const studentSessionController = {
     getSessionData: async(req,res) =>{
         try{
 
-            const data = req.session.studentLogged
-            
+            let data = req.session.studentLogged
+
             res.status(200).json(data)
 
         }catch(error){

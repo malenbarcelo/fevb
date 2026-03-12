@@ -5,6 +5,11 @@
 
 <form action="/examenes/set-exam" method="POST">
     <div class="pending-exams">
+
+        <% if (pendingExams.length == 0) { %>
+            <div class="fs-20 fw-b fc-gray mt-50 max-w-90vw ta-c">No se registran exámenes pendientes para el CUIT ingresado</div>
+        <% } %>
+
         <% pendingExams.forEach(exam => { %>
             <div class="pending-exam">
                 <div class="<%= exam.theorical_enabled ? 'pending-exam-title-enabled' : 'pending-exam-title-unabled' %>"><%= exam.exam_theorical_data.exam_name.toUpperCase() %></div>

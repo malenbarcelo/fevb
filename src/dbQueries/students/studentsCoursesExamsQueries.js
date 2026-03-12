@@ -3,7 +3,7 @@ const { Op } = require('sequelize')
 const model = db.Students_courses_exams
 
 const studentsCoursesExamsQueries = {
-    get: async({ filters }) => {
+    get: async({ limit,offset,filters }) => {
 
         // order
         let order = {}
@@ -18,7 +18,7 @@ const studentsCoursesExamsQueries = {
             where.id = filters.id
         }
 
-        const data = await model.findAll({            
+        const data = await model.findAndCountAll({            
             include: [                
                 {association: 'student_data'},
                 {association: 'course_data'},
@@ -26,12 +26,15 @@ const studentsCoursesExamsQueries = {
 
             ],
             where,
+            limit,
+            offset,
+            order,
             nest:true
         })
 
-        const plainData = data.map(d => d.get({ plain: true }))
+        data.rows = data.rows.map(d => d.get({ plain: true }))
 
-        return plainData
+        return data
     },
     create: async(data) => {
         const createdData = await model.bulkCreate(data)

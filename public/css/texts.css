@@ -23,6 +23,9 @@
 
 
 /*--- font sizes ---*/
+.fs-12{
+    font-size: 12px;
+}
 .fs-13{
     font-size: 13px;
 }
@@ -94,6 +97,9 @@
 }
 .fc-1{
     color: var(--color1);
+}
+.fc-2{
+    color: var(--color2);
 }
 .fc-1-hover-5{
     color: var(--color1);

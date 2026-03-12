@@ -32,6 +32,17 @@ const mainController = {
             return res.send('Ha ocurrido un error')
         }
     },
+
+    // exams
+    exams: async(req,res) => {
+        try{
+            
+            return res.render('admin/exams/exams',{title:'FEVB - Administración'})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
 }
 module.exports = mainController
 

@@ -8,6 +8,7 @@ const inscriptionsController = require('../controllers/inscriptions/inscriptions
 const hazardousMaterialsController = require('../controllers/inscriptions/hazardousMaterialsController.js')
 const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
 const loginFormValidations = require('../validations/loginFormValidations.js')
+const examsMiddleware = require('../middlewares/examsMiddleware.js')
 
 const router = express.Router()
 
@@ -22,6 +23,7 @@ router.get('/menu',mainController.mainMenu)
 router.get('/administracion/menu',adminController.menu)
 router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
 router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
+router.get('/administracion/examenes',adminController.exams)
 
 ///// inscriptions
 router.get('/inscripciones',inscriptionsController.branches)
@@ -66,12 +68,12 @@ router.get('/examenes',theoricalController.ingresar)
 router.get('/examenes/login',theoricalController.login)
 router.post('/examenes/login',theoricalController.setStudentData)
 router.get('/examenes/logout',theoricalController.logout)
-router.get('/examenes/pendientes',theoricalController.pendingExams)
+router.get('/examenes/pendientes',examsMiddleware,theoricalController.pendingExams)
 router.post('/examenes/set-exam',theoricalController.setExam)
-router.get('/examenes/rehacer',theoricalController.retakeExam)
-router.get('/examenes/preguntas',theoricalController.exam)
-router.get('/examenes/resultado',theoricalController.examResult)
-router.get('/examenes/ver-respuestas',theoricalController.viewExamAnswers)
+router.get('/examenes/rehacer',examsMiddleware,theoricalController.retakeExam)
+router.get('/examenes/preguntas',examsMiddleware,theoricalController.exam)
+router.get('/examenes/resultado',examsMiddleware,theoricalController.examResult)
+router.get('/examenes/ver-respuestas',examsMiddleware,theoricalController.viewExamAnswers)
 
 //// practical exams
 //router.get('/examenes/practicos',practicalController.practical)
