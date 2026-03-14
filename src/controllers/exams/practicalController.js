@@ -1,13 +1,12 @@
 const examsPracticalsTeachersQueries = require("../../dbQueries/exams/examsPracticalsTeachersQueries.js")
 const studentsPracticalsAnswersObservationsQueries = require("../../dbQueries/students/studentsPracticalsAnswersObservationsQueries.js")
 const examsPracticalsQueries = require("../../dbQueries/exams/examsPracticalsQueries.js")
-const examsPracticalsQuestionsQueries = require("../../dbQueries/exams/examsPracticalsQuestionsQueries.js")
-const examsPracticalsOptionsQueries = require("../../dbQueries/exams/examsPracticalsOptionsQueries.js")
-const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries.js")
+const studentsExamsPracticalsAnswersQueries = require("../../dbQueries/students/studentsExamsPracticalsAnswersQueries.js")
+const getStudentsExams = require("../../utils/studentsExamsUtils.js")
 
 const practicalControllers = {
     // complete practical
-    completePractical: async(req,res) => {
+    practical: async(req,res) => {
         try{
 
             const teachers = await examsPracticalsTeachersQueries.get({filters:{}})
@@ -28,21 +27,14 @@ const practicalControllers = {
 
             //students exams data
             const id = req.params.idStudentsExams
-            const studensExamsData = await studentsExamsQueries.get({undefined, undefined, filters:{id:id}})
-            const data = studensExamsData.rows[0]
+            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:id}})
+            const data = studentExam.rows[0]
             
             // teachers
             const teachers = await examsPracticalsTeachersQueries.get({filters:{}})
 
             // exam data
-            const idExamsPracticals = data.exam_practical_data.id
-            const lastVersion =  await examsPracticalsQuestionsQueries.getLastVersion(idExamsPracticals)
-            const filters = {
-                id_exams_practicals: idExamsPracticals,
-                exam_practical_version: lastVersion.exam_practical_version,
-                order: [["stage_number","ASC"],["question_number","ASC"]]
-            }
-            const questions = await examsPracticalsQuestionsQueries.get({filters})
+            const questions = data.exam_practical_questions
             const stagesQuestions = []
 
             // structured info
@@ -63,7 +55,8 @@ const practicalControllers = {
             })
 
             // render form
-            return res.render('exams/practicals/studentPractical',{title:'FEVB - Exámenes', data, teachers, stagesQuestions})
+            const options = [{type:1,option:'Correcto'},{type:0,option:'Incorrecto'}]
+            return res.render('exams/practicals/studentPractical',{title:'FEVB - Exámenes', data, teachers, options,stagesQuestions})
 
         }catch(error){
             console.log(error)
@@ -75,63 +68,40 @@ const practicalControllers = {
 
         try{
             const idStudentsExams = req.params.idStudentsExams
+            let studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
             const data = req.body
-            let studensExamsData = await studentsExamsQueries.get({undefined, undefined, filters:{id:idStudentsExams}})
-            studensExamsData = studensExamsData.rows[0]
-            const lastVersion =  await examsPracticalsQuestionsQueries.getLastVersion(studensExamsData.id_exams_practicals)
-            
-            // get not passed answers
-            const notPassedKeys = Object.keys(data).filter(key => 
-                String(data[key]).includes('_notPassed_')
-            )
-
-            // get questions keys
-            const questionsKeys = Object.keys(data).filter(key => 
-                String(data[key]).includes('question_')
-            )
 
             // date
             const date = new Date()
             date.setHours(date.getHours() - 3) // Argentina
+            
 
-            // create students practicals answers
-            const dataToCreate = [{
+            // save answers
+            const resultsAnswers = Object.fromEntries(
+                Object.entries(data).filter(([key]) => key.startsWith('stage_'))
+            )
+
+            let answers = Object.entries(resultsAnswers).map(([key, value]) => ({
+                id_students: studentExam.rows[0].id_students,
                 id_students_exams: Number(idStudentsExams),
-                id_students: studensExamsData.id_students,
-                id_teachers: Number(data.teacher.split('_')[1]),
-                id_exams_practicals: studensExamsData.id_exams_practicals,
-                exam_practical_version: lastVersion.exam_practical_version,
-                status: notPassedKeys.length > 0 ? 'not-passed' : 'passed',
-                date
-            }]
+                id_exams_practicals_questions: Number(key.split('_')[3]),
+                correct_answer: Number(value.split('_').pop()),
+                date: date
+            }))
 
-            const createdData = await studentsPracticalsAnswersQueries.create(dataToCreate)
+            answers = answers.map(a => ({
+                id_students: a.id_students,
+                id_students_exams: a.id_students_exams,
+                id_exams_practicals_questions: a.id_exams_practicals_questions,
+                dataToUpdate: {
+                    correct_answer: a.correct_answer,
+                    date: a.date
+                }
+            }))
 
-            // create students practicals answers details
-            const idQuestions = questionsKeys.map( qk => Number(qk.split('_')[1]))
-            const optionsData = await examsPracticalsOptionsQueries.get({filters:{id_exams_practicals_questions:idQuestions}})
-            const details = []
+            await studentsExamsPracticalsAnswersQueries.update('student_exam_question',answers)
 
-            questionsKeys.forEach(key => {
-
-                const correctOption = optionsData.find( o => o.id_exams_practicals_questions == Number(key.split('_')[1]) && o.correct_option == 1)
-
-                details.push({
-                    id_students_exams: Number(idStudentsExams),
-                    id_students_practicals_answers: createdData[0].id,
-                    id_students: studensExamsData.id_students,
-                    id_exams_practicals: studensExamsData.id_exams_practicals,
-                    id_exams_practicals_questions: Number(data[key].split('_')[1]),
-                    id_selected_option: Number(data[key].split('_')[3]),
-                    id_correct_option: correctOption.id,
-                    correct_answer: correctOption.id == Number(data[key].split('_')[3]) ? 1 : 0
-                })
-            })
-
-            await studentsPracticalsAnswersDetailsQueries.create(details)
-
-            // create students practicals answers observations
-            // get observations keys
+            // save observations
             const observationsKeys = Object.keys(data).filter(key => 
                 key.includes('obs_')
             )
@@ -141,28 +111,19 @@ const practicalControllers = {
             observationsKeys.forEach(key => {
                 obs.push({
                     id_students_exams: Number(idStudentsExams),
-                    id_students_practicals_answers: createdData[0].id,
-                    observation_type: key.includes('_stage_') ? 'stage' : 'result',
                     stage_number: key.includes('_stage_') ? Number(key.split('_')[2]) : null,
                     observation: data[key]
                 })
             })
-
+            
             await studentsPracticalsAnswersObservationsQueries.create(obs)
 
-            // update students exams
-            const dataToUpdate = [{
-                id: createdData[0].id_students_exams,
-                dataToUpdate:{
-                    id_students_practicals_answers: createdData[0].id,
-                    practicals_status: createdData[0].status
-                }
-            }]
-
-            await studentsExamsQueries.update('id',dataToUpdate)
-
+            // get answer
+            studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            const status = studentExam.rows[0].practical_status
+            
             // render results
-            return res.render('exams/practicals/practicalResult',{title:'FEVB - Exámenes'})
+            return res.render('exams/practicals/practicalResult',{title:'FEVB - Exámenes',status})
 
         }catch(error){
             console.log(error)

@@ -168,8 +168,8 @@ const examsController = {
             const studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
             req.session.studentLogged.action = 'viewTheoricalExam'
             const data = studentExam.rows[0]
-            const passGrade = Number(data.pass_grade)
-            const grade = Number(data.grade)
+            const passGrade = Number(data.theorical_pass_grade)
+            const grade = Number(data.theorical_grade)
             
             const examStatus = grade >= passGrade ? 'passed' : 'not-passed'
             const questionsQty = data.theorical_questions

@@ -9,16 +9,16 @@
         <select class="input-std w-120 pad-8-0" id="courseType">
             <option value=""></option>
             <% coursesTypes.forEach(type => { %>
-                <option value="<%= type %>"><%= type %></option>
+                <option value="<%= type.id %>"><%= type %></option>
             <% }) %>
         </select>
     </div>
     <div class="div-input">
         <label class="label-std">Examen</label>
-        <select class="input-std w-200 pad-8-0" id="exam">
+        <select class="input-std w-150 pad-8-0" id="exam">
             <option value=""></option>
             <% exams.forEach(exam => { %>
-                <option value="<%= exam.id %>"><%= exam.exam_name %></option>
+                <option value="<%= exam.id %>"><%= exam.exam_alias %></option>
             <% }) %>
         </select>
     </div>
@@ -27,7 +27,7 @@
         <input type="text" class="input-std w-250 pad-8-0" id="studentName">
     </div>
     <div class="div-input">
-        <label class="label-std">CUIT</label>
+        <label class="label-std">CUIT/CUIL</label>
         <input type="number" class="input-std w-120 pad-8-0" id="cuit">
     </div>
     <div id="unfilter" class="unfilter">
@@ -46,15 +46,15 @@
     <table>
         <thead class="fs-13">
             <th class="th pad-6-0 w-50">ID</th>
-            <th class="th pad-6-0 w-50">TIPO</th>
-            <th class="th pad-6-0 w-300">EXAMEN</th>
             <th class="th pad-6-0 w-100">SEMANA</th>
-            <th class="th pad-6-0 w-100">FECHA INICIO</th>            
+            <th class="th pad-6-0 w-50">TIPO</th>            
+            <th class="th pad-6-0 w-100">EXAMEN</th>        
             <th class="th pad-6-0 w-300">ALUMNO</th>
-            <th class="th pad-6-0 w-100">CUIT</th>
+            <th class="th pad-6-0 w-120">CUIT</th>
             <th class="th pad-6-0 w-50">PAGO</th>
             <th class="th pad-6-0 w-80">CURSADA</th>
             <th class="th pad-6-0 w-70">TEÓRICO</th>
+            <th class="th pad-6-0 w-70">PRÁCTICO</th>
             <th class="th pad-3-0 w-50">
                 <i class="fa-solid fa-file-pen pointer" id="ceppIcon"></i>
             </th>

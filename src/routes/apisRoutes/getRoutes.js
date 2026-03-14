@@ -3,6 +3,7 @@ const getCoursesController = require('../../controllers/apisControllers/getCours
 const getStudentsController = require('../../controllers/apisControllers/getStudentsController')
 const getExamsController = require('../../controllers/apisControllers/getExamsController')
 const getBranchesController = require('../../controllers/apisControllers/getBranchesController')
+const getDatesController = require('../../controllers/apisControllers/getDatesController')
 
 const router = express.Router()
 
@@ -24,6 +25,9 @@ router.get('/students-exams',getStudentsController.studentsExams)
 ///// exams
 router.get('/exams/theoricals/questions',getExamsController.examsTheoricalsQuestions)
 router.get('/exams/practicals/questions',getExamsController.examsPracticalsQuestions)
+
+///// dates
+router.get('/dates',getDatesController.dates)
 
 
 

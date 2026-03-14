@@ -41,10 +41,9 @@ const studentsExamsQueries = {
 
         const data = await model.findAndCountAll({            
             include: [
-                // {
-                //     association:'exam_practical_data',
-                //     where: whereExamsPracticals
-                // },
+                {
+                    association:'exam_practical_data',
+                },
                 {
                     association:'exam_theorical_data'
                 },
@@ -52,7 +51,8 @@ const studentsExamsQueries = {
                     association:'theoricals_answers'
                 },
                 {
-                    association: 'practicals_answers'
+                    association: 'practicals_answers',
+                    include: [{association:'question_data'}]
                 },
                 {
                     association:'student_data',

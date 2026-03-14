@@ -1,21 +1,14 @@
 let g = {
     pendingExams: [],
-    page:0,
-    pages:0,
+    dates:[],
     filters: {
-        size:'',
-        page:'',
-        enabled: 1,
-        practicals_status: '["pending","not-passed"]',
+        practicals_status: '["pending","not-passed","in-progress"]',
         order: '[["id","ASC"]]',
-        courses_types_alias: '',
+        id_courses_types: '',
         id_exams_practicals: '',
         cuit: '',
         name: ''
     },
-    // scroll
-    loadedPages: new Set(),
-    previousScrollTop:0,
     // main table tooltips
     tooltips: [
         {

@@ -51,7 +51,6 @@ window.addEventListener('load',async()=>{
         }
 
         // questions
-        console.log(questionsInputs)
         const incompleteQuestions = questionsInputs.some(name => {
             return !document.querySelector(`input[name="${name}"]:checked`)
         })
@@ -61,17 +60,6 @@ window.addEventListener('load',async()=>{
             stagesContainers.forEach(s => s.classList.add('stage-container-error'))
         }else{
             stagesContainers.forEach(s => s.classList.remove('stage-container-error'))
-        }
-
-        // results
-        const incompleteResults = resultsInputs.some(name => {
-            return !document.querySelector(`input[name="${name}"]:checked`)
-        })
-        if (incompleteResults) {
-            errors +=1
-            stageResults.classList.add('stage-container-error')
-        }else{
-            stageResults.classList.remove('stage-container-error')
         }
 
         if (errors > 0) {

@@ -50,13 +50,5 @@ module.exports = (sequelize, DataTypes) => {
 
    const Exam_practical_question = sequelize.define(alias, cols, config)
 
-   Exam_practical_question.associate = (models) => {
-      Exam_practical_question.hasMany(models.Exams_practicals_options,{
-         as:'question_options',
-         foreignKey: 'id_exams_practicals_questions',
-         sourceKey:'id'
-      })
-   }
-
    return Exam_practical_question
 }

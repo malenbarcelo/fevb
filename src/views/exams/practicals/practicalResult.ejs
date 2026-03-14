@@ -4,7 +4,9 @@
 <div class="ta-c mt-100_50 fs-40 fc-green"><i class="fa-regular fa-circle-check"></i></div>
 <div class="ta-c m-a mt-20 fs-25_20 fc-green max-w-90p">Examen guardado con éxito</div>
 
-<a href="/examenes/examen-practico">
+<div class="ta-c fs-20 mt-20 <%= status == 'not-passed' ? 'fc-error' : 'fc-green' %>">Resultado: <%= status == 'not-passed' ? 'Desaprobado' : 'Aprobado' %></div>
+
+<a href="/examenes/practicos">
     <div class="btn-std w-250 m-a mt-50 pad-10-0">Realizar otro examen</div>
 </a>
 

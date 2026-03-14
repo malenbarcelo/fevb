@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      year_week:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

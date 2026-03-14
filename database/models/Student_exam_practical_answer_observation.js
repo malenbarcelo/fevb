@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      observation_type:{
-         type: DataTypes.STRING,
-         allowNull: false,
-      },
       observation:{
          type: DataTypes.STRING,
          allowNull: false,
@@ -29,7 +25,13 @@ module.exports = (sequelize, DataTypes) => {
 
    const config = {
       tableName : 'students_exams_practicals_answers_observations',
-      timestamps : false
+      timestamps : false,
+      indexes: [
+                {
+                    unique: true,
+                    fields: ['id_students_exams', 'stage_number']
+                }
+            ]
    }
 
    const Student_exam_practical_answer_observation = sequelize.define(alias, cols, config)

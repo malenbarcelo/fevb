@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      pass_grade:{
+         type: DataTypes.DECIMAL,
+         allowNull: false,
+      },
       courses_types_alias:{
          type: DataTypes.STRING,
          allowNull: false,

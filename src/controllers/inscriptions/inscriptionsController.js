@@ -523,8 +523,7 @@ const inscriptionsController = {
                     courses_methodology: data.coursesData[0].course_methodology,
                     id_inscriptions: createdInscription[0].id
 
-                })
-                
+                })                
             })
 
             const createdStudents = await studentsQueries.create(studentsData)

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
-      id_selected_option:{
+      correct_answer:{
          type: DataTypes.INTEGER,
          allowNull: true,
       },

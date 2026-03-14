@@ -30,7 +30,6 @@ const examsPracticalsQuestionsQueries = {
         }
 
         const data = await model.findAll({
-            include:[{association:'question_options'}],
             where,
             order,
             nest:true,

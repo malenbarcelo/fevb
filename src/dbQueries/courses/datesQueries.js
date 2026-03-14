@@ -19,8 +19,12 @@ const datesQueries = {
             where.week_number = filters.weeks_numbers
         }
 
-        if (filters.days_numbers) {
-            where.day_number = filters.days_numbers
+        if (filters.day_number) {
+            where.day_number = filters.day_number
+        }
+
+        if (filters.year_week) {
+            where.year_week = filters.year_week
         }
 
         const data = await model.findAll({

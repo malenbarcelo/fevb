@@ -6,12 +6,9 @@ const f = {
     getData: async function() {
 
         let filters = ''
-        filters += g.filters.page == '' ? '' : `&page=${g.filters.page}`
-        filters += g.filters.size == '' ? '' : `&size=${g.filters.size}`
-        filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
         filters += g.filters.practicals_status == '' ? '' : `&practicals_status=${g.filters.practicals_status}`
         filters += g.filters.order == '' ? '' : `&order=${g.filters.order}`
-        filters += g.filters.courses_types_alias == '' ? '' : `&courses_types_alias=${g.filters.courses_types_alias}`
+        filters += g.filters.id_courses_types == '' ? '' : `&id_courses_types=${g.filters.id_courses_types}`
         filters += g.filters.id_exams_practicals == '' ? '' : `&id_exams_practicals=${g.filters.id_exams_practicals}`
         filters += g.filters.cuit == '' ? '' : `&cuit=${g.filters.cuit}`
         filters += g.filters.name == '' ? '' : `&name=${g.filters.name}`
@@ -27,6 +24,12 @@ const f = {
         
         // get and print data
         g.pendingExams = await f.getData()
+        const yearsWeeks = [...new Set(
+            g.pendingExams.map(p => p.student_data.year_week)
+        )]
+
+        g.dates = await (await fetch(`${domain}get/dates?years_weeks=${JSON.stringify(yearsWeeks)}&days_numbers=[1]`)).json()
+
         printTable()
 
     }
