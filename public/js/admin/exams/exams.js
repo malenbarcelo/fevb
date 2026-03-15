@@ -46,47 +46,44 @@ window.addEventListener('load',async()=>{
         g.previousScrollTop = table.scrollTop
     })
 
-    // // filters event listeners
-    // const filters = [commission, company, student, cuitCuil, paymentStatus ]
-    // for (const filter of filters) {
-    //     filter.addEventListener("change", async () => {
+    // filters event listeners
+    const filters = [student, cuitCuil, repre ]
+    for (const filter of filters) {
+        filter.addEventListener("change", async () => {
             
-    //         // show loader
-    //         loader.style.display = 'block'
+            // show loader
+            loader.style.display = 'block'
 
-    //         //complete filters
-    //         g.filters.commission_name = commission.value
-    //         g.filters.company_string = company.value
-    //         g.filters.student_string = student.value
-    //         g.filters.cuit_cuil = cuitCuil.value
-    //         g.filters.payment = paymentStatus.value
+            //complete filters
+            g.filters.name = student.value
+            g.filters.cuit_cuil_string = cuitCuil.value
+            g.filters.repre = repre.value
 
-    //         await f.resetData()
+            await utils.resetData()
 
-    //         // hide loader
-    //         loader.style.display = 'none'
-    //     })
-    // }
+            // hide loader
+            loader.style.display = 'none'
+        })
+    }
 
-    // // unfilter event listener
-    // unfilter.addEventListener("click", async() => {        
+    // unfilter event listener
+    unfilter.addEventListener("click", async() => {        
         
-    //     // show loader
-    //     loader.style.display = 'block'
+        // show loader
+        loader.style.display = 'block'
         
-    //     // reset filters
-    //     gf.clearInputs(filters)
-    //     g.filters.commission_name = ''
-    //     g.filters.company_string = ''
-    //     g.filters.student_string = ''
-    //     g.filters.cuit_cuil = ''
-    //     g.filters.payment = ''
+        // reset filters
+        gf.clearInputs(filters)
+        g.filters.name = ''
+        g.filters.cuit_cuil_string = ''
+        g.filters.student_string = ''
+        g.filters.repre = ''
 
-    //     await f.resetData()
+        await utils.resetData()
         
-    //     // hide loader
-    //     loader.style.display = 'none'
-    // })
+        // hide loader
+        loader.style.display = 'none'
+    })
 
     loader.style.display = 'none'
 

@@ -19,22 +19,12 @@ const studentsExamsQueries = {
             where.id = filters.id
         }
 
-        // if (filters.id_exams_practicals) {
-        //     where.id_exams_practicals = filters.id_exams_practicals
-        // }
-
-        // // where exams practicals
-        // const whereExamsPracticals = {}
-        // if (filters.courses_types_alias) {
-        //     whereExamsPracticals.courses_types_alias = filters.courses_types_alias
-        // }
+        if (filters.id_exams_practicals) {
+            where.id_exams_practicals = filters.id_exams_practicals
+        }
 
         // where student data
         const whereStudentData = {}
-        // if (filters.name) {
-        //     whereStudentData.name = {[Op.like]: `%${gf.specialChars(filters.name)}%`}
-        // }
-
         if (filters.cuit_cuil) {
             whereStudentData.cuit_cuil = filters.cuit_cuil
         }

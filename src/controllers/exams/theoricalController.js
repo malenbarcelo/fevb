@@ -43,6 +43,7 @@ const examsController = {
             // student data
             let studentData = await studentsQueries.get({filters:{cuit_cuil:cuitCuil}})
             studentData = studentData.rows
+            console.log(studentData)
             const firstName = studentData[studentData.length - 1].first_name
             const lastName = studentData[studentData.length - 1].last_name
 

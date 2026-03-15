@@ -8,9 +8,9 @@ let g = {
         size:'',
         page:'',
         order: '[["id","DESC"]]',
-        cuit_cuil:'',
-        student_string:'',
-        enabled:1
+        name: '',
+        cuit_cuil_string:'',
+        repre:'',
 
     },
     // scroll

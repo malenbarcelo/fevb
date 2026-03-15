@@ -6,7 +6,6 @@ async function printTable() {
     body.innerHTML = ''
     let html = ''
     const data = g.pendingExams
-    console.log(data)
 
     data.forEach((element,index) => {
 

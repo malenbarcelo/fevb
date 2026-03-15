@@ -81,7 +81,7 @@ const getStudentsController = {
     studentsExams: async(req,res) =>{
         try{
 
-            const { size, page, practicals_status, order, courses_types_alias, id_exams_practicals, cuit_cuil, name } = req.query
+            const { size, page, practicals_status, order, id_courses_types, id_exams_practicals, cuit_cuil, cuit_cuil_string, name } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -90,17 +90,25 @@ const getStudentsController = {
             if (practicals_status) {
                 filters.practicals_status = JSON.parse(practicals_status)
             }
-            if (courses_types_alias) {
-                filters.courses_types_alias = courses_types_alias
-            }
+
             if (id_exams_practicals) {
                 filters.id_exams_practicals = id_exams_practicals
             }
+            
             if (cuit_cuil) {
                 filters.cuit_cuil = cuit_cuil
             }
+
+            if (cuit_cuil_string) {
+                filters.cuit_cuil_string = cuit_cuil_string
+            }
+            
             if (name) {
                 filters.name = name
+            }
+
+            if (id_courses_types) {
+                filters.id_courses_types = id_courses_types
             }
 
             if (order) {
@@ -120,17 +128,22 @@ const getStudentsController = {
     studentsCoursesExams: async(req,res) =>{
         try{
 
-            const { size, page, order, enabled, student_string} = req.query
+            const { size, page, order, name, cuit_cuil_string, repre} = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
 
-            // add filters
-            // if (practicals_status) {
-            //     filters.practicals_status = JSON.parse(practicals_status)
-            // }
+            if (name) {
+                filters.name = name
+            }
 
+            if (cuit_cuil_string) {
+                filters.cuit_cuil_string = cuit_cuil_string
+            }
 
+            if (repre) {
+                filters.repre = repre
+            }
 
             if (order) {
                 filters.order = JSON.parse(order)
@@ -161,6 +174,18 @@ const getStudentsController = {
                 ...d,
                 exams_results: examsMap.get(d.id_students_exams) || null
             }))
+
+            // add filters
+            if (filters.name) {
+                data.rows = data.rows.filter(d =>
+                    (d.student_data.first_name.toLowerCase() + ' ' + d.student_data.last_name.toLowerCase())
+                        .toLowerCase()
+                        .includes(filters.name.toLowerCase())
+                )
+            }
+            if (filters.cuit_cuil_string) {
+                data.rows = data.rows.filter(d => String(d.student_data.cuit_cuil).includes(String(filters.cuit_cuil_string)))
+            }
 
             // get pages
             const pages = Math.ceil(data.count / limit)

@@ -28,6 +28,7 @@ async function getStudentsExams({limit,offset,filters}) {
         const examTheoricalsQuestions = theoricalQuestions.filter( q => q.id_exams_theoricals == row.id_exams_theoricals && q.exam_theorical_version == row.exam_theorical_version && q.exam_theorical_variant == row.exam_theorical_variant)
         row.exam_theorical_questions = examTheoricalsQuestions
         row.theorical_pass_grade = row.exam_theorical_data.pass_grade
+        row.theorical_date = row.theoricals_answers[row.theoricals_answers.length - 1].date
     }
 
     // add theorical status
@@ -76,29 +77,30 @@ async function getStudentsExams({limit,offset,filters}) {
     ///// PRACTICAL
     // add practical questions and pass grade
     for (const row of data.rows) {
-        const examPracticalsQuestions = practicalQuestions.filter( q => q.id_exams_practicals == row.id_exams_practicals && q.exam_practical_version == row.exam_practical_version)
+        const examPracticalsQuestions = row.id_exams_practicals == null ? null : practicalQuestions.filter( q => q.id_exams_practicals == row.id_exams_practicals && q.exam_practical_version == row.exam_practical_version)
         row.exam_practical_questions = examPracticalsQuestions
-        row.practical_pass_grade = row.exam_practical_data.pass_grade
+        row.practical_pass_grade = row.id_exams_practicals == null ? null : row.exam_practical_data.pass_grade
+        row.practical_date = row.id_exams_practicals == null ? null : row.practicals_answers[row.practicals_answers.length - 1].date
     }
     // add practical status
     for (const row of data.rows) {
-        const practicalAnswersQty = row.practicals_answers.length
-        const nullAnswers = row.practicals_answers.filter( a => a.correct_answer === null).length
+        const practicalAnswersQty = row.id_exams_practicals == null ? null : row.practicals_answers.length
+        const nullAnswers = row.id_exams_practicals == null ? null : row.practicals_answers.filter( a => a.correct_answer === null).length
 
         if (practicalAnswersQty == nullAnswers) {
-            row.practical_status = 'pending'
+            row.practical_status = row.id_exams_practicals == null ? null : 'pending'
             row.practical_grade = null
         }else{
             if (nullAnswers > 0) {
-                row.practical_status = 'in-progress'
+                row.practical_status = row.id_exams_practicals == null ? null : 'in-progress'
                 row.practical_grade = null
             }else{ // all questions answered
-                const resultsAnswers = row.practicals_answers.filter( a => a.question_data.stage_number == 4)
-                const correctAnswers = resultsAnswers.filter( r => r.correct_answer == 1)
-                const passGrade = Number(row.exam_practical_data.pass_grade)
-                const grade = correctAnswers.length / resultsAnswers.length
-                row.practical_grade = grade
-                row.practical_status = grade >= passGrade ? 'passed' : 'not-passed' 
+                const resultsAnswers = row.id_exams_practicals == null ? null : row.practicals_answers.filter( a => a.question_data.stage_number == 4)
+                const correctAnswers = row.id_exams_practicals == null ? null : resultsAnswers.filter( r => r.correct_answer == 1)
+                const passGrade = row.id_exams_practicals == null ? null : Number(row.exam_practical_data.pass_grade)
+                const grade = row.id_exams_practicals == null ? null : correctAnswers.length / resultsAnswers.length
+                row.practical_grade = row.id_exams_practicals == null ? null : grade
+                row.practical_status = row.id_exams_practicals == null ? null : grade >= passGrade ? 'passed' : 'not-passed' 
             }
         }
     }
@@ -106,10 +108,8 @@ async function getStudentsExams({limit,offset,filters}) {
     // add theorical and practical condition
     for (const row of data.rows) {
         row.theorical_enabled = row.payment == 'complete' && row.attendance == 'complete' ? true : false
-        row.practical_enabled = row.payment == 'complete' && row.attendance == 'complete' ? true : false
+        row.practical_enabled = row.id_exams_practicals == null ? null : (row.payment == 'complete' && row.attendance == 'complete' ? true : false)
     }
-
-    // add practical status if applies
 
     // filter data
     if (filters.theoricals_status) {
@@ -118,10 +118,18 @@ async function getStudentsExams({limit,offset,filters}) {
     if (filters.practicals_status) {
         data.rows = data.rows.filter(d => filters.practicals_status.includes(d.practical_status))
     }
-    console.log(filters)
     if (filters.id_courses_types) {
-        console.log('holaaaaaaaaaaaaa')
         data.rows = data.rows.filter(d => d.student_data.id_courses_types == filters.id_courses_types)
+    }
+    if (filters.name) {
+        data.rows = data.rows.filter(d =>
+            (d.student_data.first_name.toLowerCase() + ' ' + d.student_data.last_name.toLowerCase())
+                .toLowerCase()
+                .includes(filters.name.toLowerCase())
+        )
+    }
+    if (filters.cuit_cuil_string) {
+        data.rows = data.rows.filter(d => String(d.student_data.cuit_cuil).includes(String(filters.cuit_cuil_string)))
     }
 
     // get pages

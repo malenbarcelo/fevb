@@ -6,7 +6,7 @@ let g = {
         order: '[["id","ASC"]]',
         id_courses_types: '',
         id_exams_practicals: '',
-        cuit: '',
+        cuit_cuil_string: '',
         name: ''
     },
     // main table tooltips

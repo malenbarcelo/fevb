@@ -2,6 +2,7 @@ const examsPracticalsTeachersQueries = require("../../dbQueries/exams/examsPract
 const studentsPracticalsAnswersObservationsQueries = require("../../dbQueries/students/studentsPracticalsAnswersObservationsQueries.js")
 const examsPracticalsQueries = require("../../dbQueries/exams/examsPracticalsQueries.js")
 const studentsExamsPracticalsAnswersQueries = require("../../dbQueries/students/studentsExamsPracticalsAnswersQueries.js")
+const typesQueries = require("../../dbQueries/courses/typesQueries.js")
 const getStudentsExams = require("../../utils/studentsExamsUtils.js")
 
 const practicalControllers = {
@@ -11,8 +12,8 @@ const practicalControllers = {
 
             const teachers = await examsPracticalsTeachersQueries.get({filters:{}})
             const exams = await examsPracticalsQueries.get({filters:{order:[["exam_name","ASC"]]}})
-            let coursesTypes =  [...new Set(exams.map( e => e.courses_types_alias))]
-            coursesTypes.sort((a, b) => a.localeCompare(b))
+            let coursesTypes =  await typesQueries.get({filters:{enabled:1}})
+            coursesTypes.sort((a, b) => a.alias.localeCompare(b.alias))
 
             return res.render('exams/practicals/pendingExams',{title:'FEVB - Exámenes', teachers, exams, coursesTypes})
 

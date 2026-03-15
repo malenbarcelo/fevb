@@ -9,7 +9,7 @@
         <select class="input-std w-120 pad-8-0" id="courseType">
             <option value=""></option>
             <% coursesTypes.forEach(type => { %>
-                <option value="<%= type.id %>"><%= type %></option>
+                <option value="<%= type.id %>"><%= type.alias %></option>
             <% }) %>
         </select>
     </div>
@@ -28,7 +28,7 @@
     </div>
     <div class="div-input">
         <label class="label-std">CUIT/CUIL</label>
-        <input type="number" class="input-std w-120 pad-8-0" id="cuit">
+        <input type="number" class="input-std w-120 pad-8-0" id="cuitCuil">
     </div>
     <div id="unfilter" class="unfilter">
         <i class="fa-solid fa-filter-circle-xmark"></i>

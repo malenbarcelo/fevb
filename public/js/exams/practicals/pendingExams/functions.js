@@ -10,7 +10,7 @@ const f = {
         filters += g.filters.order == '' ? '' : `&order=${g.filters.order}`
         filters += g.filters.id_courses_types == '' ? '' : `&id_courses_types=${g.filters.id_courses_types}`
         filters += g.filters.id_exams_practicals == '' ? '' : `&id_exams_practicals=${g.filters.id_exams_practicals}`
-        filters += g.filters.cuit == '' ? '' : `&cuit=${g.filters.cuit}`
+        filters += g.filters.cuit_cuil_string == '' ? '' : `&cuit_cuil_string=${g.filters.cuit_cuil_string}`
         filters += g.filters.name == '' ? '' : `&name=${g.filters.name}`
 
         const fetchData = await (await fetch(`${domain}get/students-exams?${filters}`)).json()
