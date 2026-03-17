@@ -11,6 +11,7 @@ let g = {
         name: '',
         cuit_cuil_string:'',
         repre:'',
+        enabled: 1
 
     },
     // scroll

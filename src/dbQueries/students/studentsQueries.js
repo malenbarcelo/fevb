@@ -23,6 +23,8 @@ const studentsQueries = {
             where.enabled = filters.enabled
         }
 
+        console.log(filters)
+
         // if (filters.cuit_cuil) {
         //     where.cuit_cuil = {[Op.like]: `%${gf.specialChars(filters.cuit_cuil)}%`}
         // }

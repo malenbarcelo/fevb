@@ -155,7 +155,7 @@ a{
 
 /* display */
 .not-visible{
-    display: none;
+    display: none !important;
 }
 
 /* text align */

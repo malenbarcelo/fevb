@@ -15,7 +15,7 @@ window.addEventListener('load',async()=>{
 
         // find exams
         const weeksToShow = await (await fetch(`${domain}composed/get-last-n-weeks?weeks=8`)).json()
-        const findStudent = await (await fetch(`${domain}get/students?cuit_cuil=${cuitCuil.value}&year_week=${JSON.stringify(weeksToShow)}`)).json()        
+        const findStudent = await (await fetch(`${domain}get/students?enabled=1&cuit_cuil=${cuitCuil.value}&year_week=${JSON.stringify(weeksToShow)}`)).json()        
 
         if (cuitCuil.value == '' || findStudent.rows.length == 0) {
             error.style.display = 'flex'

@@ -7,6 +7,7 @@ let g = {
         id_courses_types: '',
         id_exams_practicals: '',
         cuit_cuil_string: '',
+        enabled: 1,
         name: ''
     },
     // main table tooltips

@@ -1,7 +1,8 @@
 import g from "./globals.js"
-// import { gf } from "../../globalFunctions.js"
+import { gf } from "../../globalFunctions.js"
 import { utils } from "./utils.js"
 import { printTable } from "./printTable.js"
+import { domain } from "../../domain.js"
 
 window.addEventListener('load',async()=>{
 
@@ -82,6 +83,32 @@ window.addEventListener('load',async()=>{
         await utils.resetData()
         
         // hide loader
+        loader.style.display = 'none'
+    })
+
+    // download repre
+    downloadRepre.addEventListener('click',async()=>{
+
+        loader.style.display = 'block'
+
+        const response = await fetch(domain + 'composed/exams/download-repre',{
+            method:'POST',
+            headers: {'Content-Type': 'application/json'}
+        })
+
+        if (response.ok) {
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'Envío ' + Math.floor(Date.now() / 1000)  + '.xlsx'
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+        } else {
+            console.error('Error al descargar el archivo:', response.statusText);
+        }
+
         loader.style.display = 'none'
     })
 

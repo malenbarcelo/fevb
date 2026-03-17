@@ -12,6 +12,7 @@ const f = {
         filters += g.filters.id_exams_practicals == '' ? '' : `&id_exams_practicals=${g.filters.id_exams_practicals}`
         filters += g.filters.cuit_cuil_string == '' ? '' : `&cuit_cuil_string=${g.filters.cuit_cuil_string}`
         filters += g.filters.name == '' ? '' : `&name=${g.filters.name}`
+        filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
 
         const fetchData = await (await fetch(`${domain}get/students-exams?${filters}`)).json()
 

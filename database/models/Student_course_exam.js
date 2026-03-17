@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      uploaded_repre:{
+         type: DataTypes.INTEGER,
+         allowNull: true,
+      },
    }
 
    const config = {

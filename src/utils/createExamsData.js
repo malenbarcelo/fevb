@@ -1,5 +1,6 @@
 const examsTheoricalsQueries = require("../dbQueries/exams/examsTheoricalsQueries.js")
 const examsPracticalsQueries = require("../dbQueries/exams/examsPracticalsQueries.js")
+const coursesQueries = require("../dbQueries/courses/coursesQueries.js")
 const studentsExamsQueries = require("../dbQueries/students/studentsExamsQueries.js")
 const studentsExamsTheoricalsAnswersQueries = require("../dbQueries/students/studentsExamsTheoricalsAnswersQueries.js")
 const studentsExamsPracticalsAnswersQueries = require("../dbQueries/students/studentsExamsPracticalsAnswersQueries.js")
@@ -11,9 +12,10 @@ async function createExamsData(data) {
 
     const examsTheoricals = await examsTheoricalsQueries.get({filters:{enabled:1}})
     const examsPracticals = await examsPracticalsQueries.get({filters:{enabled:1}})
+    const courses = await coursesQueries.get({filters:{enabled:1}})
 
     // get data
-    let {studentsCoursesExams, studentsExams} = await getData(data, examsTheoricals, examsPracticals)
+    let {studentsCoursesExams, studentsExams} = await getData(data, examsTheoricals, examsPracticals, courses)
 
     // create students exams
     studentsExams = await studentsExamsQueries.create(studentsExams)
@@ -34,7 +36,7 @@ async function createExamsData(data) {
 
 }
 
-async function getData(data, examsTheoricals, examsPracticals) {
+async function getData(data, examsTheoricals, examsPracticals, courses) {
 
     // add exams hierarchy to data
     data.forEach(d => {
@@ -92,7 +94,8 @@ async function getData(data, examsTheoricals, examsPracticals) {
         id_students: item.id_students,
         id_courses: item.id_courses,
         id_exams_theoricals: item.theoricals,
-        id_exams_practicals: item.practicals
+        id_exams_practicals: item.practicals,
+        uploaded_repre: courses.find( c => c.id == item.id_courses).repre_course_code === null ? null : 0
     }))
 
     // get students exams

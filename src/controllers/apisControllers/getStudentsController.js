@@ -1,6 +1,6 @@
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
-const studentsCoursesExamsQueries = require("../../dbQueries/students/studentsCoursesExamsQueries")
 const getStudentsExams = require("../../utils/studentsExamsUtils")
+const getStudentsCoursesExams = require("../../utils/studentsCoursesExamsUtils")
 
 const getStudentsController = {
     students: async(req,res) =>{
@@ -81,7 +81,7 @@ const getStudentsController = {
     studentsExams: async(req,res) =>{
         try{
 
-            const { size, page, practicals_status, order, id_courses_types, id_exams_practicals, cuit_cuil, cuit_cuil_string, name } = req.query
+            const { size, page, practicals_status, order, id_courses_types, id_exams_practicals, cuit_cuil, cuit_cuil_string, name, enabled } = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -111,6 +111,10 @@ const getStudentsController = {
                 filters.id_courses_types = id_courses_types
             }
 
+            if (enabled) {
+                filters.enabled = enabled
+            }
+
             if (order) {
                 filters.order = JSON.parse(order)
             }
@@ -128,7 +132,7 @@ const getStudentsController = {
     studentsCoursesExams: async(req,res) =>{
         try{
 
-            const { size, page, order, name, cuit_cuil_string, repre} = req.query
+            const { size, page, order, name, cuit_cuil_string, repre, enabled} = req.query
             const limit = size ? parseInt(size) : undefined
             const offset = page ? (parseInt(page) - 1) * limit : undefined
             const filters = {}
@@ -145,51 +149,16 @@ const getStudentsController = {
                 filters.repre = repre
             }
 
+            if (enabled) {
+                filters.enabled = enabled
+            }
+
             if (order) {
                 filters.order = JSON.parse(order)
             }
 
-            // get students courses exams
-            const data = await studentsCoursesExamsQueries.get({limit,offset,filters})
-
-            // get students exams
-            const idsStudents = [...new Set(data.rows.map(d => d.id_students))]
-            const studentsExams = await getStudentsExams({undefined,undefined,filters:{id_students:idsStudents}})
-
-            const examsMap = new Map(
-                studentsExams.rows.map(e => {
-                    const {
-                    exam_theorical_questions,
-                    theoricals_answers,
-                    practicals_answers,
-                    student_data,
-                    ...cleanExam
-                    } = e
-
-                    return [e.id, cleanExam]
-                })
-            )
-
-            data.rows = data.rows.map(d => ({
-                ...d,
-                exams_results: examsMap.get(d.id_students_exams) || null
-            }))
-
-            // add filters
-            if (filters.name) {
-                data.rows = data.rows.filter(d =>
-                    (d.student_data.first_name.toLowerCase() + ' ' + d.student_data.last_name.toLowerCase())
-                        .toLowerCase()
-                        .includes(filters.name.toLowerCase())
-                )
-            }
-            if (filters.cuit_cuil_string) {
-                data.rows = data.rows.filter(d => String(d.student_data.cuit_cuil).includes(String(filters.cuit_cuil_string)))
-            }
-
-            // get pages
-            const pages = Math.ceil(data.count / limit)
-            data.pages = pages
+            // get data
+            const data = await getStudentsCoursesExams({limit,offset,filters})
 
             res.status(200).json(data)
 

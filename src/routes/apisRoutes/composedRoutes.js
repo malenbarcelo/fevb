@@ -42,6 +42,7 @@ router.get('/get-session-data',studentSessionController.getSessionData)
 
 ///// exams
 router.get('/exams/theoricals/get-exam-action',examsController.getExamAction)
+router.post('/exams/download-repre',examsController.downloadRepre)
 
 ///// inscriptions
 router.post('/:branchUrl/sync-bulk-inscriptions',inscriptionsController.syncBulkCreate) // external route, not used in frontend

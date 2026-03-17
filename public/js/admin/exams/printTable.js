@@ -7,8 +7,6 @@ async function printTable() {
     let html = ''
     const data = g.studentsCoursesExams.rows
 
-    console.log(data)
-
     data.forEach((element,index) => {
 
         const rowClass = index % 2 === 0 ? 'body pad-5-0 body-even' : 'body pad-5-0 body-odd'
@@ -38,6 +36,7 @@ async function printTable() {
 
         // repre
         const repreStatus = (element.course_data.repre_course_code != null && element.exams_results.theorical_status == 'passed' && (element.exams_results.practical_status == null || element.exams_results.practical_status == 'passed')) ? true : false
+        const repreCheck = element.uploaded_repre == 1 ? 'checked' : ''
 
         html += `
             <tr class="" id="tr_${element.id}">
@@ -51,7 +50,7 @@ async function printTable() {
                 <td class="${rowClass}">${ practicalIcon }</td>
                 <td class="${rowClass}">${ practicalDate }</td>
                 <td class="${rowClass}">${ statusHtml }</td>                
-                <td class="${rowClass}">${ repreStatus ? `<input type="checkbox" id="check_${element.id}"></td>` : ''}
+                <td class="${rowClass}">${ repreStatus ? `<input type="checkbox" id="check_${element.id}" ${repreCheck}></td>` : ''}
                 
             </tr>
             `

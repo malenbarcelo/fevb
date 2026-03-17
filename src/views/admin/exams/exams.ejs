@@ -3,7 +3,7 @@
 
 <div class="fs-19 fw-b mt-25 mb-35 ta-c">EXÁMENES</div>
 
-<div class="inputs-row mb-25">
+<div class="inputs-row mb-5">
     <div class="div-input">
         <label class="label-std">Alumno</label>
         <input type="text" class="input-std w-250 pad-8-0 fs-13" id="student">
@@ -16,8 +16,9 @@
         <label class="label-std">Status REPRE</label>
         <select class="input-std w-130 pad-8-0 fs-13" id="repre">
             <option value=""></option>
-            <option value="complete">Subido</option>
-            <option value="incomplete">Pendiente</option>
+            <option value="enabled">Habilitado</option>
+            <option value="disabled">Deshabilitado</option>
+            <option value="uploaded">Subido</option>
             
         </select>
     </div>
@@ -28,10 +29,13 @@
 </div>
 
 <!--- main table --->
-<div class="div-table table-450" id="table">
+
+<div class="div-table table-400" id="table">
 
     <!--- table data --->
     <table>
+        <div class="flex-r mb-10 jc-fe"><div class="fs-13 pt-5 pb-5 btn-std w-120" id="downloadRepre">Descargar REPRE</div></div>
+
         <thead class="fs-13">
             <th class="th pad-6-0 w-70">ID</th>
             <th class="th pad-6-0 w-100">CUIT/CUIL</th>
@@ -46,7 +50,6 @@
             <th class="th pad-3-0 w-80">
                 <div class="flex-c cg-5 ai-c jc-c">
                     <div>REPRE</div>
-                    <input type="checkbox" id="checkAll">
                 </div>
             </th>
             

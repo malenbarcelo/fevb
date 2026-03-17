@@ -11,6 +11,7 @@ const utils = {
         filters += g.filters.name == '' ? '' : `&name=${g.filters.name}`
         filters += g.filters.cuit_cuil_string == '' ? '' : `&cuit_cuil_string=${g.filters.cuit_cuil_string}`
         filters += g.filters.repre == '' ? '' : `&repre=${g.filters.repre}`
+        filters += g.filters.enabled == '' ? '' : `&enabled=${g.filters.enabled}`
         filters += g.filters.order == '' ? '' : `&order=${g.filters.order}`
 
         const fetchData = await (await fetch(`${domain}get/students-courses-exams?${filters}`)).json()

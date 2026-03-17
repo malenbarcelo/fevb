@@ -131,6 +131,9 @@ async function getStudentsExams({limit,offset,filters}) {
     if (filters.cuit_cuil_string) {
         data.rows = data.rows.filter(d => String(d.student_data.cuit_cuil).includes(String(filters.cuit_cuil_string)))
     }
+    if (filters.enabled) {
+        data.rows = data.rows.filter(d => d.student_data.enabled == filters.enabled)
+    }
 
     // get pages
     const pages = Math.ceil(data.count / limit)
