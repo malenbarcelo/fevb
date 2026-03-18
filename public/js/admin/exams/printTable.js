@@ -5,7 +5,7 @@ async function printTable() {
 
     body.innerHTML = ''
     let html = ''
-    const data = g.studentsCoursesExams.rows
+    const data = g.studentsCoursesExams
 
     data.forEach((element,index) => {
 

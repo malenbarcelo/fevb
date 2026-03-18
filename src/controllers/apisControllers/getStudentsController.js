@@ -158,6 +158,9 @@ const getStudentsController = {
             }
 
             // get data
+            console.log(limit)
+            console.log('page:' + page)
+            
             const data = await getStudentsCoursesExams({limit,offset,filters})
 
             res.status(200).json(data)

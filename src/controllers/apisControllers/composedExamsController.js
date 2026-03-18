@@ -50,8 +50,6 @@ const examsController = {
             worksheet.columns = columns
       
             dataToPrint.forEach(element => {
-
-
                 
                 const startDate = (element.exams_results.practical_date == null || new Date(element.exams_results.practical_date) < new Date(element.exams_results.theorical_date)) ? new Date(element.exams_results.theorical_date) : new Date(element.exams_results.practical_date)
                 const startDateYear = startDate.getFullYear()
@@ -74,14 +72,18 @@ const examsController = {
         
                 worksheet.addRow(rowData)
                 
-            }) 
+            })
+
+            // get ids
+            const ids = dataToPrint.map( d => d.id)
       
-          res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-          res.setHeader('Content-Disposition', 'attachment; filename=Envío ' + Math.floor(Date.now() / 1000) + '.xlsx')
-        
-          await workbook.xlsx.write(res)
-          
-          res.end()
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            res.setHeader('Content-Disposition', 'attachment; filename=Envío ' + Math.floor(Date.now() / 1000) + '.xlsx')
+            res.setHeader('X-Downloaded-Ids', JSON.stringify(ids))
+            
+            await workbook.xlsx.write(res)
+            
+            res.end()
           
         }catch(error){
           console.log(error)

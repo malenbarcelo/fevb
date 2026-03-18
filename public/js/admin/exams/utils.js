@@ -18,13 +18,13 @@ const utils = {
 
         g.pages = fetchData.pages
 
-        return fetchData
+        return fetchData.rows
     },
 
     resetData: async function(scroll0) {
         
         // update scroll data
-        g.filters.page = 1
+        g.filters.page = repre.value == 'enabled' ? '' : 1
         g.loadedPages = new Set()
 
         if (scroll0) {

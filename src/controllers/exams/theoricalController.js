@@ -68,6 +68,8 @@ const examsController = {
             
             pendingExams = pendingExams.rows
 
+            console.log(pendingExams)
+
             return res.render('exams/theoricals/pendingTheoricals',{title:'FEVB - Exámenes', pendingExams})
 
         }catch(error){

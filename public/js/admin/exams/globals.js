@@ -2,7 +2,6 @@
 let g = {
     studentsCoursesExams:[],
     popups: [],
-    page:0,
     pages:0,
     filters: {
         size:'',

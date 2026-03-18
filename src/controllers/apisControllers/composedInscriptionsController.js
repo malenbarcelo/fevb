@@ -38,6 +38,7 @@ const inscriptionsController = {
                 const year = d[17]
                 const day = firstDate.split('/')[0]
                 const month = firstDate.split('/')[1]
+                
                 const weekNumber = dates.find(d => d.date_string == firstDate && d.year == year).week_number
 
                 // courses

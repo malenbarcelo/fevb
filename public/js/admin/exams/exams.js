@@ -55,10 +55,14 @@ window.addEventListener('load',async()=>{
             // show loader
             loader.style.display = 'block'
 
-            //complete filters
+            // complete filters
             g.filters.name = student.value
             g.filters.cuit_cuil_string = cuitCuil.value
             g.filters.repre = repre.value
+
+            // data
+            g.filters.page = repre.value == 'enabled' ? '' : 1
+            g.filters.size = repre.value == 'enabled' ? '' : 25
 
             await utils.resetData()
 
@@ -80,6 +84,10 @@ window.addEventListener('load',async()=>{
         g.filters.student_string = ''
         g.filters.repre = ''
 
+        // data
+        g.filters.page = 1
+        g.filters.size = 25
+
         await utils.resetData()
         
         // hide loader
@@ -97,6 +105,8 @@ window.addEventListener('load',async()=>{
         })
 
         if (response.ok) {
+
+            // download excel
             const blob = await response.blob()
             const url = window.URL.createObjectURL(blob)
             const a = document.createElement('a')
@@ -105,15 +115,37 @@ window.addEventListener('load',async()=>{
             document.body.appendChild(a)
             a.click()
             a.remove()
-        } else {
-            console.error('Error al descargar el archivo:', response.statusText);
-        }
+
+            // check downloaded repre
+            const ids = JSON.parse(response.headers.get('X-Downloaded-Ids'))
+            const data = {
+                field: 'id',
+                elementsToUpdate: ids,
+                dataToUpdate: {uploaded_repre: 1}
+            }
+
+            const responseUpdate = await fetch(domain + 'update/bulk/students/courses-exams',{
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)            
+            })
+
+            const respondeUpdateData = await responseUpdate.json()
+
+            if (respondeUpdateData.response == 'ok') {
+
+                // reset data
+                await utils.resetData()
+                
+                // show popup
+                drpp.style.display = 'block'
+            }
+        } 
 
         loader.style.display = 'none'
+
     })
 
     loader.style.display = 'none'
-
-    
 
 })

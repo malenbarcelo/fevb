@@ -29,13 +29,12 @@
 </div>
 
 <!--- main table --->
+<div class="flex-r mb-10 jc-fe w-90p"><div class="fs-13 pt-5 pb-5 btn-std w-120" id="downloadRepre">Descargar REPRE</div></div>
 
-<div class="div-table table-400" id="table">
+<div class="div-table table-450" id="table">
 
     <!--- table data --->
     <table>
-        <div class="flex-r mb-10 jc-fe"><div class="fs-13 pt-5 pb-5 btn-std w-120" id="downloadRepre">Descargar REPRE</div></div>
-
         <thead class="fs-13">
             <th class="th pad-6-0 w-70">ID</th>
             <th class="th pad-6-0 w-100">CUIT/CUIL</th>
@@ -62,6 +61,10 @@
 <div class="loader ld-std" id="loader">
     <div class="ld-content lt-l"></div>
 </div>
+
+<!----------POPUPS---------->
+<%- include('./examsDRPP') %>
+<%- include('../../partials/confirmPopup') %>
 
 <!----------SCRIPTS---------->
 <script type="module" src="/js/admin/exams/exams.js?v=<%= Date.now() %>"></script>

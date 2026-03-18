@@ -48,7 +48,7 @@ async function getDataToPost(createdData,sessionData) {
                 .join(' | ')
             
     }else{
-        course = (sessionData.courseType.alias + ': ') + (sessionData.coursesData[0].category == sessionData.courseType.alias ? sessionData.coursesData[0].type_alias : sessionData.coursesData[0].category)
+        course = sessionData.coursesData[0].course_summary
     }
 
     // get sheet name
@@ -187,7 +187,7 @@ async function getBulkDataToPost(students, data, dates) {
         // inscription
         const coursesData = data[i].coursesData
         const inscription = courseTypeAlias != 'LP' 
-                            ? courseTypeAlias + ': ' + coursesData[0].category
+                            ? coursesData[0].course_summary
                             : getInscription(coursesData)
         
         dataToPost.push([

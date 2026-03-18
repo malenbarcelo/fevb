@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      course_summary:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       id_courses_types:{
          type: DataTypes.INTEGER,
          allowNull: false,

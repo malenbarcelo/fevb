@@ -40,6 +40,34 @@ const studentsCoursesExamsQueries = {
         const createdData = await model.bulkCreate(data)
         return createdData.map(item => item.get({ plain: true }))
     },
+    bulkUpdate: async (field, data, dataToUpdate) => {
+        await model.update(
+            dataToUpdate,
+            {
+                where: {
+                    [field]: {
+                        [Op.in]: data
+                    }
+                }
+            }
+        )
+    },
+    update: async (condition, data) => {
+
+        for (const d of data) {
+
+            let whereCondition = {}
+
+            if (condition == 'id') {
+                whereCondition = { id: d.id }
+            }
+
+            await model.update(
+                d.dataToUpdate,
+                { where: whereCondition }
+            )
+        }
+    },
 }
 
 module.exports = studentsCoursesExamsQueries

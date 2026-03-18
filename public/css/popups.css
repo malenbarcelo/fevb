@@ -22,6 +22,7 @@
     font-size: 14px;
     overflow: auto;
     margin: auto;
+    border-radius: 10px;
 }
 
 /* div popup close */

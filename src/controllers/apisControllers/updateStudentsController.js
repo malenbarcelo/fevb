@@ -1,6 +1,7 @@
 const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries")
 const studentsExamsTheoricalsAnswersQueries = require("../../dbQueries/students/studentsExamsTheoricalsAnswersQueries")
 const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries");
+const studentsCoursesExamsQueries = require("../../dbQueries/students/studentsCoursesExamsQueries");
 const studentsQueries = require("../../dbQueries/students/studentsQueries");
 const gf = require("../../utils/generalFunctions");
 
@@ -56,6 +57,20 @@ const updateStudentsController = {
             let data = req.body
 
             await studentsExamsQueries.update('id',data)
+
+            res.status(200).json({response: 'ok'})
+
+        }catch(error){
+            console.log(error)
+            res.status(200).json({response: 'error', error: error})
+        }
+    },
+    studentsCoursesExamsBulk: async(req,res) =>{
+        try{
+
+            let data = req.body
+
+            await studentsCoursesExamsQueries.bulkUpdate(data.field,data.elementsToUpdate, data.dataToUpdate)
 
             res.status(200).json({response: 'ok'})
 
