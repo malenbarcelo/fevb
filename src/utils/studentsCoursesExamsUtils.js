@@ -13,11 +13,11 @@ async function getStudentsCoursesExams({limit,offset,filters}) {
     const examsMap = new Map(
         studentsExams.rows.map(e => {
             const {
-            exam_theorical_questions,
-            theoricals_answers,
-            practicals_answers,
-            student_data,
-            ...cleanExam
+                exam_theorical_questions,
+                theoricals_answers,
+                practicals_answers,
+                student_data,
+                ...cleanExam
             } = e
 
             return [e.id, cleanExam]
@@ -43,6 +43,7 @@ async function getStudentsCoursesExams({limit,offset,filters}) {
     if (filters.cuit_cuil_string) {
         data.rows = data.rows.filter(d => String(d.student_data.cuit_cuil).includes(String(filters.cuit_cuil_string)))
     }
+    
     if (filters.repre) {
         if (filters.repre == 'enabled') {
             data.rows = data.rows.filter(d => 
@@ -55,11 +56,8 @@ async function getStudentsCoursesExams({limit,offset,filters}) {
             )
         }
         if (filters.repre == 'uploaded') {
+
             data.rows = data.rows.filter(d => 
-                d.exams_results.theorical_status == 'passed' &&
-                (d.exams_results.practical_status == 'passed' || d.exams_results.practical_status === null) &&
-                d.exams_results.payment == 'complete' &&
-                d.exams_results.attendance == 'complete' &&
                 d.uploaded_repre == 1
             )
         }

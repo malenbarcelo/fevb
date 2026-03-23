@@ -48,24 +48,28 @@ const examsController = {
             ]
       
             worksheet.columns = columns
-      
+
             dataToPrint.forEach(element => {
                 
-                const startDate = (element.exams_results.practical_date == null || new Date(element.exams_results.practical_date) < new Date(element.exams_results.theorical_date)) ? new Date(element.exams_results.theorical_date) : new Date(element.exams_results.practical_date)
-                const startDateYear = startDate.getFullYear()
-                const startDateMonth = startDate.getMonth()
-                const startDateDay = startDate.getDate()
-                const startDateString = startDateDay + '/' + startDateMonth + '/' + startDateYear
-                const expiration = startDateDay + '/' + startDateMonth + '/' + (startDateYear + 2)
-                const endDate = (startDateDay + 2) + '/' + startDateMonth + '/' + startDateYear
+                const startDateStr = element.student_data.attendance[0].date_string + '/' + element.student_data.attendance[0].year
+                const [day1, month1, year1] = startDateStr.split('/')
+                const startDate = new Date(year1, month1 - 1, day1)
+
+                const endDateStr = element.student_data.attendance[0].date_string + '/' + element.student_data.attendance[0].year
+                const [day2, month2, year2] = endDateStr.split('/')
+                const endDate = new Date(year2, month2 - 1, day2)
+
+                const year3 = Number(year2) + 2
+
+                const expirationDate = new Date(year3, month2 - 1, day2)
                 
                 const rowData = {
                     'dni': Number(String(element.student_data.cuit_cuil).slice(2, -1)),
                     'school_code': element.course_data.repre_school_code,
                     'course_code': element.course_data.repre_course_code,
                     'status':'A',
-                    'start_date': startDateString,
-                    'expiration': expiration,
+                    'start_date': startDate,
+                    'expiration': expirationDate,
                     'end_date': endDate,
                     'class': element.course_data.repre_class,
                 }

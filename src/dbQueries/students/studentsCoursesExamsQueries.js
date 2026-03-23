@@ -20,7 +20,10 @@ const studentsCoursesExamsQueries = {
 
         const data = await model.findAndCountAll({            
             include: [                
-                {association: 'student_data'},
+                {
+                    association: 'student_data',
+                    include:[{association: 'attendance'}]
+                },
                 {association: 'course_data'},
                 {association: 'exam_data'},
 

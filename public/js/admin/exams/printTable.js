@@ -7,6 +7,8 @@ async function printTable() {
     let html = ''
     const data = g.studentsCoursesExams
 
+    console.log(data)
+
     data.forEach((element,index) => {
 
         const rowClass = index % 2 === 0 ? 'body pad-5-0 body-even' : 'body pad-5-0 body-odd'
@@ -58,7 +60,7 @@ async function printTable() {
 
     body.innerHTML = html
 
-    //eventListeners(data)
+    eventListeners(data)
 
 }
 
@@ -66,65 +68,26 @@ function eventListeners(data) {
 
     data.forEach(element => {
 
-        const edit = document.getElementById('edit_' + element.id)
-        const destroy = document.getElementById('destroy_' + element.id)
-        const payment = document.getElementById('payment_' + element.id)            
-        const tr = document.getElementById('tr_' + element.id)
+        const check = document.getElementById('check_' + element.id)
 
-        // edit
-        edit.addEventListener('click',async()=>{
-        })
+        // check
+        if (check) {
+            check.addEventListener('click',async(e)=>{
 
-        // edit row with double click
-        tr.addEventListener('dblclick',async()=>{
-            if (edit) {
-                edit.click()
-            }
-        })
+                e.preventDefault()
 
-        // destroy
-        destroy.addEventListener('click', async()=>{
-            
-            loader.style.display = 'block'
+                const text = check.checked ? "Subido a REPRE" : "No subido a REPRE"
+                g.action = 'checkRepre'
+                g.repre = check.checked ? 1 : 0
+                g.elementToUpdate = element
+                const student = (element.student_data.first_name + ' ' + element.student_data.last_name).toLocaleUpperCase()
 
-            g.elementToDestroy = element
+                coppText.innerHTML = `¿Confirma que desea marcar como <b><i>"${text}"</i></b>? <br><b>Alumno:</b> ${student}</b><br><b>Curso:</b> ${element.course_data.course_summary}`
 
-            g.action = 'destroyElement'
-                
-            coppText.innerHTML = '¿Confirma que desea eliminar al alumno <b>' + element.first_name + ' ' + element.last_name + '</b>?'
-                
-            copp.style.display = 'block'                    
-            
-            loader.style.display = 'none'
-            
-        })
+                copp.style.display = 'block'
 
-        // payment
-        payment.addEventListener('click', async()=>{
-            
-            loader.style.display = 'block'
-
-            if (payment.checked) {
-
-                payment.checked = false
-
-                g.paymentToCheck = payment
-
-                g.elementsToCreate.push({id_students: element.id, amount: Number(element.price)})
-
-                g.action = 'createPayment'
-                
-                coppText.innerHTML = '¿Confirma el pago de <b>' + element.first_name + ' ' + element.last_name + '</b> por un importe de <b> $' + gg.formatter0.format(Number(element.price)) + '</b>?'
-                
-                copp.style.display = 'block'                    
-                    
-            }else{
-                payment.checked = true
-            }
-
-            loader.style.display = 'none'
-            
-        })
+            })
+        }
     })
 }
 

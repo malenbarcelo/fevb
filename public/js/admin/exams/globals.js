@@ -1,7 +1,7 @@
 
 let g = {
     studentsCoursesExams:[],
-    popups: [],
+    popups: [copp],
     pages:0,
     filters: {
         size:'',
@@ -16,6 +16,10 @@ let g = {
     // scroll
     loadedPages: new Set(),
     previousScrollTop:0,
+    // elements to manage
+    action: null,
+    repre: null,
+    elementToUpdate: null
     
 }
 

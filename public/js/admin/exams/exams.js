@@ -4,6 +4,10 @@ import { utils } from "./utils.js"
 import { printTable } from "./printTable.js"
 import { domain } from "../../domain.js"
 
+// popups
+import { drppEventListeners} from "./examsDRPP.js"
+import { coppEventListeners} from "./examsCOPP.js"
+
 window.addEventListener('load',async()=>{
 
     loader.style.display = 'block'
@@ -16,17 +20,18 @@ window.addEventListener('load',async()=>{
     // print data
     await utils.resetData(true)
 
-    // // close popups
-    // gf.closePopups(g.popups)
+    // close popups
+    gf.closePopups(g.popups)
 
-    // // close with escape
-    // gf.closeWithEscape(g.popups)
+    // close with escape
+    gf.closeWithEscape(g.popups)
 
     // // show tooltips
     // gf.showTooltips(g.tooltips,235,320)
 
-    // // popups event listeners
-    // coppEventListeners()
+    // popups event listeners
+    drppEventListeners()
+    coppEventListeners()
 
     // add data with scroll
     table.addEventListener('scroll', async () => {

@@ -42,7 +42,7 @@ const inscriptionsController = {
                 const weekNumber = dates.find(d => d.date_string == firstDate && d.year == year).week_number
 
                 // courses
-                const selectedCourses = d[18] == 'LP' ? d.slice(19, 42).filter( el => el != '') : [d[18]]                
+                const selectedCourses = d[18] == 'LP' ? d.slice(19, 43).filter( el => el != '') : [d[18]]                
                 const coursesData = courses.filter(c => selectedCourses.includes(c.type_alias + '_' + c.category))
                 const idsCourses = coursesData.map( cd => cd.id)
 
@@ -83,8 +83,6 @@ const inscriptionsController = {
                 // get courses data
                 const selectedCoursesPrices = prices.filter( p => idsCourses.includes(p.id_courses))
                 const maxPrice = Math.max(...selectedCoursesPrices.map(p => Number(p.price)))
-
-                console.log(coursesData)
 
                 students.push({
                     id_inscriptions: createdInscriptions[index].id,

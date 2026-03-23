@@ -39,6 +39,7 @@ async function createExamsData(data) {
 async function getData(data, examsTheoricals, examsPracticals, courses) {
 
     // add exams hierarchy to data
+    console.log(data)
     data.forEach(d => {
         d.theoricals_index = examsTheoricals.find( et => et.id == d.id_exams_theoricals).exam_index
         d.theoricals_hierarchy = examsTheoricals.find( et => et.id == d.id_exams_theoricals).hierarchy

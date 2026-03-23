@@ -25,6 +25,7 @@ const utils = {
         
         // update scroll data
         g.filters.page = repre.value == 'enabled' ? '' : 1
+        g.filters.order = repre.value == 'uploaded' ? '[["uploaded_repre","DESC"],["id","DESC"]]' : '[["id","DESC"]]'
         g.loadedPages = new Set()
 
         if (scroll0) {
