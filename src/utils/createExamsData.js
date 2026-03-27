@@ -38,11 +38,10 @@ async function createExamsData(data) {
 
 async function getData(data, examsTheoricals, examsPracticals, courses) {
 
-    // add exams hierarchy to data
-    console.log(data)
+    // add exams hierarchy to data    
     data.forEach(d => {
-        d.theoricals_index = examsTheoricals.find( et => et.id == d.id_exams_theoricals).exam_index
-        d.theoricals_hierarchy = examsTheoricals.find( et => et.id == d.id_exams_theoricals).hierarchy
+        d.theoricals_index = examsTheoricals.find( et => et.id == d.id_exams_theoricals) == null ? null : examsTheoricals.find( et => et.id == d.id_exams_theoricals).exam_index
+        d.theoricals_hierarchy = examsTheoricals.find( et => et.id == d.id_exams_theoricals) == null ? null : examsTheoricals.find( et => et.id == d.id_exams_theoricals).hierarchy
         d.practicals_index = examsPracticals.find( ep => ep.id == d.id_exams_practicals) == null ? null : examsPracticals.find( ep => ep.id == d.id_exams_practicals).exam_index
         d.practicals_hierarchy = examsPracticals.find( ep => ep.id == d.id_exams_practicals) == null ? null : examsPracticals.find( ep => ep.id == d.id_exams_practicals).hierarchy        
     })
@@ -51,7 +50,10 @@ async function getData(data, examsTheoricals, examsPracticals, courses) {
     const maxTheoricalsHierarchyByIndex = {}
 
     for (const item of data) {
+
         const idx = item.theoricals_index
+
+        if (idx === null) continue
 
         if (
             !maxTheoricalsHierarchyByIndex[idx] ||
@@ -63,7 +65,10 @@ async function getData(data, examsTheoricals, examsPracticals, courses) {
 
     data = data.map(item => ({
         ...item,
-        theoricals: maxTheoricalsHierarchyByIndex[item.theoricals_index].id_exams_theoricals
+        theoricals: 
+        item.theoricals_index === null
+        ? null
+        : maxTheoricalsHierarchyByIndex[item.theoricals_index].id_exams_theoricals
     }))
 
     // get max practicals hierarchy for each exam
@@ -116,6 +121,29 @@ async function getData(data, examsTheoricals, examsPracticals, courses) {
         ).values()
     ]
 
+    // delete data if there are nulls and not null practicals for any theorical
+    // studentsExams = Array.from(
+    //     studentsExams.reduce((map, item) => {
+    //         const key = item.id_exams_theoricals
+
+    //         if (!map.has(key)) {
+    //         map.set(key, item)
+    //         } else {
+    //         const existing = map.get(key)
+
+    //         // si el actual tiene prácticos y el guardado no → lo reemplazo
+    //         if (
+    //             existing.id_exams_practicals == null &&
+    //             item.id_exams_practicals != null
+    //         ) {
+    //             map.set(key, item)
+    //         }
+    //         }
+
+    //         return map
+    //     }, new Map()).values()
+    // )
+
     // add version and variant
     studentsExams = await addVersionAndVariant(studentsExams)
 
@@ -128,23 +156,25 @@ async function addVersionAndVariant(studentsExams) {
 
     for (const s of studentsExams) {
 
-        const lastTheoricalVersion = await examsTheoricalsQuestionsQueries.getLastVersion(s.id_exams_theoricals)
+        let lastTheoricalVersion = null
+        let lastPracticalVersion = null
+        let variant = null
 
-        let lastPracticalVersion
+        if (s.id_exams_theoricals != null) {
+            lastTheoricalVersion = await examsTheoricalsQuestionsQueries.getLastVersion(s.id_exams_theoricals)
+            lastTheoricalVersion = lastTheoricalVersion.exam_theorical_version
+            let variants = await examsTheoricalsQuestionsQueries.uniqueVariants({filters:{id_exams_theoricals:s.id_exams_theoricals,exam_theorical_version:lastTheoricalVersion.exam_theorical_version}})
+            variants = variants.map( v => v.variants)
+            variant = variants[Math.floor(Math.random() * variants.length)]
+        }
         
         if (s.id_exams_practicals != null) {
             lastPracticalVersion = await examsPracticalsQuestionsQueries.getLastVersion(s.id_exams_practicals)
             lastPracticalVersion = lastPracticalVersion.exam_practical_version
-        }else{
-            lastPracticalVersion = null
         }
-        
-        let variants = await examsTheoricalsQuestionsQueries.uniqueVariants({filters:{id_exams_theoricals:s.id_exams_theoricals,exam_theorical_version:lastTheoricalVersion.exam_theorical_version}})
-        variants = variants.map( v => v.variants)
-        const variant = variants[Math.floor(Math.random() * variants.length)]
 
         // add data to studentsExams
-        s.exam_theorical_version =  lastTheoricalVersion.exam_theorical_version
+        s.exam_theorical_version =  lastTheoricalVersion
         s.exam_theorical_variant = variant
         s.exam_practical_version =  lastPracticalVersion
         
@@ -162,21 +192,28 @@ function getExamsAnswers(studentsExams, examsTheoricals, examsPracticals) {
     for (const s of studentsExams) {
 
         // get theoricals questions
-        const theoricalQuestions = examsTheoricals
+        let theoricalQuestions = null
+        
+        if (s.id_exams_theoricals != null) {
+            theoricalQuestions = examsTheoricals
                 .find( e => e.id == s.id_exams_theoricals).questions
                 .filter( q => q.exam_theorical_version == s.exam_theorical_version && q.exam_theorical_variant == s.exam_theorical_variant)
 
-        theoricalQuestions.forEach(q => {
-            theoricalAnswers.push({
-                id_students: s.id_students,
-                id_students_exams: s.id,
-                id_exams_theoricals_questions: q.id
+            theoricalQuestions.forEach(q => {
+                theoricalAnswers.push({
+                    id_students: s.id_students,
+                    id_students_exams: s.id,
+                    id_exams_theoricals_questions: q.id
+                })
             })
-        })
+        }
+        
 
         // get practicals questions
+        let practicalQuestions = null
+
         if (s.id_exams_practicals != null) {
-            const practicalQuestions = examsPracticals
+            practicalQuestions = examsPracticals
                 .find( e => e.id == s.id_exams_practicals).questions
                 .filter( q => q.exam_practical_version == s.exam_practical_version)
 

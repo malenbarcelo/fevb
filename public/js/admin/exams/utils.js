@@ -34,6 +34,13 @@ const utils = {
 
         // get and print data
         g.studentsCoursesExams = await this.getData()
+
+        // get dates
+        const weeksYears = [...new Set(
+            g.studentsCoursesExams.map(sce => sce.student_data.year_week)
+        )]
+        g.dates = await (await fetch(`${domain}get/dates?years_weeks=${JSON.stringify(weeksYears)}&days_numbers=[1]`)).json()
+        
         printTable()
 
         // unscroll

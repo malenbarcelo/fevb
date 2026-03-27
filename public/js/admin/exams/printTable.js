@@ -7,24 +7,26 @@ async function printTable() {
     let html = ''
     const data = g.studentsCoursesExams
 
-    console.log(data)
-
     data.forEach((element,index) => {
 
         const rowClass = index % 2 === 0 ? 'body pad-5-0 body-even' : 'body pad-5-0 body-odd'
         
         // theorical data
-        const theoricalIcon = element.exams_results.theorical_status == 'passed' ? '<i class="fa-solid fa-check fc-green fs-14"></i>' : (element.exams_results.theorical_status == 'pending' ? '<i class="fa-solid fa-xmark fc-gray fs-14"></i>' : '<i class="fa-solid fa-xmark fc-error fs-14"></i>')
+        const theoricalIcon = element.course_data.id_exams_theoricals == null ? '--' : (element.exams_results.theorical_status == 'passed' ? '<i class="fa-solid fa-check fc-green fs-14"></i>' : ((element.exams_results.theorical_status == 'pending' || element.exams_results.theorical_status == 'in-progress') ? '<i class="fa-solid fa-xmark fc-gray fs-14"></i>' : '<i class="fa-solid fa-xmark fc-error fs-14"></i>'))
         
         const theoricalDateArray = element.exams_results.theorical_date == null ? null : element.exams_results.theorical_date.split('-')
-        const theoricalDate =  theoricalDateArray == null ? '' : `${theoricalDateArray[2]}/${theoricalDateArray[1]}/${theoricalDateArray[0]}`
+        const theoricalDate =  element.course_data.id_exams_theoricals == null ? '--' : (theoricalDateArray == null ? '' : `${theoricalDateArray[2]}/${theoricalDateArray[1]}/${theoricalDateArray[0]}`)
 
         // practical data
-        const practicalIcon = element.course_data.id_exams_practicals == null ? '<i class="fa-solid fa-minus fs-13 fc-gray"></i>' : (element.exams_results.practical_status == 'passed' ? '<i class="fa-solid fa-check fc-green fs-14"></i>' : (element.exams_results.practical_status == 'pending' ? '<i class="fa-solid fa-xmark fc-gray fs-14"></i>' : '<i class="fa-solid fa-xmark fc-error fs-14"></i>'))
+        const practicalIcon = element.course_data.id_exams_practicals == null ? '--' : (element.exams_results.practical_status == 'passed' ? '<i class="fa-solid fa-check fc-green fs-14"></i>' : (element.exams_results.practical_status == 'pending' ? '<i class="fa-solid fa-xmark fc-gray fs-14"></i>' : '<i class="fa-solid fa-xmark fc-error fs-14"></i>'))
 
         const practicalDateArray = element.exams_results.practical_date == null ? null : element.exams_results.practical_date.split('-')
         const practicalDate =  practicalDateArray == null ? '' : `${practicalDateArray[2]}/${practicalDateArray[1]}/${practicalDateArray[0]}`
+        
+        const examPractical = element.course_data.id_exams_practicals == null ? '--' : element.exams_results.exam_practical_data.exam_alias
 
+        console.log(element)
+        
         // status
         let statusHtml = '<div class="fs-13 fw-b flex-r jc-c cg-3 ai-c">'
         statusHtml += element.exams_results.payment == 'complete' ? '<div class="fc-green">$</div>' : '<div class="fc-error">$</div>'
@@ -40,17 +42,23 @@ async function printTable() {
         const repreStatus = (element.course_data.repre_course_code != null && element.exams_results.theorical_status == 'passed' && (element.exams_results.practical_status == null || element.exams_results.practical_status == 'passed')) ? true : false
         const repreCheck = element.uploaded_repre == 1 ? 'checked' : ''
 
+        // date
+        const date = g.dates.find( d => d.year_week == element.student_data.year_week)
+        const dateString = date.date_string + '/' + date.year
+
         html += `
             <tr class="" id="tr_${element.id}">
-                <td class="${rowClass}">${element.id_students}</td>
-                <td class="${rowClass}">${element.student_data.cuit_cuil}</td>
-                <td class="${rowClass}">${element.student_data.first_name + ' ' + element.student_data.last_name}</td>
-                <td class="${rowClass}">${element.course_data.type_alias + ': ' + element.course_data.category }</td>
-                <td class="${rowClass}">${element.exams_results.exam_theorical_data.exam_alias }</td>
+                <td class="${rowClass}">${ element.id_students }</td>
+                <td class="${rowClass}">${ element.student_data.cuit_cuil }</td>
+                <td class="${rowClass}">${ element.student_data.first_name + ' ' + element.student_data.last_name }</td>
+                <td class="${rowClass}">${ element.course_data.course_summary }</td>
+                <td class="${rowClass}">${ dateString }</td>
+                <td class="${rowClass}">${ element.exams_results.exam_theorical_data == null ? '--' : element.exams_results.exam_theorical_data.exam_alias }</td>
                 <td class="${rowClass}">${ theoricalIcon }</td>
                 <td class="${rowClass}">${ theoricalDate }</td>
+                <td class="${rowClass}">${ examPractical }</td>
                 <td class="${rowClass}">${ practicalIcon }</td>
-                <td class="${rowClass}">${ practicalDate }</td>
+                <td class="${rowClass}">${ examPractical == '--' ? '--' : practicalDate }</td>
                 <td class="${rowClass}">${ statusHtml }</td>                
                 <td class="${rowClass}">${ repreStatus ? `<input type="checkbox" id="check_${element.id}" ${repreCheck}></td>` : ''}
                 

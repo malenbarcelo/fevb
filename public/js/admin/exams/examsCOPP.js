@@ -2,7 +2,7 @@ import g from "./globals.js"
 import { domain } from "../../domain.js"
 import { utils } from "./utils.js"
 
-// confirm popup (drpp)
+// confirm popup (copp)
 async function coppEventListeners() {
 
     // accept

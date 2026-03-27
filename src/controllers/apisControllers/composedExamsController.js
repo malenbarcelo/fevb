@@ -50,12 +50,19 @@ const examsController = {
             worksheet.columns = columns
 
             dataToPrint.forEach(element => {
-                
-                const startDateStr = element.student_data.attendance[0].date_string + '/' + element.student_data.attendance[0].year
+
+                const startDateElement = element.student_data.attendance.reduce((min, current) => 
+                    current.id < min.id ? current : min
+                )
+
+                // start date
+                const startDateStr = startDateElement.date_string + '/' + startDateElement.year
                 const [day1, month1, year1] = startDateStr.split('/')
                 const startDate = new Date(year1, month1 - 1, day1)
 
-                const endDateStr = element.student_data.attendance[0].date_string + '/' + element.student_data.attendance[0].year
+                // end date
+                const practicalDateArray = element.exams_results.practical_date == null ? null : element.exams_results.practical_date.split('-')
+                const endDateStr = element.exams_results.practical_date == null ? (element.student_data.attendance[0].date_string + '/' + element.student_data.attendance[0].year) : String((Number(practicalDateArray[2]) + '/' + Number(practicalDateArray[1]) + '/' + Number(practicalDateArray[0])))
                 const [day2, month2, year2] = endDateStr.split('/')
                 const endDate = new Date(year2, month2 - 1, day2)
 

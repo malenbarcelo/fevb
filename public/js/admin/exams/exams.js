@@ -104,51 +104,59 @@ window.addEventListener('load',async()=>{
 
         loader.style.display = 'block'
 
-        const response = await fetch(domain + 'composed/exams/download-repre',{
-            method:'POST',
-            headers: {'Content-Type': 'application/json'}
-        })
+        // findout if there repre to upload
+        const repreEnabled = await (await fetch(`${domain}get/students-courses-exams?enabled=1&repre=enabled`)).json()
 
-        if (response.ok) {
+        if (repreEnabled.rows.length == 0) {
+            arpp.style.display = 'block'
 
-            // download excel
-            const blob = await response.blob()
-            const url = window.URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            a.href = url
-            a.download = 'Envío ' + Math.floor(Date.now() / 1000)  + '.xlsx'
-            document.body.appendChild(a)
-            a.click()
-            a.remove()
+        }else{
 
-            // check downloaded repre
-            const ids = JSON.parse(response.headers.get('X-Downloaded-Ids'))
-            const data = {
-                field: 'id',
-                elementsToUpdate: ids,
-                dataToUpdate: {uploaded_repre: 1}
-            }
-
-            const responseUpdate = await fetch(domain + 'update/bulk/students/courses-exams',{
+            const response = await fetch(domain + 'composed/exams/download-repre',{
                 method:'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)            
+                headers: {'Content-Type': 'application/json'}
             })
 
-            const respondeUpdateData = await responseUpdate.json()
+            if (response.ok) {
 
-            if (respondeUpdateData.response == 'ok') {
+                // download excel
+                const blob = await response.blob()
+                const url = window.URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = 'Envío ' + Math.floor(Date.now() / 1000)  + '.xlsx'
+                document.body.appendChild(a)
+                a.click()
+                a.remove()
 
-                // reset data
-                await utils.resetData()
-                
-                // show popup
-                drpp.style.display = 'block'
-            }
-        } 
+                // check downloaded repre
+                const ids = JSON.parse(response.headers.get('X-Downloaded-Ids'))
+                const data = {
+                    field: 'id',
+                    elementsToUpdate: ids,
+                    dataToUpdate: {uploaded_repre: 1}
+                }
+
+                const responseUpdate = await fetch(domain + 'update/bulk/students/courses-exams',{
+                    method:'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)            
+                })
+
+                const respondeUpdateData = await responseUpdate.json()
+
+                if (respondeUpdateData.response == 'ok') {
+
+                    // reset data
+                    await utils.resetData()
+                    
+                    // show popup
+                    drpp.style.display = 'block'
+                }
+            } 
+        }
 
         loader.style.display = 'none'
-
     })
 
     loader.style.display = 'none'

@@ -6,7 +6,7 @@ const studentsCoursesExamsQueries = {
     get: async({ limit,offset,filters }) => {
 
         // order
-        let order = {}
+        let order = []
         if (filters.order) {
             order = filters.order
         }

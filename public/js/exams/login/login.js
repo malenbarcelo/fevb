@@ -18,7 +18,7 @@ window.addEventListener('load',async()=>{
         const findStudent = await (await fetch(`${domain}get/students?enabled=1&cuit_cuil=${cuitCuil.value}&year_week=${JSON.stringify(weeksToShow)}`)).json()        
 
         if (cuitCuil.value == '' || findStudent.rows.length == 0) {
-            error.style.display = 'flex'
+            error.classList.remove('not-visible')
             loader.style.display = 'none'            
         }else{
             error.style.display = 'none'

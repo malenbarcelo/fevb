@@ -25,23 +25,23 @@ async function getStudentsExams({limit,offset,filters}) {
     ///// THEORICAL
     // add theorical questions and pass grade
     for (const row of data.rows) {
-        const examTheoricalsQuestions = theoricalQuestions.filter( q => q.id_exams_theoricals == row.id_exams_theoricals && q.exam_theorical_version == row.exam_theorical_version && q.exam_theorical_variant == row.exam_theorical_variant)
+        const examTheoricalsQuestions = row.id_exams_theoricals == null ? null : theoricalQuestions.filter( q => q.id_exams_theoricals == row.id_exams_theoricals && q.exam_theorical_version == row.exam_theorical_version && q.exam_theorical_variant == row.exam_theorical_variant)
         row.exam_theorical_questions = examTheoricalsQuestions
-        row.theorical_pass_grade = row.exam_theorical_data.pass_grade
-        row.theorical_date = row.theoricals_answers[row.theoricals_answers.length - 1].date
+        row.theorical_pass_grade = row.id_exams_theoricals == null ? null : row.exam_theorical_data.pass_grade
+        row.theorical_date = row.id_exams_theoricals == null ? null : row.theoricals_answers[row.theoricals_answers.length - 1].date
     }
 
     // add theorical status
     for (const row of data.rows) {
-        const theoricalAnswersQty = row.theoricals_answers.length
-        const nullAnswers = row.theoricals_answers.filter( a => a.ids_selected_options == null).length
+        const theoricalAnswersQty = row.id_exams_theoricals == null ? null : row.theoricals_answers.length
+        const nullAnswers = row.id_exams_theoricals == null ? null : row.theoricals_answers.filter( a => a.ids_selected_options == null).length
 
         if (theoricalAnswersQty == nullAnswers) {
-            row.theorical_status = 'pending'
+            row.theorical_status = row.id_exams_theoricals == null ? null : 'pending'
             row.theorical_grade = null        
         }else{
             if (nullAnswers > 0) {
-                row.theorical_status = 'in-progress'
+                row.theorical_status = row.id_exams_theoricals == null ? null : 'in-progress'
                 row.theorical_grade = null
             }else{ // all questions answered
                 let correctAnswers = 0
@@ -62,14 +62,14 @@ async function getStudentsExams({limit,offset,filters}) {
                     answer.correct_answer = same ? 1 : 0
                 })
 
-                const answersToPass = Math.ceil(Number(row.theorical_pass_grade) * theoricalAnswersQty)
+                const answersToPass = row.id_exams_theoricals == null ? null : Math.ceil(Number(row.theorical_pass_grade) * theoricalAnswersQty)
 
-                const grade = correctAnswers / theoricalAnswersQty
-                row.theorical_grade = grade
-                row.theorical_questions = theoricalAnswersQty
-                row.correct_answers = correctAnswers                
-                row.theorical_status = grade >= Number(row.theorical_pass_grade) ? 'passed' : 'not-passed' 
-                row.answers_to_pass = answersToPass
+                const grade = row.id_exams_theoricals == null ? null : correctAnswers / theoricalAnswersQty
+                row.theorical_grade = row.id_exams_theoricals == null ? null : grade
+                row.theorical_questions = row.id_exams_theoricals == null ? null : theoricalAnswersQty
+                row.correct_answers = row.id_exams_theoricals == null ? null : correctAnswers                
+                row.theorical_status = row.id_exams_theoricals == null ? null : grade >= Number(row.theorical_pass_grade) ? 'passed' : 'not-passed' 
+                row.answers_to_pass = row.id_exams_theoricals == null ? null : answersToPass
             }
         }
     }

@@ -9,7 +9,15 @@ module.exports = (sequelize, DataTypes) => {
          autoIncrement : true,
          allowNull: false
       },
+      id_exams_theoricals:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
       id_exams_theoricals_questions:{
+         type: DataTypes.INTEGER,
+         allowNull: false,
+      },
+      question_number:{
          type: DataTypes.INTEGER,
          allowNull: false,
       },

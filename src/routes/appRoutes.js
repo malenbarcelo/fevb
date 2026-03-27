@@ -9,6 +9,7 @@ const hazardousMaterialsController = require('../controllers/inscriptions/hazard
 const professionalLicencesController = require('../controllers/inscriptions/professionalLicencesController.js')
 const loginFormValidations = require('../validations/loginFormValidations.js')
 const examsMiddleware = require('../middlewares/examsMiddleware.js')
+const admMiddleware = require('../middlewares/admMiddleware.js')
 
 const router = express.Router()
 
@@ -25,6 +26,11 @@ router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
 router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
 router.get('/administracion/examenes',adminController.exams)
 
+// router.get('/administracion/menu',adminController.menu)
+// router.get('/administracion/asincronicos/alumnos',admMiddleware,adminController.asyncStudents)
+// router.get('/administracion/sincronicos/alumnos',admMiddleware,adminController.syncStudents)
+// router.get('/administracion/examenes',admMiddleware,adminController.exams)
+
 ///// inscriptions
 router.get('/inscripciones',inscriptionsController.branches)
 router.post('/inscripciones/branches',inscriptionsController.setBranch)
@@ -36,8 +42,6 @@ router.get('/inscripciones/:branchUrl/mercancias-peligrosas',inscriptionsControl
 router.get('/inscripciones/:branchUrl/seguridad-privada',inscriptionsController.notAvailableCourse)
 router.get('/inscripciones/:branchUrl/cursos',inscriptionsController.selectCourse)
 router.post('/inscripciones/:branchUrl/cursos',inscriptionsController.setCourses)
-
-
 
 router.get('/inscripciones/:branchUrl/licencias-profesionales',professionalLicencesController.types)
 router.post('/inscripciones/:branchUrl/licencias-profesionales/tipos',professionalLicencesController.setTypes)
@@ -76,8 +80,8 @@ router.get('/examenes/resultado',examsMiddleware,theoricalController.examResult)
 router.get('/examenes/ver-respuestas',examsMiddleware,theoricalController.viewExamAnswers)
 
 //// practical exams
-router.get('/examenes/practicos',practicalController.practical)
-router.get('/examenes/practicos/:idStudentsExams',practicalController.studentPractical)
+router.get('/examenes/practicos',admMiddleware,practicalController.practical)
+router.get('/examenes/practicos/:idStudentsExams',admMiddleware,practicalController.studentPractical)
 router.post('/examenes/practicos/:idStudentsExams',practicalController.studentPracticalProcess)
 
 module.exports = router

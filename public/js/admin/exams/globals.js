@@ -1,7 +1,8 @@
 
 let g = {
     studentsCoursesExams:[],
-    popups: [copp],
+    dates: [],
+    popups: [copp,arpp],
     pages:0,
     filters: {
         size:'',

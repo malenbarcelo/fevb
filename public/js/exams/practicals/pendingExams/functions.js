@@ -22,6 +22,8 @@ const f = {
     },
 
     resetData: async function() {
+
+        loader.style.display = 'block'
         
         // get and print data
         g.pendingExams = await f.getData()
@@ -32,6 +34,8 @@ const f = {
         g.dates = await (await fetch(`${domain}get/dates?years_weeks=${JSON.stringify(yearsWeeks)}&days_numbers=[1]`)).json()
 
         printTable()
+
+        loader.style.display = 'none'
 
     }
 }

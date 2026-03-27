@@ -26,8 +26,13 @@ const examsController = {
     // login
     login: (req,res) => {
         try{
+
             req.session.studentLogged = {}
+
+            console.log(req.session)
+
             return res.render('exams/theoricals/login',{title:'FEVB - Exámenes'})
+
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')
@@ -67,8 +72,6 @@ const examsController = {
             let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil,theoricals_status:['pending','in-progress','not-passed']}})
             
             pendingExams = pendingExams.rows
-
-            console.log(pendingExams)
 
             return res.render('exams/theoricals/pendingTheoricals',{title:'FEVB - Exámenes', pendingExams})
 

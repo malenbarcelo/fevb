@@ -10,7 +10,7 @@ window.addEventListener('load',async()=>{
     f.resetData()
 
     // show tooltips
-    gf.showTooltips(g.tooltips,219,100)
+    //gf.showTooltips(g.tooltips,219,100)
 
     // filters event listeners
     const filters = [courseType, exam, studentName, cuitCuil]
@@ -52,6 +52,6 @@ window.addEventListener('load',async()=>{
         loader.style.display = 'none'
     })
 
-    loader.style.display = 'none'
+    //loader.style.display = 'none'
 
 })
