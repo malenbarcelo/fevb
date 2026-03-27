@@ -9,14 +9,7 @@ let g = {
         cuit_cuil_string: '',
         enabled: 1,
         name: ''
-    },
-    // main table tooltips
-    tooltips: [
-        {
-            icon:ceppIcon,
-            right:'5.5%',
-        }
-    ]
+    }
 }
 
 export default g

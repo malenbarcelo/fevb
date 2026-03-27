@@ -81,6 +81,9 @@
 
 
 /* percentage */
+.bottom-0p{
+    bottom: 0%;
+}
 .bottom-100p{
     bottom: 100%;
 }

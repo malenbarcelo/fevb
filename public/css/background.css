@@ -1,3 +1,30 @@
 .bck-color-4{
     background-color: var(--color4);
 }
+
+.bck-color-ok{
+    background-color:green
+}
+
+.bck-color-ok-light{
+    background-color:rgb(174, 197, 174)
+}
+
+.bck-color-error{
+    background-color:var(--errorColor)
+}
+
+.bck-color-error-light{
+    background-color:rgb(237, 184, 184)
+}
+
+.bck-color-gray{
+    background-color:gray
+}
+
+.bck-color-gray-light{
+    background-color:rgb(207, 204, 204)
+}
+
+
+

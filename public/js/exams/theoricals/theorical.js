@@ -17,10 +17,13 @@ window.addEventListener('load',async()=>{
     // continue button
     continueBtn.addEventListener('click',async()=>{
 
+        loader.style.display = 'block'
+
         const checkedOptions = [...g.questionOptions].filter(qo => qo.checked)
 
         if (checkedOptions.length == 0) {
             error.classList.remove('not-visible')
+            loader.style.display = 'none'
         }else{
             
             if (g.questionNumber < g.questions.length) g.questionNumber++
@@ -62,6 +65,8 @@ window.addEventListener('load',async()=>{
                 }else{
                     window.location.href = '/examenes/resultado'
                 }
+
+                loader.style.display = 'none'
                 
             }else{
                 console.log('error')

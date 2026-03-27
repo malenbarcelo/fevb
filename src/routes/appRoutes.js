@@ -80,8 +80,12 @@ router.get('/examenes/resultado',examsMiddleware,theoricalController.examResult)
 router.get('/examenes/ver-respuestas',examsMiddleware,theoricalController.viewExamAnswers)
 
 //// practical exams
-router.get('/examenes/practicos',admMiddleware,practicalController.practical)
-router.get('/examenes/practicos/:idStudentsExams',admMiddleware,practicalController.studentPractical)
+// router.get('/examenes/practicos',admMiddleware,practicalController.practical)
+// router.get('/examenes/practicos/:idStudentsExams',admMiddleware,practicalController.studentPractical)
+// router.post('/examenes/practicos/:idStudentsExams',practicalController.studentPracticalProcess)
+
+router.get('/examenes/practicos',practicalController.practical)
+router.get('/examenes/practicos/:idStudentsExams',practicalController.studentPractical)
 router.post('/examenes/practicos/:idStudentsExams',practicalController.studentPracticalProcess)
 
 module.exports = router

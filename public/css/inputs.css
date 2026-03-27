@@ -110,3 +110,36 @@
 
 
 
+
+/* responsive filters */
+@media (max-width: 600px) {
+    .inputs-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: 14px;
+        column-gap: 10px;
+        margin-bottom: 12px !important;
+    }
+
+    .inputs-row .div-input {
+        width: 38%;
+        min-width: 100px;
+    }
+
+    .inputs-row .div-input .input-std {
+        width: 100% !important;
+        font-size: 12px;
+        padding: 5px 0 !important;
+    }
+
+    .inputs-row .div-input .label-std {
+        font-size: 11px;
+    }
+
+    .inputs-row .unfilter {
+        display: flex;
+        justify-content: center;
+        margin-top: 2px;
+        font-size: 13px;
+    }
+}

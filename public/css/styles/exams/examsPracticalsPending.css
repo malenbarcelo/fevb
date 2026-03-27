@@ -1,0 +1,131 @@
+.pending-practicals{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.pending-practical{
+    width: 600px;
+    text-align: center;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    border: var(--color1) solid 2px;
+}
+
+.pending-practical-title{
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px;
+    background-color:var(--color1);    
+    color: var(--color2);
+    text-align: center;
+}
+
+.pending-practical-status{
+    color: white;
+    padding: 3px;
+    background-color:var(--color4);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.pending-practical-student{
+    font-size: 13px;
+    text-align: center;
+    padding: 3px 0px;
+    max-width: 90%;
+    margin: auto;
+}
+
+.pending-practical-row{
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    margin-top: 25px;
+}
+
+.pending-practical-box{
+    display: flex;
+    align-items: center;
+}
+
+.pending-practical-box-title{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+}
+
+.pending-practical-box-status{
+    width: 30px;
+    color:rgb(238, 236, 236);
+    padding: 4px;
+    font-size: 16px;
+}
+
+.pending-practical-button{
+    width: 250px;
+    padding: 8px 0px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px
+}
+
+.ppb-enabled{
+    background-color: var(--color1);
+    cursor: pointer;
+}
+
+.ppb-enabled:hover{
+    background-color: var(--color5);
+}
+
+.ppb-unabled{
+    background-color: rgb(152, 150, 150);
+}
+
+
+
+
+
+
+@media (max-width:730px){
+    .pending-practical-title{
+        font-size: 14px;
+    }
+    .pending-practical-status{
+        font-size: 13px;
+    }
+    .pending-practical-student{
+        font-size: 12px;
+    }
+    .pending-practical-box-title{
+        font-size: 12px;
+        padding: 0px 5px;
+    }
+    .pending-practical-row{
+        margin-top: 20px;
+        column-gap: 10px;
+    }
+    .pending-prctical-box-status{
+        width: 15px;
+        font-size: 13px;
+    }
+    .pending-exam-button{
+        width: 220px;
+        padding: 8px 0px;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+
+}

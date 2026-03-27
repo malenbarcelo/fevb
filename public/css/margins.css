@@ -88,7 +88,13 @@
 .mt-25{
     margin-top:25px
 }
+.mt-25-15{
+    margin-top:25px
+}
 .mt-25_0{
+    margin-top:25px
+}
+.mt-25--10{
     margin-top:25px
 }
 .mt-25--5{
@@ -208,6 +214,9 @@
 .mb-35{
     margin-bottom:35px
 }
+.mb-35-20{
+    margin-bottom:35px
+}
 .mb-40{
     margin-bottom:40px
 }
@@ -291,6 +300,9 @@
     .mt-25_0{
         margin-top: 0px;
     }
+    .mt-25--10{
+        margin-top: -10px;
+    }
     .mt-30_0{
         margin-top: 0px;
     }
@@ -300,4 +312,7 @@
     .mt-150-50{
         margin-top: 50px;
     }
+    .mb-35-20{
+    margin-bottom:20px
+}
 }

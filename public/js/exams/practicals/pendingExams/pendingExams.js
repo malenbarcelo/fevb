@@ -9,11 +9,8 @@ window.addEventListener('load',async()=>{
     // get data
     f.resetData()
 
-    // show tooltips
-    //gf.showTooltips(g.tooltips,219,100)
-
     // filters event listeners
-    const filters = [courseType, exam, studentName, cuitCuil]
+    const filters = [exam, studentName, cuitCuil]
     for (const filter of filters) {
         filter.addEventListener("change", async () => {
             
@@ -21,7 +18,6 @@ window.addEventListener('load',async()=>{
             loader.style.display = 'block'
 
             // complete filters
-            g.filters.id_courses_types = Number(courseType.value)
             g.filters.id_exams_practicals = exam.value
             g.filters.cuit_cuil_string = cuitCuil.value
             g.filters.name = studentName.value
@@ -41,7 +37,6 @@ window.addEventListener('load',async()=>{
         
         // reset filters
         gf.clearInputs(filters)
-        g.filters.id_courses_types = ''
         g.filters.id_exams_practicals = ''
         g.filters.cuit_cuil_string = ''
         g.filters.name = ''
