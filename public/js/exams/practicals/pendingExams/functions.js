@@ -28,7 +28,7 @@ const f = {
         // get and print data
         console.time('getData')
         g.pendingExams = await f.getData()
-        console.time('getData')
+        console.timeEnd('getData')
         const yearsWeeks = [...new Set(
             g.pendingExams.map(p => p.student_data.year_week)
         )]
