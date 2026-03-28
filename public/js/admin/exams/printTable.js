@@ -19,14 +19,10 @@ async function printTable() {
 
         // practical data
         const practicalIcon = element.course_data.id_exams_practicals == null ? '--' : (element.exams_results.practical_status == 'passed' ? '<i class="fa-solid fa-check fc-green fs-14"></i>' : (element.exams_results.practical_status == 'pending' ? '<i class="fa-solid fa-xmark fc-gray fs-14"></i>' : '<i class="fa-solid fa-xmark fc-error fs-14"></i>'))
-
         const practicalDateArray = element.exams_results.practical_date == null ? null : element.exams_results.practical_date.split('-')
         const practicalDate =  practicalDateArray == null ? '' : `${practicalDateArray[2]}/${practicalDateArray[1]}/${practicalDateArray[0]}`
-        
         const examPractical = element.course_data.id_exams_practicals == null ? '--' : element.exams_results.exam_practical_data.exam_alias
 
-        console.log(element)
-        
         // status
         let statusHtml = '<div class="fs-13 fw-b flex-r jc-c cg-3 ai-c">'
         statusHtml += element.exams_results.payment == 'complete' ? '<div class="fc-green">$</div>' : '<div class="fc-error">$</div>'

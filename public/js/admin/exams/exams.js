@@ -14,7 +14,7 @@ window.addEventListener('load',async()=>{
 
     // get data
     g.filters.page = 1
-    g.filters.size = 25
+    g.filters.size = 18
     g.studentsCoursesExams = await utils.getData()
 
     // print data
