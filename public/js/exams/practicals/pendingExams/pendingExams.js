@@ -8,7 +8,7 @@ window.addEventListener('load',async()=>{
 
     // get data
     f.resetData()
-
+    
     // filters event listeners
     const filters = [exam, studentName, cuitCuil]
     for (const filter of filters) {

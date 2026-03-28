@@ -31,9 +31,13 @@ const f = {
             g.pendingExams.map(p => p.student_data.year_week)
         )]
 
+        console.time('getData')
         g.dates = await (await fetch(`${domain}get/dates?years_weeks=${JSON.stringify(yearsWeeks)}&days_numbers=[1]`)).json()
+        console.timeEnd('getData')
 
+        console.time('printData')
         printTable()
+        console.timeEnd('printData')
 
         loader.style.display = 'none'
 
