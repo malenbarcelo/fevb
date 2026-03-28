@@ -52,7 +52,7 @@ async function getDataToPost(createdData,sessionData) {
     }
 
     // get sheet name
-    const monday = await dateQueries.get({filters:{weeks_numbers:[createdData.week_number],years:[createdData.year],days_numbers:[1]}})
+    const monday = await dateQueries.get({filters:{weeks_numbers:[createdData.week_number],years:[createdData.year],day_number:[1]}})
     const date = `${monday[0].date_string}/${monday[0].year}`
     const dateString = `'${date}`
     const sheet = `'Lunes ${date} - ${sessionData.courseType.alias}`
