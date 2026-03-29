@@ -15,8 +15,8 @@ const getExamsController = {
 
             // get data if student logged
             filters.id_exams_theoricals = req.session.studentLogged.studentExam.id_exams_theoricals
-            filters.exam_theorical_variant = req.session.studentLogged.lastAnswer.exam_theorical_variant
-            filters.exam_theorical_version = req.session.studentLogged.lastAnswer.exam_thoerical_version
+            filters.exam_theorical_variant = req.session.studentLogged.exam_theorical_variant
+            filters.exam_theorical_version = req.session.studentLogged.exam_thoerical_version
 
             // get data
             let data = await examsTheoricalsQuestionsQueries.get({ filters })
@@ -37,35 +37,35 @@ const getExamsController = {
             res.status(200).json({error: error})
         }
     },
-    examsPracticalsQuestions: async(req,res) =>{
-        try{
+    // examsPracticalsQuestions: async(req,res) =>{
+    //     try{
 
-            const { order, id_exams_practicals, exam_practical_version} = req.query
+    //         const { order, id_exams_practicals, exam_practical_version} = req.query
             
-            const filters = {}
+    //         const filters = {}
             
-            if (order) {
-                filters.order = JSON.parse(order)
-            }
+    //         if (order) {
+    //             filters.order = JSON.parse(order)
+    //         }
 
-            if (id_exams_practicals) {
-                filters.id_exams_practicals = JSON.parse(id_exams_practicals)
-            }
+    //         if (id_exams_practicals) {
+    //             filters.id_exams_practicals = JSON.parse(id_exams_practicals)
+    //         }
 
-            if (exam_practical_version) {
-                filters.exam_practical_version = JSON.parse(exam_practical_version)
-            }
+    //         if (exam_practical_version) {
+    //             filters.exam_practical_version = JSON.parse(exam_practical_version)
+    //         }
 
-            // get data
-            let data = await examsPracticalsQuestionsQueries.get({ filters })
+    //         // get data
+    //         let data = await examsPracticalsQuestionsQueries.get({ filters })
 
-            res.status(200).json(data)
+    //         res.status(200).json(data)
 
-        }catch(error){
-            console.log(error)
-            res.status(200).json({error: error})
-        }
-    },
+    //     }catch(error){
+    //         console.log(error)
+    //         res.status(200).json({error: error})
+    //     }
+    // },
 }
 module.exports = getExamsController
 

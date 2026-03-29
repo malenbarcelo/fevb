@@ -63,7 +63,6 @@ const utils = {
             .join('')
 
         // check input if applies
-        console.log(g.answers)
         const answer = g.answers.find( a => a.id_exams_theoricals_questions == g.questionData.id)
         const selectedOptions = answer.ids_selected_options == null ? [] : answer.ids_selected_options.split(',')
         

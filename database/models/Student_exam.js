@@ -33,6 +33,30 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: true,
       },
+      theorical_status:{
+         type: DataTypes.STRING,
+         allowNull: true,
+      },
+      theorical_grade:{
+         type: DataTypes.DECIMAL,
+         allowNull: true,
+      },
+      theorical_date:{
+         type: DataTypes.DATE,
+         allowNull: true,
+      },
+      practical_status:{
+         type: DataTypes.STRING,
+         allowNull: true,
+      },
+      practical_grade:{
+         type: DataTypes.DECIMAL,
+         allowNull: true,
+      },
+      practical_date:{
+         type: DataTypes.DATE,
+         allowNull: true,
+      },
    }
 
    const config = {

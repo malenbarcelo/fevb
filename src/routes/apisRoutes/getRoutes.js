@@ -21,10 +21,11 @@ router.get('/courses/additional-per-category',getCoursesController.addionalPerCa
 router.get('/students',getStudentsController.students)
 router.get('/students-courses-exams',getStudentsController.studentsCoursesExams)
 router.get('/students-exams',getStudentsController.studentsExams)
+router.get('/students-exams-theoricals-answers',getStudentsController.studentsExamsTheoricalsAnswers)
 
 ///// exams
-router.get('/exams/theoricals/questions',getExamsController.examsTheoricalsQuestions)
-router.get('/exams/practicals/questions',getExamsController.examsPracticalsQuestions)
+router.get('/exams-theoricals-questions',getExamsController.examsTheoricalsQuestions)
+//router.get('/exams/practicals/questions',getExamsController.examsPracticalsQuestions)
 
 ///// dates
 router.get('/dates',getDatesController.dates)

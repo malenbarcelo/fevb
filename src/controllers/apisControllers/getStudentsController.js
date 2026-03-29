@@ -1,6 +1,7 @@
 const studentsQueries = require("../../dbQueries/students/studentsQueries")
 const getStudentsExams = require("../../utils/studentsExamsUtils")
 const getStudentsCoursesExams = require("../../utils/studentsCoursesExamsUtils")
+const studentsExamsTheoricalsAnswersQueries = require("../../dbQueries/students/studentsExamsTheoricalsAnswersQueries")
 
 const getStudentsController = {
     students: async(req,res) =>{
@@ -159,6 +160,32 @@ const getStudentsController = {
 
             // get data
             const data = await getStudentsCoursesExams({limit,offset,filters})
+
+            res.status(200).json(data)
+
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+    studentsExamsTheoricalsAnswers: async(req,res) =>{
+        try{
+
+            const { size, page, id_students_exams, order } = req.query
+            const limit = size ? parseInt(size) : undefined
+            const offset = page ? (parseInt(page) - 1) * limit : undefined
+            const filters = {}
+
+            if (id_students_exams) {
+                filters.id_students_exams = id_students_exams
+            }
+
+            if (order) {
+                filters.order = JSON.parse(order)
+            }
+
+            // get data
+            const data = await studentsExamsTheoricalsAnswersQueries.get({limit,offset,filters})
 
             res.status(200).json(data)
 

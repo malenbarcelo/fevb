@@ -177,6 +177,8 @@ async function addVersionAndVariant(studentsExams) {
         s.exam_theorical_version =  lastTheoricalVersion
         s.exam_theorical_variant = variant
         s.exam_practical_version =  lastPracticalVersion
+        s.theorical_status = s.id_exams_theoricals == null ? null : 'pending'
+        s.practical_status = s.id_exams_practicals == null ? null : 'pending'
         
     }
 

@@ -7,10 +7,11 @@ window.addEventListener('load',async()=>{
     loader.style.display = 'block'
 
     // get data
-    const sessionData = await (await fetch(`${domain}composed/get-session-data`)).json()
-    g.answers = sessionData.studentExam.theoricals_answers  
-    g.questions = sessionData.studentExam.exam_theorical_questions
-
+    g.sessionData = await (await fetch(`${domain}composed/get-session-data`)).json()
+    const answers = await (await fetch(`${domain}get/students-exams-theoricals-answers?id_students_exams=${g.sessionData.studentExam.id}`)).json()
+    g.answers = answers.rows
+    g.questions = await (await fetch(`${domain}get/exams-theoricals-questions?order=[["id","ASC"]]`)).json()
+    
     // update question
     utils.updateQuestion()
 
@@ -54,6 +55,25 @@ window.addEventListener('load',async()=>{
             const responseData = await response.json()
 
             if (responseData.response == 'ok') {
+
+                // update students exams if question_number = 1
+                if (g.questionNumber == 2) {
+
+                    const data = [{
+                            id: g.sessionData.studentExam.id,
+                            dataToUpdate: {
+                                theorical_status: 'in-progress',
+                                theorical_grade: null,
+                                theorical_date: null
+                            }
+                    }]
+
+                    await fetch(domain + 'update/students/exams',{
+                        method:'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(data)
+                    })
+                }
 
                 // update g.lasAttempt
                 const answer = g.answers.find( a => a.id_exams_theoricals_questions == g.questionData.id)

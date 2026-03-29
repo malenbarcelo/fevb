@@ -1,6 +1,8 @@
 const studentsQueries = require("../../dbQueries/students/studentsQueries.js")
 const studentsExamsTheoricalsAnswersQueries = require("../../dbQueries/students/studentsExamsTheoricalsAnswersQueries.js")
+const examsTheoricalsQuestionsQueries = require("../../dbQueries/exams/examsTheoricalsQuestionsQueries.js")
 const getStudentsExams = require("../../utils/studentsExamsUtils.js")
+const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries.js")
 
 const examsController = {
     // enter student
@@ -71,6 +73,7 @@ const examsController = {
             // pending exams
             let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil,theoricals_status:['pending','in-progress','not-passed']}})
             
+            console.log(pendingExams)
             pendingExams = pendingExams.rows
 
             return res.render('exams/theoricals/pendingTheoricals',{title:'FEVB - Exámenes', pendingExams})
@@ -167,20 +170,56 @@ const examsController = {
         try{
 
             // get student exam data
-            const idStudentsExams = req.session.studentLogged.studentExam.id
+            const studentExam = req.session.studentLogged.studentExam
+            const idStudentsExams = studentExam.id
+            const passGrade = Number(studentExam.exam_theorical_data.pass_grade)
+            const idExamsTheoricals = studentExam.id_exams_theoricals
+            const version = studentExam.exam_theorical_version
+            const variant = studentExam.exam_theorical_variant
+
+            // get result
+            let answers = await studentsExamsTheoricalsAnswersQueries.get({undefined, undefined, filters:{id_students_exams:idStudentsExams}})
+            answers = answers.rows
+            const filters = {id_exams_theoricals: idExamsTheoricals, exam_theorical_versio: version, exam_theorical_variant: variant}
+            const questions = await examsTheoricalsQuestionsQueries.get({filters})
+
+            answers.forEach(answer => {
+                const options = questions
+                    .find( q => q.id == answer.id_exams_theoricals_questions).question_options
+                    .filter( o => o.correct_option == 1)
+                const correctOptions = options.map( o => o.id)
+                const selectedOptions = answer.ids_selected_options.split(',').map( a => Number(a))
+
+                // compare selected vs correct
+                const same =
+                    correctOptions.length === selectedOptions.length &&
+                    [...correctOptions].sort().every((v, i) => v === [...selectedOptions].sort()[i])
+
+                answer.correct_answer = same ? 1 : 0
+            })
 
             // update exam data
-            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
+            const correctAnswers = answers
+                                    .filter( a => a.correct_answer == 1)
+                                    .length
+                                    const questionsQty = questions.length
+            const answersToPass = Math.ceil(Number(passGrade) * questionsQty)
             req.session.studentLogged.action = 'viewTheoricalExam'
-            const data = studentExam.rows[0]
-            const passGrade = Number(data.theorical_pass_grade)
-            const grade = Number(data.theorical_grade)
-            
+            const grade = correctAnswers / questionsQty
             const examStatus = grade >= passGrade ? 'passed' : 'not-passed'
-            const questionsQty = data.theorical_questions
-            const correctAnswers = data.correct_answers
-            const answersToPass = data.answers_to_pass
 
+            // update students exams
+            const data = [{
+                id: idStudentsExams,
+                dataToUpdate:{
+                    theorical_status: examStatus,
+                    theorical_date: new Date(),
+                    theorical_grade: grade
+                }
+            }]
+            await studentsExamsQueries.update('id',data)
+
+            // render result
             return res.render('exams/theoricals/theoricalResult',{title:'FEVB - Exámenes',examStatus, questionsQty,correctAnswers, grade, passGrade, answersToPass})
 
         }catch(error){ 
@@ -193,13 +232,17 @@ const examsController = {
         try{
 
             // update student exam data
-            const session = req.session.studentLogged.studentExam
-            const studentExam = await getStudentsExams({undefined,undefined,filters:{id:session.id}})
-            req.session.studentLogged.studentExam = studentExam.rows[0]
-            const data = req.session.studentLogged.studentExam
-            const examName = data.exam_theorical_data.exam_name
-            const answerDetails = data.theoricals_answers
-            const examQuestions = data.exam_theorical_questions
+            const studentExam = req.session.studentLogged.studentExam
+            const idStudentsExams = studentExam.id
+            const idExamsTheoricals = studentExam.id_exams_theoricals
+            const version = studentExam.exam_theorical_version
+            const variant = studentExam.exam_theorical_variant
+            
+            const examName = studentExam.exam_theorical_data.exam_name
+            
+            const answerDetails = await studentsExamsTheoricalsAnswersQueries.get({undefined, undefined, filters:{id_students_exams:idStudentsExams}})
+            const filters = {id_exams_theoricals: idExamsTheoricals, exam_theorical_versio: version, exam_theorical_variant: variant}
+            const examQuestions = await examsTheoricalsQuestionsQueries.get({filters})
 
             const questionData = examQuestions.map(q => ({
                 id: q.id,

@@ -26,14 +26,15 @@ async function printTable() {
         const theoricalIcon = element.theorical_status == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
         const theoricalIconCss = element.theorical_status == 'passed' ? 'bck-color-ok' : (element.theorical_status == 'not-passed' ? 'bck-color-error' : 'bck-color-gray')
         const href = (element.payment == 'complete' && element.attendance == 'complete') ? `<a href="/examenes/practicos/${element.id}"  class="pending-practical-button ppb-enabled">COMPLETAR PRÁCTICO</a>` : `<div  class="pending-practical-button ppb-unabled">COMPLETAR PRÁCTICO</div>`
+        const practicalStatus = element.practical_status == 'pending' ? 'PENDIENTE' : 'DESAPROBADO'
 
         html += `
             <div class="pending-practical">
                 <div class="pending-practical-title">${examName}</div>
                 <div class="pending-practical-status">${examStatus}</div>        
-                <div class="pending-practical-student"><b>${studentname}</b></div>
-                <div class="pending-practical-student"><b>CUIT:</b> ${cuitCuil}</div>
+                <div class="pending-practical-student"><b>CUIT:</b> ${cuitCuil}  |  <b>${studentname}</b></div>
                 <div class="pending-practical-student"><b>CURSADA:</b> ${week}</div>
+                <div class="pending-practical-student"><b>ESTADO DEL EXAMEN:</b> ${practicalStatus}</div>
                 <div class="pending-practical-row">
                     <div class="pending-practical-box">
                         <div class="pending-practical-box-title ${paymentCss}">PAGO</div>
@@ -47,6 +48,7 @@ async function printTable() {
                         <div class="pending-practical-box-title ${theoricalCss}">TEÓRICO</div>
                         <div class="pending-practical-box-status ${theoricalIconCss}">${theoricalIcon}</div>
                     </div>
+                    
                 </div>
                 ${href}
                 

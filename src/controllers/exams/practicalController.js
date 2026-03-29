@@ -4,6 +4,8 @@ const examsPracticalsQueries = require("../../dbQueries/exams/examsPracticalsQue
 const studentsExamsPracticalsAnswersQueries = require("../../dbQueries/students/studentsExamsPracticalsAnswersQueries.js")
 const typesQueries = require("../../dbQueries/courses/typesQueries.js")
 const getStudentsExams = require("../../utils/studentsExamsUtils.js")
+const studentsExamsQueries = require("../../dbQueries/students/studentsExamsQueries.js")
+const examsPracticalsQuestionsQueries = require("../../dbQueries/exams/examsPracticalsQuestionsQueries.js")
 
 const practicalControllers = {
     // complete practical
@@ -34,8 +36,14 @@ const practicalControllers = {
             // teachers
             const teachers = await examsPracticalsTeachersQueries.get({filters:{}})
 
+            // questions
+            const filters = {
+                id_exams_practicals: data.id_exams_practicals,
+                exam_practical_version: data.exam_practical_version
+            }
+            const questions = await examsPracticalsQuestionsQueries.get({filters})
+
             // exam data
-            const questions = data.exam_practical_questions
             const stagesQuestions = []
 
             // structured info
@@ -71,13 +79,36 @@ const practicalControllers = {
             const idStudentsExams = req.params.idStudentsExams
             let studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
             const data = req.body
-
+            
             // date
             const date = new Date()
             date.setHours(date.getHours() - 3) // Argentina
-            
 
-            // save answers
+            // stage 4 results
+            const stage4Results = Object.fromEntries(
+                Object.entries(data).filter(([key]) => key.startsWith('stage_4'))
+            )
+
+            const stage4ok = Object.fromEntries(
+                Object.entries(stage4Results).filter(([, value]) => value.endsWith('_1'))
+            )
+
+            const grade = Object.keys(stage4ok).length / Object.keys(stage4Results).length
+            const passGrade = Number(studentExam.rows[0].exam_practical_data.pass_grade)
+            const result = grade >= passGrade ? 'passed' : 'not-passed'
+
+            // update studens_exams
+            const dataToUpdate = [{
+                id: idStudentsExams,
+                dataToUpdate:{
+                    practical_status: result,
+                    practical_grade: grade,
+                    practical_date: date
+                }
+            }]
+            await studentsExamsQueries.update('id', dataToUpdate)
+
+            // results answers
             const resultsAnswers = Object.fromEntries(
                 Object.entries(data).filter(([key]) => key.startsWith('stage_'))
             )
@@ -119,12 +150,8 @@ const practicalControllers = {
             
             await studentsPracticalsAnswersObservationsQueries.create(obs)
 
-            // get answer
-            studentExam = await getStudentsExams({undefined,undefined,filters:{id:idStudentsExams}})
-            const status = studentExam.rows[0].practical_status
-            
             // render results
-            return res.render('exams/practicals/practicalResult',{title:'FEVB - Exámenes',status})
+            return res.render('exams/practicals/practicalResult',{title:'FEVB - Exámenes',result})
 
         }catch(error){
             console.log(error)

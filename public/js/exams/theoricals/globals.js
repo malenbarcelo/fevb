@@ -1,5 +1,6 @@
 let g = {
-    questions: [], //ok
+    sessionData: null,
+    questions: [],
     examImages: {}, 
     answers: [], 
     questionNumber:1,
