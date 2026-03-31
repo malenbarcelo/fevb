@@ -5,6 +5,7 @@ const studentsPaymentsQueries = require("../dbQueries/students/studentsPaymentsQ
 const gf = require("../utils/generalFunctions")
 const { getInscriptionsData } = require("../utils/postGSdata")
 const branchesQueries = require("../dbQueries/branches/branchesQueries")
+const domain = require("../data/domain")
 
 const cronController = {
 
@@ -89,65 +90,67 @@ const cronController = {
     updateStudents: async(req,res) => {
         try {
 
-            const branches = await branchesQueries.get({filters:{enabled:1}})
-            const spreadsheets = branches.map( b => b.spreadsheet_id)
-            const data = []
+            if (!domain.includes('localhost')) {
+                const branches = await branchesQueries.get({filters:{enabled:1}})
+                const spreadsheets = branches.map( b => b.spreadsheet_id)
+                const data = []
 
-            for (const ss of spreadsheets) {
+                for (const ss of spreadsheets) {
+                    const ssData = await getInscriptionsData(ss)
+                    data.push(...ssData)
+                }
 
-                const ssData = await getInscriptionsData(ss)
-                data.push(...ssData)
+
+                const disabledStudents = data.filter( d => d[5] == 'si')
+                const enabledStudents = data.filter( d => d[5] != 'si')
+                const paid = data.filter( d => d[3] == 'si' && d[5] != 'si')       
+
+                // disable students
+                const studentsToDisable = []
+                disabledStudents.forEach(s => {
+                    studentsToDisable.push({
+                        id: Number(s[0]),
+                        dataToUpdate:{enabled:0}
+                    })
+                })
+
+                await studentsQueries.update('id',studentsToDisable)            
+
+                // enable student
+                const studentsToEnable = []
+                enabledStudents.forEach(s => {
+                    studentsToEnable.push({
+                        id: Number(s[0]),
+                        dataToUpdate:{enabled:1}
+                    })
+                })
+
+                await studentsQueries.update('id',studentsToEnable)
+
+                // update attendance
+                const idsToAttend = data
+                    .filter(d => d[4] == 'si' && d[5] != 'si')
+                    .map(d => Number(d[0]))
+
+                const idsToUnattend = data
+                    .filter(d => d[4] != 'si' || d[5] == 'si')
+                    .map(d => Number(d[0]))            
+
+                await studentsAttendanceQueries.bulkUpdate('id_students',{attended:1},idsToAttend)
+                await studentsAttendanceQueries.bulkUpdate('id_students',{attended:0},idsToUnattend)
+
+                // create payments
+                const paymentsToCreate = paid.map(d => ({
+                    id_students: d[0],
+                    amount: Number(d[6].replace(/,/g, ''))
+                }))
+
+                await studentsPaymentsQueries.create(paymentsToCreate, false)
+
+                // delete payments
+                const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
+                await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)
             }
-
-            const disabledStudents = data.filter( d => d[5] == 'si')
-            const enabledStudents = data.filter( d => d[5] != 'si')
-            const paid = data.filter( d => d[3] == 'si' && d[5] != 'si')       
-
-            // disable students
-            const studentsToDisable = []
-            disabledStudents.forEach(s => {
-                studentsToDisable.push({
-                    id: Number(s[0]),
-                    dataToUpdate:{enabled:0}
-                })
-            })
-
-            await studentsQueries.update('id',studentsToDisable)            
-
-            // enable student
-            const studentsToEnable = []
-            enabledStudents.forEach(s => {
-                studentsToEnable.push({
-                    id: Number(s[0]),
-                    dataToUpdate:{enabled:1}
-                })
-            })
-
-            await studentsQueries.update('id',studentsToEnable)
-
-            // update attendance
-            const idsToAttend = data
-                .filter(d => d[4] == 'si' && d[5] != 'si')
-                .map(d => Number(d[0]))
-
-            const idsToUnattend = data
-                .filter(d => d[4] != 'si' || d[5] == 'si')
-                .map(d => Number(d[0]))            
-
-            await studentsAttendanceQueries.bulkUpdate('id_students',{attended:1},idsToAttend)
-            await studentsAttendanceQueries.bulkUpdate('id_students',{attended:0},idsToUnattend)
-
-            // create payments
-            const paymentsToCreate = paid.map(d => ({
-                id_students: d[0],
-                amount: Number(d[6].replace(/,/g, ''))
-            }))
-
-            await studentsPaymentsQueries.create(paymentsToCreate, false)
-
-            // delete payments
-            const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
-            await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)                
 
         }catch (error) {
              console.log(error)
