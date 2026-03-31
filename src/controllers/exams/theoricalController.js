@@ -71,7 +71,7 @@ const examsController = {
             const cuitCuil = req.session.studentLogged.studentData.cuitCuil
 
             // pending exams
-            let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil,theoricals_status:['pending','in-progress','not-passed']}})
+            let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil,enabled:1,theoricals_status:['pending','in-progress','not-passed']}})
             
             console.log(pendingExams)
             pendingExams = pendingExams.rows
