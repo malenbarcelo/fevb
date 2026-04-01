@@ -70,14 +70,14 @@ app.use(session({
 app.use(userLoggedMiddleware)
 app.use(studentLoggedMiddleware)
 
-// create moodle users
-//cron.schedule('*/1 * * * *', cronController.createMoodleUsers)
-//cronController.createMoodleUsers()
+// // create moodle users
+// cron.schedule('*/1 * * * *', cronController.createMoodleUsers)
+// cronController.createMoodleUsers()
 
 
 // update students data
 cron.schedule('*/5 * * * *', cronController.updateStudents)
-cronController.updateStudents()
+//cronController.updateStudents()
 
 //Declare and listen port
 const APP_PORT = 3012
