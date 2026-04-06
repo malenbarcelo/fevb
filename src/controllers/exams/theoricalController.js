@@ -73,7 +73,6 @@ const examsController = {
             // pending exams
             let pendingExams = await getStudentsExams({undefined,undefined,filters:{cuit_cuil:cuitCuil,enabled:1,theoricals_status:['pending','in-progress','not-passed']}})
             
-            console.log(pendingExams)
             pendingExams = pendingExams.rows
 
             return res.render('exams/theoricals/pendingTheoricals',{title:'FEVB - Exámenes', pendingExams})

@@ -2,7 +2,6 @@ const express = require('express')
 const path = require('path')
 const publicPath =  path.resolve('./public')
 const session = require('express-session')
-const FileStore = require('session-file-store')(session);
 const bcrypt = require('bcryptjs')
 const userLoggedMiddleware = require('./src/middlewares/userLoggedMiddleware.js')
 const studentLoggedMiddleware = require('./src/middlewares/studentLoggedMiddleware.js')
@@ -36,17 +35,9 @@ app.use((req, res, next) => {
   next()
 })
 
-//use public as statis without cache
+//use public as static with cache
 app.use(express.static(publicPath, {
-  etag: false,
-  lastModified: false,
-  cacheControl: false,
-  maxAge: 0,
-  setHeaders: (res) => {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
-    res.set('Pragma', 'no-cache')
-    res.set('Expires', '0')
-  }
+  maxAge: '1d',
 }))
 
 // get forms info as objects
@@ -73,7 +64,6 @@ app.use(studentLoggedMiddleware)
 // // create moodle users
 // cron.schedule('*/1 * * * *', cronController.createMoodleUsers)
 // cronController.createMoodleUsers()
-
 
 // update students data
 cron.schedule('*/5 * * * *', cronController.updateStudents)
