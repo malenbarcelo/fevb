@@ -29,29 +29,6 @@ async function getStudentsCoursesExams({limit,offset,filters}) {
         exams_results: examsMap.get(d.id_students_exams) || null
     }))
 
-    // add filters
-    if (filters.repre) {
-        if (filters.repre == 'enabled') {
-            data.rows = data.rows.filter(d => 
-                d.exams_results.theorical_status == 'passed' &&
-                (d.exams_results.practical_status == 'passed' || d.exams_results.practical_status === null) &&
-                d.exams_results.payment == 'complete' &&
-                d.exams_results.attendance == 'complete' &&
-                d.uploaded_repre != null &&
-                d.uploaded_repre != 1
-            )
-        }
-        if (filters.repre == 'disabled') {
-            data.rows = data.rows.filter(d => 
-                (d.exams_results.theorical_status != 'passed' ||
-                (d.exams_results.practical_status != 'passed' && d.exams_results.practical_status != null) ||
-                d.exams_results.payment == 'incomplete' ||
-                d.exams_results.attendance == 'incomplete') &&
-                d.uploaded_repre != null
-            )
-        }
-    }
-
     // get pages
     const pages = Math.ceil(data.count / limit)
     data.pages = pages

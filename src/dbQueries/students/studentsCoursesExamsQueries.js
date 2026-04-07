@@ -19,13 +19,6 @@ const studentsCoursesExamsQueries = {
             where.id = filters.id
         }
 
-        if (filters.repre) {
-            if (filters.repre == 'uploaded') {
-                where.uploaded_repre = 1
-            }
-            
-        }
-
         // where student data
         const whereStudentData = {}
         if (filters.enabled) {
@@ -45,7 +38,32 @@ const studentsCoursesExamsQueries = {
             ]
         }
 
-
+        // repre status
+        const whereExamData = {}
+        if (filters.repre) {
+            if (filters.repre == 'uploaded') {
+                where.uploaded_repre = 1
+            }
+            if (filters.repre == 'enabled') {
+                where.uploaded_repre = 0
+                whereExamData.theorical_status = 'passed'
+                whereExamData.practical_status = { [Op.or]: ['passed', null] }
+                whereStudentData.payment_status = 'complete'
+                whereStudentData.attendance_status = 'complete'
+            }
+            if (filters.repre == 'disabled') {
+                where.uploaded_repre = {[Op.not]: null}
+                where[Op.or] = [
+                    {'$exam_data.theorical_status$': {[Op.ne]: 'passed'}},
+                    {[Op.and]: [
+                        {'$exam_data.practical_status$': {[Op.ne]: 'passed'}},
+                        {'$exam_data.practical_status$': {[Op.not]: null}}
+                    ]},
+                    {'$student_data.payment_status$': {[Op.ne]: 'complete'}},
+                    {'$student_data.attendance_status$': {[Op.ne]: 'complete'}}
+                ]
+            }
+        }
 
         const data = await model.findAndCountAll({            
             include: [                
@@ -55,7 +73,10 @@ const studentsCoursesExamsQueries = {
                     where: whereStudentData
                 },
                 {association: 'course_data'},
-                {association: 'exam_data'},
+                {
+                    association: 'exam_data',
+                    where: whereExamData
+                },
 
             ],
             where,
