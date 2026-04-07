@@ -90,6 +90,14 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.STRING,
          allowNull: true,
       },
+      payment_status:{
+         type: DataTypes.STRING,
+         allowNull: true,
+      },
+      attendance_status:{
+         type: DataTypes.STRING,
+         allowNull: true,
+      },
       enabled:{
          type: DataTypes.INTEGER,
          allowNull: false,

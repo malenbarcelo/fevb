@@ -1,5 +1,6 @@
 const db = require('../../../database/models')
-const { Op } = require('sequelize') 
+const { Op, fn, col } = require('sequelize') 
+const sequelize = require('sequelize')
 const model = db.Students_courses_exams
 
 const studentsCoursesExamsQueries = {
@@ -18,11 +19,40 @@ const studentsCoursesExamsQueries = {
             where.id = filters.id
         }
 
+        if (filters.repre) {
+            if (filters.repre == 'uploaded') {
+                where.uploaded_repre = 1
+            }
+            
+        }
+
+        // where student data
+        const whereStudentData = {}
+        if (filters.enabled) {
+            whereStudentData.enabled = { [Op.like]: `%${filters.enabled}%` }
+        }
+
+        if (filters.cuit_cuil_string) {
+            whereStudentData.cuit_cuil = { [Op.like]: `%${filters.cuit_cuil_string}%` }
+        }
+
+        if (filters.name) {
+            whereStudentData[Op.and] = [
+                sequelize.where(
+                    fn('CONCAT', fn('LOWER', col('student_data.first_name')), ' ', fn('LOWER', col('student_data.last_name'))),
+                    { [Op.like]: `%${filters.name.toLowerCase()}%` }
+                )
+            ]
+        }
+
+
+
         const data = await model.findAndCountAll({            
             include: [                
                 {
                     association: 'student_data',
-                    include:[{association: 'attendance'}]
+                    include:[{association: 'attendance'}],
+                    where: whereStudentData
                 },
                 {association: 'course_data'},
                 {association: 'exam_data'},

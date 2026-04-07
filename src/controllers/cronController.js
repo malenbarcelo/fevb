@@ -100,7 +100,6 @@ const cronController = {
                     data.push(...ssData)
                 }
 
-
                 const disabledStudents = data.filter( d => d[5] == 'si')
                 const enabledStudents = data.filter( d => d[5] != 'si')
                 const paid = data.filter( d => d[3] == 'si' && d[5] != 'si')       
@@ -138,6 +137,8 @@ const cronController = {
 
                 await studentsAttendanceQueries.bulkUpdate('id_students',{attended:1},idsToAttend)
                 await studentsAttendanceQueries.bulkUpdate('id_students',{attended:0},idsToUnattend)
+                await studentsQueries.bulkUpdate('id',{attendance_status:'complete'},idsToAttend)
+                await studentsQueries.bulkUpdate('id',{attendance_status:'incomplete'},idsToUnattend)                
 
                 // create payments
                 const paymentsToCreate = paid.map(d => ({
@@ -146,10 +147,12 @@ const cronController = {
                 }))
 
                 await studentsPaymentsQueries.create(paymentsToCreate, false)
+                await studentsQueries.bulkUpdate('id',{payment_status:'complete'},paymentsToCreate)
 
                 // delete payments
                 const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
                 await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)
+                await studentsQueries.bulkUpdate('id',{payment_status:'incomplete'},paymentsToDelete)
             }
 
         }catch (error) {

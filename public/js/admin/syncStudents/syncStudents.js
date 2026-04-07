@@ -122,6 +122,34 @@ window.addEventListener('load',async()=>{
         })
     }
 
+    // update attendance and payments from google sheets
+    for (const branch of branches) {
+        
+        const button = document.getElementById('update_' + branch.id)
+        
+        button.addEventListener("click", async() => {
+
+            loader.style.display = 'block'
+
+            const response = await fetch(domain + 'composed/' + branch.branch_url + '/sync-bulk-update',{
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+            })
+
+            const responseData = await response.json()
+
+            if (responseData.response == 'ok') {
+                okText.innerText = 'Actualización realizada con éxito'
+                gf.showResultPopup(okPopup)                
+            }else{
+                errorText.innerText = 'Error al actualizar datos'
+                gf.showResultPopup(errorPopup) 
+            }
+
+            loader.style.display = 'none'
+        })
+    }
+
     loader.style.display = 'none'
 
 })

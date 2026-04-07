@@ -239,7 +239,8 @@ const examsController = {
             
             const examName = studentExam.exam_theorical_data.exam_name
             
-            const answerDetails = await studentsExamsTheoricalsAnswersQueries.get({undefined, undefined, filters:{id_students_exams:idStudentsExams}})
+            let answerDetails = await studentsExamsTheoricalsAnswersQueries.get({undefined, undefined, filters:{id_students_exams:idStudentsExams}})
+            answerDetails = answerDetails.rows
             const filters = {id_exams_theoricals: idExamsTheoricals, exam_theorical_versio: version, exam_theorical_variant: variant}
             const examQuestions = await examsTheoricalsQuestionsQueries.get({filters})
 
@@ -255,15 +256,25 @@ const examsController = {
                 const idQuestions = qd.id
                 const answer = answerDetails.find( a => a.id_exams_theoricals_questions == idQuestions)
                 const selectedOptions = answer.ids_selected_options.split(',').map( a => Number(a))
-                const correctAnswer = answer.correct_answer
+                
+                // calculate correct_answer
+                const correctOptions = qd.question_options
+                    .filter(o => o.correct_option == 1)
+                    .map(o => o.id)
+                const same =
+                    correctOptions.length === selectedOptions.length &&
+                    [...correctOptions].sort().every((v, i) => v === [...selectedOptions].sort()[i])
+                const correctAnswer = same ? 1 : 0
+
                 qd.question_options.forEach(o => {
                     o.selected = selectedOptions.includes(o.id)
                     o.correct_answer = correctAnswer
                     o.boxCss = o.selected ? (correctAnswer == 1 ? 'box-ok' : 'box-error') : ''
                     o.checkCss = o.selected ? (correctAnswer == 1 ? '' : 'not-visible') : 'not-visible'
                     o.errorCss = o.selected ? (correctAnswer == 1 ? 'not-visible' : '') : 'not-visible'
-                })                
+                })              
             })
+
             return res.render('exams/theoricals/theoricalAnswers',{title:'FEVB - Exámenes',examName, questionData})
 
         }catch(error){ 

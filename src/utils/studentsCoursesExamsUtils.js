@@ -30,20 +30,6 @@ async function getStudentsCoursesExams({limit,offset,filters}) {
     }))
 
     // add filters
-    if (filters.enabled) {
-        data.rows = data.rows.filter(d => d.student_data.enabled == filters.enabled)
-    }
-    if (filters.name) {
-        data.rows = data.rows.filter(d =>
-            (d.student_data.first_name.toLowerCase() + ' ' + d.student_data.last_name.toLowerCase())
-                .toLowerCase()
-                .includes(filters.name.toLowerCase())
-        )
-    }
-    if (filters.cuit_cuil_string) {
-        data.rows = data.rows.filter(d => String(d.student_data.cuit_cuil).includes(String(filters.cuit_cuil_string)))
-    }
-    
     if (filters.repre) {
         if (filters.repre == 'enabled') {
             data.rows = data.rows.filter(d => 
@@ -53,12 +39,6 @@ async function getStudentsCoursesExams({limit,offset,filters}) {
                 d.exams_results.attendance == 'complete' &&
                 d.uploaded_repre != null &&
                 d.uploaded_repre != 1
-            )
-        }
-        if (filters.repre == 'uploaded') {
-
-            data.rows = data.rows.filter(d => 
-                d.uploaded_repre == 1
             )
         }
         if (filters.repre == 'disabled') {

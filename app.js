@@ -66,7 +66,7 @@ app.use(studentLoggedMiddleware)
 // cronController.createMoodleUsers()
 
 // update students data
-cron.schedule('*/5 * * * *', cronController.updateStudents)
+//cron.schedule('*/5 * * * *', cronController.updateStudents)
 //cronController.updateStudents()
 
 //Declare and listen port

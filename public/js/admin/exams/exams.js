@@ -66,7 +66,7 @@ window.addEventListener('load',async()=>{
             g.filters.repre = repre.value
 
             // data
-            g.filters.page = repre.value == 'enabled' ? '' : 1
+            g.filters.page = 1
             g.filters.size = repre.value == 'enabled' ? '' : 25
 
             await utils.resetData()
