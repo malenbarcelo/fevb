@@ -66,8 +66,8 @@ app.use(studentLoggedMiddleware)
 // cronController.createMoodleUsers()
 
 // update students data
-//cron.schedule('*/5 * * * *', cronController.updateStudents)
-cronController.updateStudents()
+// cron.schedule('*/5 * * * *', cronController.updateStudents)
+// cronController.updateStudents()
 
 //Declare and listen port
 const APP_PORT = 3012

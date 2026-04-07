@@ -90,7 +90,9 @@ const cronController = {
     updateStudents: async(req,res) => {
         try {
 
-            if (!domain.includes('localhost')) {
+            console.log('Updating students...')
+
+            //if (!domain.includes('localhost')) {
                 const branches = await branchesQueries.get({filters:{enabled:1}})
                 const spreadsheets = branches.map( b => b.spreadsheet_id)
                 const data = []
@@ -145,15 +147,16 @@ const cronController = {
                     id_students: d[0],
                     amount: Number(d[6].replace(/,/g, ''))
                 }))
+                const idsPaymentsToCreate = paymentsToCreate.map(p => p.id_students)
 
                 await studentsPaymentsQueries.create(paymentsToCreate, false)
-                await studentsQueries.bulkUpdate('id',{payment_status:'complete'},paymentsToCreate)
+                await studentsQueries.bulkUpdate('id',{payment_status:'complete'},idsPaymentsToCreate)
 
                 // delete payments
                 const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
                 await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)
                 await studentsQueries.bulkUpdate('id',{payment_status:'incomplete'},paymentsToDelete)
-            }
+            //}
 
         }catch (error) {
              console.log(error)
