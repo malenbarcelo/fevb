@@ -131,7 +131,7 @@ window.addEventListener('load',async()=>{
 
             loader.style.display = 'block'
 
-            const response = await fetch(domain + 'composed/' + branch.branch_url + '/sync-bulk-update',{
+            const response = await fetch(domain + 'composed/' + branch.branch_url + '/update-payments-and-attendance',{
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
             })

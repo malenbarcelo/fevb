@@ -102,50 +102,54 @@ const cronController = {
                     data.push(...ssData)
                 }
 
-                const disabledStudents = data.filter( d => d[5] == 'si')
-                const enabledStudents = data.filter( d => d[5] != 'si')
-                const paid = data.filter( d => d[3] == 'si' && d[5] != 'si')       
+                // classify data in a single loop
+                const idsToDisable = []
+                const idsToEnable = []
+                const idsToAttend = []
+                const idsToUnattend = []
+                const paymentsToCreate = []
 
-                // disable students
-                const idsToDisable = disabledStudents.map(s => Number(s[0]))
-                if (idsToDisable.length > 0) {
-                    await studentsQueries.bulkUpdate('id',{enabled:0},idsToDisable)
+                for (const d of data) {
+                    const id = Number(d[0])
+                    if (d[5] == 'si') {
+                        idsToDisable.push(id)
+                        idsToUnattend.push(id)
+                    } else {
+                        idsToEnable.push(id)
+                        if (d[4] == 'si') idsToAttend.push(id)
+                        else idsToUnattend.push(id)
+                        if (d[3] == 'si') {
+                            paymentsToCreate.push({ id_students: id, amount: Number(d[6].replace(/,/g, '')) })
+                        }
+                    }
                 }
 
-                // enable students
-                const idsToEnable = enabledStudents.map(s => Number(s[0]))
-                if (idsToEnable.length > 0) {
-                    await studentsQueries.bulkUpdate('id',{enabled:1},idsToEnable)
-                }
+                // update enabled/disabled
+                if (idsToDisable.length > 0) await studentsQueries.bulkUpdate('id',{enabled:0},idsToDisable)
+                if (idsToEnable.length > 0) await studentsQueries.bulkUpdate('id',{enabled:1},idsToEnable)
 
                 // update attendance
-                const idsToAttend = data
-                    .filter(d => d[4] == 'si' && d[5] != 'si')
-                    .map(d => Number(d[0]))
-
-                const idsToUnattend = data
-                    .filter(d => d[4] != 'si' || d[5] == 'si')
-                    .map(d => Number(d[0]))            
-
-                await studentsAttendanceQueries.bulkUpdate('id_students',{attended:1},idsToAttend)
-                await studentsAttendanceQueries.bulkUpdate('id_students',{attended:0},idsToUnattend)
-                await studentsQueries.bulkUpdate('id',{attendance_status:'complete'},idsToAttend)
-                await studentsQueries.bulkUpdate('id',{attendance_status:'incomplete'},idsToUnattend)                
+                if (idsToAttend.length > 0) {
+                    await studentsAttendanceQueries.bulkUpdate('id_students',{attended:1},idsToAttend)
+                    await studentsQueries.bulkUpdate('id',{attendance_status:'complete'},idsToAttend)
+                }
+                if (idsToUnattend.length > 0) {
+                    await studentsAttendanceQueries.bulkUpdate('id_students',{attended:0},idsToUnattend)
+                    await studentsQueries.bulkUpdate('id',{attendance_status:'incomplete'},idsToUnattend)
+                }
 
                 // create payments
-                const paymentsToCreate = paid.map(d => ({
-                    id_students: d[0],
-                    amount: Number(d[6].replace(/,/g, ''))
-                }))
-                const idsPaymentsToCreate = paymentsToCreate.map(p => p.id_students)
+                if (paymentsToCreate.length > 0) {
+                    const idsPaymentsToCreate = paymentsToCreate.map(p => p.id_students)
+                    await studentsPaymentsQueries.create(paymentsToCreate, false)
+                    await studentsQueries.bulkUpdate('id',{payment_status:'complete'},idsPaymentsToCreate)
+                }
 
-                await studentsPaymentsQueries.create(paymentsToCreate, false)
-                await studentsQueries.bulkUpdate('id',{payment_status:'complete'},idsPaymentsToCreate)
-
-                // delete payments
-                const paymentsToDelete = disabledStudents.map(s => Number(s[0]))
-                await studentsPaymentsQueries.destroy('id_students',paymentsToDelete)
-                await studentsQueries.bulkUpdate('id',{payment_status:'incomplete'},paymentsToDelete)
+                // delete payments for disabled students
+                if (idsToDisable.length > 0) {
+                    await studentsPaymentsQueries.destroy('id_students',idsToDisable)
+                    await studentsQueries.bulkUpdate('id',{payment_status:'incomplete'},idsToDisable)
+                }
             //}
 
         }catch (error) {

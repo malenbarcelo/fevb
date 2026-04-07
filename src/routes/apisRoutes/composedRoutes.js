@@ -1,6 +1,6 @@
 const express = require('express')
 const coursesController = require('../../controllers/apisControllers/composedCoursesController')
-const cronController = require('../../controllers/cronController')
+const studentsController = require('../../controllers/apisControllers/composedStudentsController')
 const inscriptionsController = require('../../controllers/apisControllers/composedInscriptionsController')
 const datesController = require('../../controllers/apisControllers/composedDatesController')
 const studentSessionController = require('../../controllers/apisControllers/composedStudentSessionController')
@@ -47,7 +47,7 @@ router.post('/exams/download-repre',examsController.downloadRepre)
 
 ///// inscriptions
 router.post('/:branchUrl/sync-bulk-inscriptions',inscriptionsController.syncBulkCreate) 
-router.post('/:branchUrl/sync-bulk-update',cronController.updateStudents) 
+router.post('/:branchUrl/update-payments-and-attendance',studentsController.updatePaymentsAndAttendance) 
 
 
 
