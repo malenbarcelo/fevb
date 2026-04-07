@@ -107,26 +107,16 @@ const cronController = {
                 const paid = data.filter( d => d[3] == 'si' && d[5] != 'si')       
 
                 // disable students
-                const studentsToDisable = []
-                disabledStudents.forEach(s => {
-                    studentsToDisable.push({
-                        id: Number(s[0]),
-                        dataToUpdate:{enabled:0}
-                    })
-                })
+                const idsToDisable = disabledStudents.map(s => Number(s[0]))
+                if (idsToDisable.length > 0) {
+                    await studentsQueries.bulkUpdate('id',{enabled:0},idsToDisable)
+                }
 
-                await studentsQueries.update('id',studentsToDisable)            
-
-                // enable student
-                const studentsToEnable = []
-                enabledStudents.forEach(s => {
-                    studentsToEnable.push({
-                        id: Number(s[0]),
-                        dataToUpdate:{enabled:1}
-                    })
-                })
-
-                await studentsQueries.update('id',studentsToEnable)
+                // enable students
+                const idsToEnable = enabledStudents.map(s => Number(s[0]))
+                if (idsToEnable.length > 0) {
+                    await studentsQueries.bulkUpdate('id',{enabled:1},idsToEnable)
+                }
 
                 // update attendance
                 const idsToAttend = data
