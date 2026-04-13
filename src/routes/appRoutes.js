@@ -21,15 +21,15 @@ router.get('/logout',mainController.logout)
 router.get('/menu',mainController.mainMenu)
 
 ///// administracion
-router.get('/administracion/menu',adminController.menu)
-router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
-router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
-router.get('/administracion/examenes',adminController.exams)
-
 // router.get('/administracion/menu',adminController.menu)
-// router.get('/administracion/asincronicos/alumnos',admMiddleware,adminController.asyncStudents)
-// router.get('/administracion/sincronicos/alumnos',admMiddleware,adminController.syncStudents)
-// router.get('/administracion/examenes',admMiddleware,adminController.exams)
+// router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
+// router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
+// router.get('/administracion/examenes',adminController.exams)
+
+router.get('/administracion/menu',adminController.menu)
+router.get('/administracion/asincronicos/alumnos',admMiddleware,adminController.asyncStudents)
+router.get('/administracion/sincronicos/alumnos',admMiddleware,adminController.syncStudents)
+router.get('/administracion/examenes',admMiddleware,adminController.exams)
 
 ///// inscriptions
 router.get('/inscripciones',inscriptionsController.branches)
@@ -80,13 +80,13 @@ router.get('/examenes/resultado',examsMiddleware,theoricalController.examResult)
 router.get('/examenes/ver-respuestas',examsMiddleware,theoricalController.viewExamAnswers)
 
 //// practical exams
-// router.get('/examenes/practicos',admMiddleware,practicalController.practical)
-// router.get('/examenes/practicos/:idStudentsExams',admMiddleware,practicalController.studentPractical)
-// router.post('/examenes/practicos/:idStudentsExams',practicalController.studentPracticalProcess)
-
-router.get('/examenes/practicos',practicalController.practical)
-router.get('/examenes/practicos/:idStudentsExams',practicalController.studentPractical)
+router.get('/examenes/practicos',admMiddleware,practicalController.practical)
+router.get('/examenes/practicos/:idStudentsExams',admMiddleware,practicalController.studentPractical)
 router.post('/examenes/practicos/:idStudentsExams',practicalController.studentPracticalProcess)
+
+// router.get('/examenes/practicos',practicalController.practical)
+// router.get('/examenes/practicos/:idStudentsExams',practicalController.studentPractical)
+// router.post('/examenes/practicos/:idStudentsExams',practicalController.studentPracticalProcess)
 
 module.exports = router
 

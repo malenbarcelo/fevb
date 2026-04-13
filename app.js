@@ -66,16 +66,17 @@ app.use(studentLoggedMiddleware)
 // cronController.createMoodleUsers()
 
 // update students data
-//let isUpdating = false
-// cron.schedule('*/5 * * * *', async () => {
-//     if (isUpdating) return
-//     isUpdating = true
-//     try {
-//         await cronController.updateStudents()
-//     } finally {
-//         isUpdating = false
-//     }
-// })
+let isUpdating = false
+cron.schedule('*/5 * * * *', async () => {
+    if (isUpdating) return
+    isUpdating = true
+    try {
+      console.log('Updating students...')
+      await cronController.updateStudents()
+    } finally {
+        isUpdating = false
+    }
+})
 // cronController.updateStudents()
 
 //Declare and listen port

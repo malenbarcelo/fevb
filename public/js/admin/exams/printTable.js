@@ -25,9 +25,9 @@ async function printTable() {
 
         // status
         let statusHtml = '<div class="fs-13 fw-b flex-r jc-c cg-3 ai-c">'
-        statusHtml += element.exams_results.payment == 'complete' ? '<div class="fc-green">$</div>' : '<div class="fc-error">$</div>'
+        statusHtml += element.student_data.payment_status == 'complete' ? '<div class="fc-green">$</div>' : '<div class="fc-error">$</div>'
         statusHtml += '<div class="fc-gray">|</div>'
-        statusHtml += element.exams_results.attendance == 'complete' ? '<div class="fc-green">C</div>' : '<div class="fc-error">C</div>'        
+        statusHtml += element.student_data.attendance_status == 'complete' ? '<div class="fc-green">C</div>' : '<div class="fc-error">C</div>'        
         statusHtml += '<div class="fc-gray">|</div>'
         statusHtml += element.exams_results.theorical_status == 'passed' ? '<div class="fc-green">T</div>' : '<div class="fc-error">T</div>'
         statusHtml += '<div class="fc-gray">|</div>'

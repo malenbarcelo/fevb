@@ -19,13 +19,13 @@
                 </div>
                 <div class="pending-exam-row">
                     <div class="pending-exam-box">
-                        <div class="<%= exam.payment == 'complete' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">PAGO</div>
-                        <div class="<%= exam.payment == 'complete' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.payment == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
+                        <div class="<%= exam.student_data.payment_status == 'complete' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">PAGO</div>
+                        <div class="<%= exam.student_data.payment_status == 'complete' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.student_data.payment_status == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
                         
                     </div>
                     <div class="pending-exam-box">
-                        <div class="<%= exam.attendance == 'complete' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">ASISTENCIA</div>
-                        <div class="<%= exam.attendance == 'complete' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.attendance == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
+                        <div class="<%= exam.student_data.attendance_status == 'complete' ? 'pending-exam-box-title-ok' : 'pending-exam-box-title-pending' %>">ASISTENCIA</div>
+                        <div class="<%= exam.student_data.attendance_status == 'complete' ? 'pending-exam-box-status-ok' : 'pending-exam-box-status-pending' %>"><%- exam.student_data.attendance_status   == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>' %></div>
                     </div>
                     <% if (exam.id_exams_practicals != null) { %>
                         <div class="pending-exam-box">

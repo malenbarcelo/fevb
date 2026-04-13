@@ -16,16 +16,16 @@ async function printTable() {
         const cuitCuil = element.student_data.cuit_cuil
         const dateData = g.dates.filter( d => d.year_week == element.student_data.year_week)[0]
         const week = dateData.date_string + '/' + dateData.year
-        const paymentCss = element.payment == 'complete' ? 'bck-color-ok-light' : 'bck-color-error-light'
-        const paymentIcon = element.payment == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
-        const paymentIconCss = element.payment == 'complete' ? 'bck-color-ok' : 'bck-color-error'
-        const attendanceCss = element.attendance == 'complete' ? 'bck-color-ok-light' : 'bck-color-error-light'
-        const attendanceIcon = element.attendance == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
-        const attendanceIconCss = element.attendance == 'complete' ? 'bck-color-ok' : 'bck-color-error'
-        const theoricalCss = element.theorical_status == 'passed' ? 'bck-color-ok-light' : (element.theorical_status == 'not-passed' ? 'bck-color-error-light' : 'bck-color-gray-light')
-        const theoricalIcon = element.theorical_status == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
-        const theoricalIconCss = element.theorical_status == 'passed' ? 'bck-color-ok' : (element.theorical_status == 'not-passed' ? 'bck-color-error' : 'bck-color-gray')
-        const href = (element.payment == 'complete' && element.attendance == 'complete') ? `<a href="/examenes/practicos/${element.id}"  class="pending-practical-button ppb-enabled">COMPLETAR PRÁCTICO</a>` : `<div  class="pending-practical-button ppb-unabled">COMPLETAR PRÁCTICO</div>`
+        const paymentCss = element.student_data.payment_status == 'complete' ? 'bck-color-ok-light' : 'bck-color-error-light'
+        const paymentIcon = element.student_data.payment_status == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
+        const paymentIconCss = element.student_data.payment_status == 'complete' ? 'bck-color-ok' : 'bck-color-error'
+        const attendanceCss = element.student_data.attendance_status == 'complete' ? 'bck-color-ok-light' : 'bck-color-error-light'
+        const attendanceIcon = element.student_data.attendance_status == 'complete' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
+        const attendanceIconCss = element.student_data.attendance_status == 'complete' ? 'bck-color-ok' : 'bck-color-error'
+        const theoricalCss = element.student_data.theorical_status == 'passed' ? 'bck-color-ok-light' : (element.student_data.theorical_status == 'not-passed' ? 'bck-color-error-light' : 'bck-color-gray-light')
+        const theoricalIcon = element.student_data.theorical_status == 'passed' ? '<i class="fa-regular fa-circle-check"></i>' : '<i class="fa-regular fa-circle-xmark"></i>'
+        const theoricalIconCss = element.student_data.theorical_status == 'passed' ? 'bck-color-ok' : (element.student_data.theorical_status == 'not-passed' ? 'bck-color-error' : 'bck-color-gray')
+        const href = (element.student_data.payment_status == 'complete' && element.student_data.attendance_status == 'complete') ? `<a href="/examenes/practicos/${element.id}"  class="pending-practical-button ppb-enabled">COMPLETAR PRÁCTICO</a>` : `<div  class="pending-practical-button ppb-unabled">COMPLETAR PRÁCTICO</div>`
         const practicalStatus = element.practical_status == 'pending' ? 'PENDIENTE' : 'DESAPROBADO'
 
         html += `

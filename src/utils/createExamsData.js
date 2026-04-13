@@ -46,20 +46,21 @@ async function getData(data, examsTheoricals, examsPracticals, courses) {
         d.practicals_hierarchy = examsPracticals.find( ep => ep.id == d.id_exams_practicals) == null ? null : examsPracticals.find( ep => ep.id == d.id_exams_practicals).hierarchy        
     })
 
-    // get max theoricals hierarchy for each exam
+    // get max theoricals hierarchy for each student + exam index
     const maxTheoricalsHierarchyByIndex = {}
 
     for (const item of data) {
 
         const idx = item.theoricals_index
+        const key = `${item.id_students}_${idx}`
 
         if (idx === null) continue
 
         if (
-            !maxTheoricalsHierarchyByIndex[idx] ||
-            item.theoricals_hierarchy > maxTheoricalsHierarchyByIndex[idx].theoricals_hierarchy
+            !maxTheoricalsHierarchyByIndex[key] ||
+            item.theoricals_hierarchy > maxTheoricalsHierarchyByIndex[key].theoricals_hierarchy
         ) {
-            maxTheoricalsHierarchyByIndex[idx] = item
+            maxTheoricalsHierarchyByIndex[key] = item
         }
     }
 
@@ -68,22 +69,23 @@ async function getData(data, examsTheoricals, examsPracticals, courses) {
         theoricals: 
         item.theoricals_index === null
         ? null
-        : maxTheoricalsHierarchyByIndex[item.theoricals_index].id_exams_theoricals
+        : maxTheoricalsHierarchyByIndex[`${item.id_students}_${item.theoricals_index}`].id_exams_theoricals
     }))
 
-    // get max practicals hierarchy for each exam
+    // get max practicals hierarchy for each student + exam index
     const maxPracticalsHierarchyByIndex = {}
 
     for (const item of data) {
         const idx = item.practicals_index
+        const key = `${item.id_students}_${idx}`
 
         if (idx === null) continue
 
         if (
-            !maxPracticalsHierarchyByIndex[idx] ||
-            item.practicals_hierarchy > maxPracticalsHierarchyByIndex[idx].practicals_hierarchy
+            !maxPracticalsHierarchyByIndex[key] ||
+            item.practicals_hierarchy > maxPracticalsHierarchyByIndex[key].practicals_hierarchy
         ) {
-            maxPracticalsHierarchyByIndex[idx] = item
+            maxPracticalsHierarchyByIndex[key] = item
         }
     }
 
@@ -92,7 +94,7 @@ async function getData(data, examsTheoricals, examsPracticals, courses) {
         practicals:
             item.practicals_index === null
             ? null
-            : maxPracticalsHierarchyByIndex[item.practicals_index]?.id_exams_practicals ?? null
+            : maxPracticalsHierarchyByIndex[`${item.id_students}_${item.practicals_index}`]?.id_exams_practicals ?? null
     }))
 
     // get students courses exams
