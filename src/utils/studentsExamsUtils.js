@@ -10,8 +10,8 @@ async function getStudentsExams({limit,offset,filters}) {
 
     // add exams enabled status
     for (const row of data.rows) {
-        row.theorical_enabled = (row.attendance_status == 'complete' && row.payment_status == 'complete') ? 1 : 0
-        row.practical_enabled = (row.attendance_status == 'complete' && row.payment_status == 'complete') ? 1 : 0
+        row.theorical_enabled = (row.student_data.attendance_status == 'complete' && row.student_data.payment_status == 'complete') ? 1 : 0
+        row.practical_enabled = (row.student_data.attendance_status == 'complete' && row.student_data.payment_status == 'complete') ? 1 : 0
     }
 
     // get pages
