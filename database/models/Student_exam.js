@@ -88,6 +88,11 @@ module.exports = (sequelize, DataTypes) => {
          as:'practicals_answers',
          foreignKey: 'id_students_exams',
          sourceKey:'id'
+      }),
+      Student_exam.hasMany(models.Students_courses_exams,{
+         as:'courses_exams',
+         foreignKey: 'id_students_exams',
+         sourceKey:'id'
       })
    }
    

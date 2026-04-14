@@ -4,6 +4,8 @@
 <form action="/examenes/practicos/<%= data.id %>" method="POST">
 
     <div class="fs-19 fw-b mt-25_0 ta-c">EXAMEN PRÁCTICO <%= data.exam_practical_data.exam_name.toUpperCase() %></div>
+    <div class="fs-16 fw-b mt-10 ta-c"> <%= categories %></div>
+    
     <div class="fs-14 mt-10 ta-c fc-1"><%= data.student_data.first_name.toUpperCase() + ' ' + data.student_data.last_name.toUpperCase()%></div>
     <div class="fs-14 mt-10 ta-c fc-1"><%= 'CUIT: ' + data.student_data.cuit_cuil %></div>
 

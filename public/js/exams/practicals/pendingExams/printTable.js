@@ -10,6 +10,7 @@ async function printTable() {
 
     data.forEach((element,index) => {
 
+        const categories = element.courses_exams.map(ce => ce.course_data.category).join(' - ')
         const examName = element.exam_practical_data.exam_name
         const examStatus = element.practical_enabled ? 'HABILITADO' : 'DESHABILITADO'
         const studentname = (element.student_data.first_name + ' ' + element.student_data.last_name).toUpperCase()
@@ -30,7 +31,7 @@ async function printTable() {
 
         html += `
             <div class="pending-practical">
-                <div class="pending-practical-title">${examName}</div>
+                <div class="pending-practical-title">${examName}<br>${categories}</div>
                 <div class="pending-practical-status">${examStatus}</div>        
                 <div class="pending-practical-student"><b>CUIT:</b> ${cuitCuil}  |  <b>${studentname}</b></div>
                 <div class="pending-practical-student"><b>CURSADA:</b> ${week}</div>

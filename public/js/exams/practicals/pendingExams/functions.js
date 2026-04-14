@@ -26,20 +26,14 @@ const f = {
         loader.style.display = 'block'
         
         // get and print data
-        console.time('getData')
         g.pendingExams = await f.getData()
-        console.timeEnd('getData')
         const yearsWeeks = [...new Set(
             g.pendingExams.map(p => p.student_data.year_week)
         )]
 
-        console.time('getDates')
         g.dates = await (await fetch(`${domain}get/dates?years_weeks=${JSON.stringify(yearsWeeks)}&days_numbers=[1]`)).json()
-        console.timeEnd('getDates')
-
-        console.time('printData')
+        
         printTable()
-        console.timeEnd('printData')
 
         loader.style.display = 'none'
 

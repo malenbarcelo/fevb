@@ -69,6 +69,14 @@ const studentsExamsQueries = {
                     association:'exam_theorical_data'
                 },
                 {
+                    association:'courses_exams',
+                    include:[
+                        {
+                            association:'course_data',
+                        }
+                    ]
+                },
+                {
                     association:'student_data',
                     where: whereStudentData,
                     include:[

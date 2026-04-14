@@ -33,6 +33,8 @@ const practicalControllers = {
             const studentExam = await getStudentsExams({undefined,undefined,filters:{id:id}})
             const data = studentExam.rows[0]
             
+            // categories
+            const categories = data.courses_exams.map(ce => ce.course_data.category).join(' - ')
             // teachers
             const teachers = await examsPracticalsTeachersQueries.get({filters:{}})
 
@@ -65,7 +67,7 @@ const practicalControllers = {
 
             // render form
             const options = [{type:1,option:'Correcto'},{type:0,option:'Incorrecto'}]
-            return res.render('exams/practicals/studentPractical',{title:'FEVB - Exámenes', data, teachers, options,stagesQuestions})
+            return res.render('exams/practicals/studentPractical',{title:'FEVB - Exámenes', data, teachers, options,stagesQuestions, categories})
 
         }catch(error){
             console.log(error)
