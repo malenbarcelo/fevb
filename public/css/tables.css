@@ -148,3 +148,13 @@ display: flex;
     cursor: pointer;
 }
 
+
+/* sticky columns */
+.th-sticky {
+    position: sticky;
+    z-index: 2;
+}
+
+.th-sticky-border {
+    border-right: 1px solid var(--color2) !important;
+}

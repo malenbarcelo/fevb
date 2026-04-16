@@ -46,7 +46,21 @@ const inscriptionsController = {
                 const coursesData = courses.filter(c => selectedCourses.includes(c.type_alias + '_' + c.category))
                 const idsCourses = coursesData.map( cd => cd.id)
 
-                return {day,month,year,weekNumber,idsCourses, coursesData}
+                // inscription
+                const groups = {}
+                courses.forEach(course => {
+                    if (!groups[course.type_alias]) {
+                        groups[course.type_alias] = []
+                    }
+
+                    groups[course.type_alias].push(course.category)
+                })
+
+                const inscription = Object.entries(groups)
+                    .map(([type, categories]) => `${type}: ${categories.join(', ')}`)
+                    .join(' || ')
+
+                return {day,month,year,weekNumber,idsCourses, coursesData, inscription}
                 
             }
 
@@ -75,8 +89,10 @@ const inscriptionsController = {
 
             data.forEach((d,index) => {
 
-                // get dates data
-                const { day, month, year, weekNumber, idsCourses, coursesData } = getData(d)
+                // get data
+                const { day, month, year, weekNumber, idsCourses, coursesData, inscription } = getData(d)
+
+                console.log(inscription)
                 
                 const commissionName = Number(year + month + day)
                 
@@ -98,7 +114,8 @@ const inscriptionsController = {
                     year_week: year + '_' + weekNumber,
                     id_courses_types: coursesData[0].id_courses_types,
                     courses_methodology: 'sync',
-                    price: maxPrice
+                    price: maxPrice,
+                    inscription: 'malen'
                 })
 
             })

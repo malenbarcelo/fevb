@@ -21,15 +21,18 @@ router.get('/logout',mainController.logout)
 router.get('/menu',mainController.mainMenu)
 
 ///// administracion
-// router.get('/administracion/menu',adminController.menu)
-// router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
-// router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
-// router.get('/administracion/examenes',adminController.exams)
-
 router.get('/administracion/menu',adminController.menu)
-router.get('/administracion/asincronicos/alumnos',admMiddleware,adminController.asyncStudents)
-router.get('/administracion/sincronicos/alumnos',admMiddleware,adminController.syncStudents)
-router.get('/administracion/examenes',admMiddleware,adminController.exams)
+router.get('/administracion/asincronicos/alumnos',adminController.asyncStudents)
+router.get('/administracion/sincronicos/alumnos',adminController.syncStudents)
+router.get('/administracion/examenes',adminController.exams)
+router.get('/administracion/cursos-sincronicos',adminController.syncCourses)
+
+// router.get('/administracion/menu',adminController.menu)
+// router.get('/administracion/asincronicos/alumnos',admMiddleware,adminController.asyncStudents)
+// router.get('/administracion/sincronicos/alumnos',admMiddleware,adminController.syncStudents)
+// router.get('/administracion/examenes',admMiddleware,adminController.exams)
+// router.get('/administracion/cursos-sincronicos',admMiddleware,adminController.syncCourses)
+
 
 ///// inscriptions
 router.get('/inscripciones',inscriptionsController.branches)

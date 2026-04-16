@@ -2,7 +2,6 @@ const branchesQueries = require("../dbQueries/branches/branchesQueries")
 
 const mainController = {
     
-    // menu
     menu: (req,res) => {
         try{
             return res.render('admin/menu',{title:'FEVB - Administración'})
@@ -12,7 +11,6 @@ const mainController = {
         }
     },
 
-    // async students
     asyncStudents: (req,res) => {
         try{
             return res.render('admin/asyncStudents/asyncStudents',{title:'FEVB - Administración'})
@@ -22,7 +20,6 @@ const mainController = {
         }
     },
 
-    // sync students
     syncStudents: async(req,res) => {
         try{
             const branches = await branchesQueries.get({filters:{enabled:1}})
@@ -33,11 +30,20 @@ const mainController = {
         }
     },
 
-    // exams
     exams: async(req,res) => {
         try{
             
             return res.render('admin/exams/exams',{title:'FEVB - Administración'})
+        }catch(error){
+            console.log(error)
+            return res.send('Ha ocurrido un error')
+        }
+    },
+
+    syncCourses: async(req,res) => {
+        try{
+            
+            return res.render('admin/syncCourses/syncCourses',{title:'FEVB - Administración'})
         }catch(error){
             console.log(error)
             return res.send('Ha ocurrido un error')

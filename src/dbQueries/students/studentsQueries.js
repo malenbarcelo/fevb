@@ -1,6 +1,7 @@
+const { raw } = require('mysql2')
 const db = require('../../../database/models')
 const gf = require("../../utils/generalFunctions")
-const { Op } = require('sequelize') 
+const { Op, where } = require('sequelize') 
 const model = db.Students
 
 const studentsQueries = {
@@ -22,12 +23,6 @@ const studentsQueries = {
         if (filters.enabled) {
             where.enabled = filters.enabled
         }
-
-        console.log(filters)
-
-        // if (filters.cuit_cuil) {
-        //     where.cuit_cuil = {[Op.like]: `%${gf.specialChars(filters.cuit_cuil)}%`}
-        // }
 
         if (filters.cuit_cuil) {
             where.cuit_cuil = filters.cuit_cuil
@@ -74,18 +69,6 @@ const studentsQueries = {
         const data = await model.findAndCountAll({
             include:[
                 {association: 'course_type_data'},
-                {
-                    association: 'student_exams',
-                    // include: [
-                    //     { 
-                    //         association:'student_answer_data',
-                    //         require: true,
-                    //         include: [{association: 'answers'}] 
-                    //     },
-                    //     { association:'exam_data' }
-                    // ],
-                    // require: true
-                },
                 {association: 'attendance'},
                 {association: 'payments'},
             ],            
@@ -101,25 +84,6 @@ const studentsQueries = {
         const plainData = {
             ...data,
             rows: data.rows.map(r => r.get({ plain: true }))
-        }
-
-        // add payment status, attendance, and full name
-        plainData.rows.forEach(row => {
-            const amountPaid = row.payments.map( p => Number(p.amount)).reduce((acc, el) => acc + el, 0)
-            const attendance = row.attendance.find( a => a.attendend == 0)
-            row.payment_status = amountPaid >= Number(row.price) ? 'complete' : 'incomplete'
-            row.attendance_status = attendance ? 'incomplete' : 'complete'
-            row.full_name = row.first_name + ' ' + row.last_name
-        })
-
-        // filter name
-        if (filters.student_string) {
-            plainData.rows = plainData.rows.filter( d => d.full_name.toLowerCase().includes(filters.student_string.toLowerCase()))
-        }
-
-        // filter status
-        if (filters.payment_status) {
-            plainData.rows = plainData.rows.filter( d => d.payment_status == filters.payment_status)
         }
 
         return plainData
@@ -157,7 +121,20 @@ const studentsQueries = {
             dataToUpdate,
             { where }
         )
-    }
+    },
+    getPrice: async(ids) => {
+
+        const data = await model.findAll({
+            attributes: ['id', 'price'],
+            where: {
+                id: ids
+            },
+            include: [{association: 'payments', attributes: ['amount']}],
+            nest: true
+        })
+        return data.map(d => d.get({plain: true}))
+
+    },
 }
 
 module.exports = studentsQueries

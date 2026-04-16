@@ -1,0 +1,86 @@
+<%- include('../../partials/head') %>
+<%- include('../../partials/header') %>
+
+<div class="fs-19 fw-b mt-25 mb-35 ta-c">CURSOS SINCRÓNICOS - GESTIÓN DE INSCRIPCIONES</div>
+
+<div class="inputs-row mb-25">
+    <div class="div-input">
+        <label class="label-std">Sede</label>
+        <select class="input-std w-130 pad-8-0 fs-13" id="branch">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">Semana</label>
+        <select class="input-std w-130 pad-8-0 fs-13" id="week">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="div-input">
+        <label class="label-std">CUIT/CUIL</label>
+        <input type="text" class="input-std w-130 pad-8-0 fs-13" id="commission">
+    </div>
+    <div class="div-input">
+        <label class="label-std">Alumno</label>
+        <input type="text" class="input-std w-250 pad-8-0 fs-13" id="commission">
+    </div>
+    <div id="unfilter" class="unfilter">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <div class="unfilter-info">Quitar filtros</div>
+    </div>        
+</div>
+
+<!--- main table --->
+<div class="div-table table-450" id="table">
+
+    <!-- table tooltip -->
+    <div class="t-tooltip" id="esppInfo">Editar</div>
+    <div class="t-tooltip" id="dsppInfo">Eliminar</div>    
+
+    <!--- table data --->
+    <table>
+        <thead class="fs-13">
+            <th class="th pad-6-0 w-50 th-sticky" style="left:0">ID</th>
+            <th class="th pad-6-0 w-100 th-sticky" style="left:50px">CUIT/CUIL</th>
+            <th class="th pad-6-0 w-250 th-sticky" style="left:150px">NOMBRE Y APELLIDO</th>            
+            <th class="th pad-6-0 w-150 th-sticky" style="left:400px">INSCRIPCIÓN</th>
+            <th class="th pad-6-0 w-100 th-sticky" style="left:550px">IMPORTE</th>
+            <th class="th pad-6-0 w-50 th-sticky" style="left:650px">DEBE</th>
+            <th class="th pad-6-0 w-80 th-sticky" style="left:700px">PAGADO</th>
+            <th class="th pad-6-0 w-2 th-sticky" style="left:780px;background-color:var(--color3)"></th>
+            <th class="th pad-6-0 w-70 th-sticky-border">LM</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">LT</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">MM</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">MT</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">XM</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">XT</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">JM</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">JT</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">VM</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">VT</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">SM</th>
+            <th class="th pad-6-0 w-70 th-sticky-border">ST</th>
+            <th class="th pad-3-0 w-50">
+                <i class="fa-regular fa-pen-to-square pointer" id="esppIcon"></i>
+            </th>
+            <th class="th pad-3-0 w-50">
+                <i class="fa-regular fa-trash-can pointer" id="dsppIcon"></i>
+            </th>
+        </thead>
+        <tbody class="body fs-11 body-std" id="body"></tbody>
+    </table>
+</div>
+
+
+<!-- loader -->
+<div class="loader ld-std" id="loader">
+    <div class="ld-content top-50p"></div>
+</div>
+
+<!--- popups --->
+<%- include('../../partials/resultsPopups') %>
+
+<!----------SCRIPTS---------->
+<script type="module" src="/js/admin/syncCourses/syncCourses.js?v=<%= Date.now() %>"></script>
+
+

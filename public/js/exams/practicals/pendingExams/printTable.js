@@ -11,6 +11,7 @@ async function printTable() {
     data.forEach((element,index) => {
 
         const categories = element.courses_exams.map(ce => ce.course_data.category).join(' - ')
+        
         const examName = element.exam_practical_data.exam_name
         const examStatus = element.practical_enabled ? 'HABILITADO' : 'DESHABILITADO'
         const studentname = (element.student_data.first_name + ' ' + element.student_data.last_name).toUpperCase()

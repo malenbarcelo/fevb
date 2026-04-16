@@ -57,6 +57,10 @@ module.exports = (sequelize, DataTypes) => {
          type: DataTypes.INTEGER,
          allowNull: false,
       },
+      inscription:{
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       price:{
          type: DataTypes.DECIMAL,
          allowNull: false,

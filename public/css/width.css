@@ -4,6 +4,15 @@
 }
 
 /* width */
+.w-2{
+    width:2px
+}
+.w-3{
+    width:3px
+}
+.w-5{
+    width:5px
+}
 .w-10{
     width:10px
 }

@@ -502,6 +502,19 @@ const inscriptionsController = {
 
             const createdInscription = await inscriptionsQueries.create(inscriptionData)
 
+            // get inscription summary
+            let inscription = ''
+            if (data.courseType.alias == 'LP') {
+                inscription = data.selectionSummary
+                        .map(d => `${d.typeAlias}: ${d.categories.join(', ')}`)
+                        .join(' || ')
+                    
+            }else{
+                inscription = data.coursesData[0].course_summary
+            }
+
+            console.log('inscription', inscription)
+
             // save data in students
             const studentsData = []
             data.personalData.forEach(pd => {
@@ -521,7 +534,8 @@ const inscriptionsController = {
                     company: inscriptionType == 'company' ? data.companyData.company : null,
                     expiration_date: expirationDate,
                     courses_methodology: data.coursesData[0].course_methodology,
-                    id_inscriptions: createdInscription[0].id
+                    id_inscriptions: createdInscription[0].id,
+                    inscription: inscription
 
                 })                
             })

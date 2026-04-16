@@ -49,6 +49,10 @@ router.post('/exams/download-repre',examsController.downloadRepre)
 router.post('/:branchUrl/sync-bulk-inscriptions',inscriptionsController.syncBulkCreate) 
 router.post('/:branchUrl/update-payments-and-attendance',studentsController.updatePaymentsAndAttendance) 
 
+///// students
+router.post('/process-students-payments',studentsController.processStudentsPayments)
+router.post('/delete-students-payments',studentsController.deleteStudentsPayments) 
+
 
 
 

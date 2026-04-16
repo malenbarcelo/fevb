@@ -3,12 +3,12 @@
 
 <div class="fs-19 fw-b mt-25 mb-35 ta-c">FEVB - EXÁMENES</div>
 
-<div class="fs-15 mt-15 mb-10 ta-c">Ingrese su CUIT</div>
+<div class="fs-13 mt-15 mb-10 ta-c">Ingrese su CUIT sin guiones ni puntos</div>
 
 <form action="/examenes/login" method="POST">
 
-    <div class="ta-c">
-        <input type="text" name="cuitCuil" id="cuitCuil" class="input-std w-250 max-w-90p pad-12-0" autocomplete="off">
+    <div class="ta-c fs-13">
+        <input type="text" name="cuitCuil" id="cuitCuil" class="input-std w-250 max-w-90p pad-12-0" inputmode="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" autocomplete="off">
     </div>
     
     <div class="flex-r cg-5 ai-c jc-c mt-5 fs-15 fc-error max-w-90p m-a not-visible" id="error">
